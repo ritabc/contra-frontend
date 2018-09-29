@@ -1,3 +1,4 @@
+import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ApiService } from './api.service';
@@ -12,7 +13,13 @@ import { BuildDanceComponent } from './build-dance/build-dance.component';
     BuildDanceComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    RouterModule.forRoot([
+      {
+        path: 'next-moves',
+        component: BuildDanceComponent
+      }
+    ]),
   ],
   providers: [ApiService],
   bootstrap: [AppComponent]
