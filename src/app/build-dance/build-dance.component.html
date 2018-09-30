@@ -1,4 +1,5 @@
 <div class="grid-container">
+
   <div class="grid-item" id="formation">
     <h2>What formation does the dance begin in?</h2>
     <button type="button" class="btn btn-default btn-sm" id="improper">
@@ -10,7 +11,7 @@
   </div>
 
   <div class="grid-item" id="moves">
-    <app-available-moves></app-available-moves>
+    <app-available-moves [danceArrayInMoveComponent]="danceArray"></app-available-moves>
   </div>
 
   <div class="grid-item" id="positions">
@@ -20,5 +21,7 @@
   <div class="grid-item" id="draft">
     <app-draft></app-draft>
   </div>
+
+  <button type="button" (click)="onClickOfTest()">Test: Show danceArray</button>
 
 </div>

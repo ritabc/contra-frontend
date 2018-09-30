@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { ApiService } from '../../api.service';
 import { Move } from '../../move';
@@ -10,6 +10,7 @@ import { Move } from '../../move';
 })
 export class AvailableMovesComponent implements OnInit {
   public available_moves:Array<Move>;
+  @Input()  danceArrayInMoveComponent:Array<Number>
 
   constructor(public apiService:ApiService) { }
 
@@ -18,6 +19,11 @@ export class AvailableMovesComponent implements OnInit {
       console.log(move_data);
       this.available_moves = move_data;
     });
+  }
+
+  public onMoveClick(event) {
+    console.log(event.path[0].id)
+    this.danceArrayInMoveComponent.push(event.path[0].id);
   }
 
 }

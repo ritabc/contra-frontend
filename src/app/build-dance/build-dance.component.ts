@@ -11,9 +11,14 @@ import { Move } from '../move';
   styleUrls: ['./build-dance.component.css']
 })
 export class BuildDanceComponent implements OnInit {
+  public danceArray:Number[] = []
 
   constructor(public router:Router) { }
 
   ngOnInit() {
+  }
+
+  public onClickOfTest() {
+    console.log(this.danceArray)
   }
 }

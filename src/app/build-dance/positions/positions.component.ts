@@ -20,4 +20,8 @@ export class PositionsComponent implements OnInit {
     });
   }
 
+  public onPositionClick(event) {
+    console.log(event.path[0].id);
+  }
+
 }
