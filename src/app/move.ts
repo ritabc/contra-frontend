@@ -1,4 +1,8 @@
 export class Move{
   public id:number;
-  public name:string
+
+  constructor(id) {
+    this.id = id
+  }
+  // public name:string
 }

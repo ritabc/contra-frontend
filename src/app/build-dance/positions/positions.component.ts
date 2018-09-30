@@ -11,7 +11,7 @@ import { Position } from '../../position';
 export class PositionsComponent implements OnInit {
   public positions:Array<Position>;
 
-  @Input() danceArrayInPositionComponent:Number[];
+  @Input() danceArrayInPositionComponent;
 
   constructor(public apiService:ApiService) { }
 
@@ -22,9 +22,11 @@ export class PositionsComponent implements OnInit {
     });
   }
 
-  public onPositionClick(event) {
+  public onPositionAdd(event) {
     console.log(event.path[0].id);
-    this.danceArrayInPositionComponent.push(event.path[0].id)
+    let position = new Position(event.path[0].id);
+
+    this.danceArrayInPositionComponent.push(position)
   }
 
 }

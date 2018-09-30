@@ -10,7 +10,7 @@ import { Move } from '../../move';
 })
 export class AvailableMovesComponent implements OnInit {
   public available_moves:Array<Move>;
-  @Input()  danceArrayInMoveComponent:Array<Number>;
+  @Input() danceArrayInMoveComponent;
 
   constructor(public apiService:ApiService) { }
 
@@ -21,9 +21,10 @@ export class AvailableMovesComponent implements OnInit {
     });
   }
 
-  public onMoveClick(event) {
+  public onMoveAdd(event) {
     console.log(event.path[0].id)
-    this.danceArrayInMoveComponent.push(event.path[0].id);
+    let move = new Move(event.path[0].id);
+    this.danceArrayInMoveComponent.push(move);
   }
 
 }

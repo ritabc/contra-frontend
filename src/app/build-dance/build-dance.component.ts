@@ -11,7 +11,7 @@ import { Move } from '../move';
   styleUrls: ['./build-dance.component.css']
 })
 export class BuildDanceComponent implements OnInit {
-  public danceArray:Number[] = []
+  public danceArray = []
 
   constructor(public router:Router) { }
 
