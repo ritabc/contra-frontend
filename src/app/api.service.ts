@@ -20,4 +20,10 @@ export class ApiService {
     return this.http.get(endpoint);
   }
 
+  // I need a GET method for improper becket position.id a
+  public getPositionId(path:string, formation:string) {
+    var endpoint = this.API_URL + path + '/?description=' + formation;
+    return this.http.get(endpoint);
+  }
+
 }

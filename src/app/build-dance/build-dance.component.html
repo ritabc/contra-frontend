@@ -2,10 +2,10 @@
 
   <div class="grid-item" id="formation">
     <h2>What formation does the dance begin in?</h2>
-    <button type="button" class="btn btn-default btn-sm" id="improper">
+    <button (click)="onFormationAdd($event)" type="button" class="btn btn-default btn-sm" id="{{improperFormationId}}">
       <span><i class="fas fa-plus fa-xs"></i></span> Improper
     </button>
-    <button type="button" class="btn btn-default btn-sm" id="becket">
+    <button (click)="onFormationAdd($event)" type="button" class="btn btn-default btn-sm" id="{{becketFormationId}}">
       <span><i class="fas fa-plus fa-xs"></i></span> Becket
     </button>
   </div>

@@ -24,7 +24,7 @@ export class PositionsComponent implements OnInit {
 
   public onPositionAdd(event) {
     console.log(event.path[0].id);
-    let position = new Position(event.path[0].id);
+    let position = new Position(event.path[0].id, false);
 
     this.danceArrayInPositionComponent.push(position)
   }
