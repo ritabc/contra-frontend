@@ -1,0 +1,20 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto
+}
+
+#formation {
+  grid-row: 1 / 3;
+}
+
+#moves {
+  grid-row: 4 / 6;
+}
+
+#positions {
+  grid-row: 7 / 9;
+}
+
+#draft {
+  grid-column: 4 / 6;
+}

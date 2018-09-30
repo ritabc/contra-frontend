@@ -9,7 +9,9 @@ import { TitleCasePipe } from './titleCase.pipe';
 
 import { AppComponent } from './app.component';
 import { BuildDanceComponent } from './build-dance/build-dance.component';
-import { DanceDraftComponent } from './dance-draft/dance-draft.component';
+import { DraftComponent } from './build-dance/draft/draft.component';
+import { AvailableMovesComponent } from './build-dance/available-moves/available-moves.component';
+import { PositionsComponent } from './build-dance/positions/positions.component';
 
 
 @NgModule({
@@ -17,7 +19,9 @@ import { DanceDraftComponent } from './dance-draft/dance-draft.component';
     AppComponent,
     BuildDanceComponent,
     TitleCasePipe,
-    DanceDraftComponent
+    DraftComponent,
+    AvailableMovesComponent,
+    PositionsComponent
   ],
   imports: [
     BrowserModule,
@@ -25,11 +29,7 @@ import { DanceDraftComponent } from './dance-draft/dance-draft.component';
     HttpClientModule,
     RouterModule.forRoot([
       {
-        path: 'next-moves',
-        component: BuildDanceComponent
-      },
-      {
-        path: 'positions',
+        path: 'build-a-dance',
         component: BuildDanceComponent
       }
     ]),

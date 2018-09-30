@@ -1,0 +1,6 @@
+<h2>All positions are available, as a move can end in any position</h2>
+<div *ngFor="let position of positions">
+  <button type="button" class="btn btn-default btn-sm" id="{{position.id}}">
+    <span><i class="fas fa-plus fa-xs"></i></span> {{position.description | titleCase}}
+  </button>
+</div>

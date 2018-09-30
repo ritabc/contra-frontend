@@ -1,18 +1,24 @@
-<h2>What formation does the dance begin in?</h2>
+<div class="grid-container">
+  <div class="grid-item" id="formation">
+    <h2>What formation does the dance begin in?</h2>
+    <button type="button" class="btn btn-default btn-sm" id="improper">
+      <span><i class="fas fa-plus fa-xs"></i></span> Improper
+    </button>
+    <button type="button" class="btn btn-default btn-sm" id="becket">
+      <span><i class="fas fa-plus fa-xs"></i></span> Becket
+    </button>
+  </div>
 
+  <div class="grid-item" id="moves">
+    <app-available-moves></app-available-moves>
+  </div>
 
-<h2>The moves available next are based on the last move's ending position</h2>
-<div *ngFor="let move of available_moves">
-  <button type="button" class="btn btn-default btn-sm" id="{{move.id}}">
-    <span><i class="fas fa-plus fa-xs"></i></span> {{move.name | titleCase}}
-  </button>
-</div>
+  <div class="grid-item" id="positions">
+    <app-positions></app-positions>
+  </div>
 
+  <div class="grid-item" id="draft">
+    <app-draft></app-draft>
+  </div>
 
-
-<h2>All positions are available, as a move can end in any position</h2>
-<div *ngFor="let position of positions">
-  <button type="button" class="btn btn-default btn-sm" id="{{position.id}}">
-    <span><i class="fas fa-plus fa-xs"></i></span> {{position.description | titleCase}}
-  </button>
 </div>
