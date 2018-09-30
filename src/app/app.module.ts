@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { ApiService } from './api.service';
+import { TitleCasePipe } from './titleCase.pipe';
 
 import { AppComponent } from './app.component';
 import { BuildDanceComponent } from './build-dance/build-dance.component';
@@ -13,7 +14,8 @@ import { BuildDanceComponent } from './build-dance/build-dance.component';
 @NgModule({
   declarations: [
     AppComponent,
-    BuildDanceComponent
+    BuildDanceComponent,
+    TitleCasePipe
   ],
   imports: [
     BrowserModule,
