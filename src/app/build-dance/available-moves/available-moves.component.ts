@@ -10,7 +10,7 @@ import { Move } from '../../move';
 })
 export class AvailableMovesComponent implements OnInit {
   public available_moves:Array<Move>;
-  @Input()  danceArrayInMoveComponent:Array<Number>
+  @Input()  danceArrayInMoveComponent:Array<Number>;
 
   constructor(public apiService:ApiService) { }
 

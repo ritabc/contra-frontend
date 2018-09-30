@@ -11,6 +11,8 @@ import { Position } from '../../position';
 export class PositionsComponent implements OnInit {
   public positions:Array<Position>;
 
+  @Input() danceArrayInPositionComponent:Number[];
+
   constructor(public apiService:ApiService) { }
 
   ngOnInit() {
@@ -22,6 +24,7 @@ export class PositionsComponent implements OnInit {
 
   public onPositionClick(event) {
     console.log(event.path[0].id);
+    this.danceArrayInPositionComponent.push(event.path[0].id)
   }
 
 }
