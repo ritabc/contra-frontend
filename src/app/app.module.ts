@@ -9,13 +9,15 @@ import { TitleCasePipe } from './titleCase.pipe';
 
 import { AppComponent } from './app.component';
 import { BuildDanceComponent } from './build-dance/build-dance.component';
+import { DanceDraftComponent } from './dance-draft/dance-draft.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     BuildDanceComponent,
-    TitleCasePipe
+    TitleCasePipe,
+    DanceDraftComponent
   ],
   imports: [
     BrowserModule,
