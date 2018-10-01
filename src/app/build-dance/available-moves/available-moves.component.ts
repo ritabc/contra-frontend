@@ -27,12 +27,9 @@ export class AvailableMovesComponent implements OnInit, OnChanges {
 
   ngOnInit() { // on Init we really want all moves visible...
 
-    // this.available_moves = this.updateMovesService.updateMoves(415);
-    // console.log(this.updateMovesService.updateMoves(415))
-
-    // this.available_moves = this.updateMovesService.updateMoves(415).subscribe(data => {
-    // console.log(data)
-    // })
+    this.apiService.get_next_available_moves("next-moves", 415).subscribe((move_data:Move[]) => {
+      this.available_moves = move_data
+    });
   }
 
   ngOnChanges(changes:SimpleChanges) {
