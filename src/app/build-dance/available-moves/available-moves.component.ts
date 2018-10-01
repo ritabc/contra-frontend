@@ -1,34 +1,48 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 
 import { ApiService } from '../../api.service';
+import { UpdateMovesService } from '../../update-moves.service';
+
 import { Move } from '../../move';
 import { Position } from '../../position';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-available-moves',
   templateUrl: './available-moves.component.html',
-  styleUrls: ['./available-moves.component.css']
+  styleUrls: ['./available-moves.component.css'],
+  providers: [ApiService, UpdateMovesService]
 })
-export class AvailableMovesComponent implements OnInit {
+export class AvailableMovesComponent implements OnInit, OnChanges {
 
-  public available_moves:Array<Move>;
+  public available_moves;
 
   @Input() danceArrayInMoveComponent;
-  // @Input() availableMovesInMoveComponent;
-  @Output() sendRequestToGetMovesUpdated = new EventEmitter();
+  @Input() availableMovesInMoveComponent;
+  // @Output() sendRequestToGetMovesUpdated = new EventEmitter();
 
 
-  constructor(public apiService:ApiService) { }
+  constructor(public apiService:ApiService,
+              public updateMovesService:UpdateMovesService) { }
 
   ngOnInit() { // on Init we really want all moves visible...
-    this.updateMoves(415)
+
+    // this.available_moves = this.updateMovesService.updateMoves(415);
+    // console.log(this.updateMovesService.updateMoves(415))
+
+    // this.available_moves = this.updateMovesService.updateMoves(415).subscribe(data => {
+    // console.log(data)
+    // })
   }
 
-  public updateMoves(lastPositionId:number) {
-    this.apiService.get_next_available_moves("next-moves", lastPositionId).subscribe((move_data:Move[]) => {
-      console.log(move_data);
-      this.available_moves = move_data;
-    });
+  ngOnChanges(changes:SimpleChanges) {
+    for (let propName in changes) {
+      let change = changes[propName];
+      let curVal = JSON.stringify(change.currentValue)
+      let prevVal = JSON.stringify(change.previousValue);
+      console.log(curVal)
+      console.log(prevVal)
+    }
   }
 
   public onMoveAdd(event) {

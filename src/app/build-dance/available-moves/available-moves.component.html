@@ -1,5 +1,5 @@
 <h2>The moves available next are based on the last move's ending position</h2>
-<div *ngFor="let move of available_moves">
+<div *ngFor="let move of next_available_moves">
   <button (click)="onMoveAdd($event)" type="button" class="btn btn-default btn-sm" id="{{move.id}}">
     <span><i class="fas fa-plus fa-xs"></i></span> {{move.name | titleCase}}
   </button>
