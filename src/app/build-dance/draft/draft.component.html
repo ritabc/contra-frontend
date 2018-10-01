@@ -2,3 +2,9 @@
 2. Display list of danceArray items here as soon as they are added (2 way data binding)
 3. add validation. position->move->position->move, etc. Must start with position, end with same position-->
 <h2>Dance Draft</h2>
+
+<ul >
+  <li *ngFor="let piece of dancePieces">{{piece.displayName}}</li>
+</ul>
+
+<!-- with property binding, I could set display to green for moves and red for positions, or something like that. But first I need to display them. I was then thinking about adding validations to the onFormationAdd, etc. -->

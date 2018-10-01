@@ -35,9 +35,11 @@ export class BuildDanceComponent implements OnInit {
   }
 
   public onFormationAdd(event) {
-    console.log(event)
-    let formation = new
-    Position(event.path[0].id, true);
-    this.danceArray.push(formation)
+    if (this.danceArray.length === 0) {
+      let formation = new   Position(event.path[0].id, true, event.path[0].outerText);
+      this.danceArray.push(formation)
+    } else {
+      alert("Whoops! A formation is a starting point and cannot be added after moves or other positions have been added")
+    }
   }
 }
