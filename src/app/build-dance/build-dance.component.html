@@ -15,13 +15,13 @@
   </div>
 
   <div class="grid-item" id="positions">
-    <app-positions [danceArrayInPositionComponent]="danceArray"></app-positions>
+    <app-positions [danceArrayInPositionComponent]="danceArray" (sendRequestToGetMovesUpdated)="updateMoves($event)"></app-positions>
   </div>
 
   <div class="grid-item" id="draft">
     <app-draft [dancePieces]="danceArray"></app-draft>
   </div>
 
-  <button type="button" (click)="onClickOfTest()">Test: Show danceArray</button>
+  <button type="button" (click)="onClickOfTest()">Test: Show Available Moves</button>
 
 </div>

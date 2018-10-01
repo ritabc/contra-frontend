@@ -13,25 +13,28 @@ import { Position } from '../position';
 })
 export class BuildDanceComponent implements OnInit {
   public danceArray = [];
+
+  public availableMoves = [];
+
   public improperFormationId:number;
   public becketFormationId:number;
 
   constructor(public router:Router, public apiService:ApiService) { }
 
   ngOnInit() {
-    this.apiService.getPositionId("position", 'improper').subscribe((improper_id_data) => {
-      console.log(improper_id_data.id);
-      this.improperFormationId = improper_id_data.id;
+    this.apiService.getPositionId("position",'improper').subscribe((improper_id_data) => {
+      console.log(improper_id_data['id']);
+      this.improperFormationId = improper_id_data['id'];
     });
 
     this.apiService.getPositionId("position", "becket").subscribe((becket_id_data) => {
-      console.log(becket_id_data.id);
-      this.becketFormationId = becket_id_data.id;
+      console.log(becket_id_data['id']);
+      this.becketFormationId = becket_id_data['id'];
     });
   }
 
   public onClickOfTest() {
-    console.log(this.danceArray)
+    console.log(this.availableMoves)
   }
 
   public onFormationAdd(event) {
