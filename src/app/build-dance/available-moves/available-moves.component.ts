@@ -1,7 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { ApiService } from '../../api.service';
-import { UpdateMovesService } from '../../update-moves.service';
 
 import { Move } from '../../move';
 import { Position } from '../../position';
@@ -11,12 +10,11 @@ import { Observable } from 'rxjs/Observable';
   selector: 'app-available-moves',
   templateUrl: './available-moves.component.html',
   styleUrls: ['./available-moves.component.css'],
-  providers: [ApiService, UpdateMovesService]
+  providers: [ApiService]
 })
 export class AvailableMovesComponent implements OnInit {
 
   public available_moves;
-  // private _available_moves;
 
   @Input() danceArrayInMoveComponent;
   @Input() availableMovesInMoveComponent;
@@ -27,41 +25,13 @@ export class AvailableMovesComponent implements OnInit {
     });
   }
 
-  // @Output() sendRequestToGetMovesUpdated = new EventEmitter();
+  constructor(public apiService:ApiService) { }
 
-
-  constructor(public apiService:ApiService,
-              public updateMovesService:UpdateMovesService) { }
-
-  // @Input()
-  // set available_moves() {
-  //
-  // }
-
-
-  ngOnInit() { // on Init we really want all moves visible...
-
+  ngOnInit() {
     this.apiService.getAllMoves("moves").subscribe((move_data:Move[]) => {
       this.available_moves = move_data
     });
   }
-
-  // ngOnChanges(changes:SimpleChanges) {
-  //   for (let propName in changes) {
-  //     console.log(propName)
-  //     let change = changes[propName];
-  //     let curVal = JSON.stringify(change.currentValue)
-  //     let prevVal = JSON.stringify(change.previousValue);
-  //     console.log(curVal)
-  //     console.log(prevVal)
-  //   }
-  // }
-
-  // ngOnChanges(changes: SimpleChanges) {
-  //   for (const propName of Object.keys(changes)) {
-  //     console.log(propName);
-  //   }
-  // }
 
   public onMoveAdd(event) {
     if (this.danceArrayInMoveComponent.slice(-1)[0] instanceof Position) {

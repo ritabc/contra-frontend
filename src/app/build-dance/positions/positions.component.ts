@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { ApiService } from '../../api.service';
-import { UpdateMovesService } from '../../update-moves.service';
 import { Position } from '../../position';
 import { Move } from '../../move';
 
@@ -9,21 +8,16 @@ import { Move } from '../../move';
   selector: 'app-positions',
   templateUrl: './positions.component.html',
   styleUrls: ['./positions.component.css'],
-  providers: [UpdateMovesService]
+  providers: []
 })
 export class PositionsComponent implements OnInit {
 
   public positions:Array<Position>;
 
   @Input() danceArrayInPositionComponent;
-  // @Input () availableMovesInPositionComponent
-  // @Output() sendRequestToGetMovesUpdated = new EventEmitter();
-
-  // public childMessage = "Hola Mundo!"
-
   @Output() messageEvent = new EventEmitter<string>();
 
-  constructor(public apiService:ApiService, public updateMovesService:UpdateMovesService) { }
+  constructor(public apiService:ApiService) { }
 
   sendMessage(positionId) {
     this.messageEvent.emit(positionId)
@@ -39,19 +33,9 @@ export class PositionsComponent implements OnInit {
     if (this.danceArrayInPositionComponent.slice(-1)[0] instanceof Move) {
       let position = new Position(event.path[0].id, false, event.path[0].outerText);
       this.danceArrayInPositionComponent.push(position)
-      //try not to do it here, instead add sendMessage() to position add button (click)
       this.sendMessage(position.id)
-
-      // this.updateMovesService.updateMoves(position.id)
-      // this.apiService.get_next_available_moves("next-moves", position.id).subscribe((move_data:Move[]) => {
-      //   console.log(move_data)
-      //   this.availableMovesInPositionComponent = move_data;
-      //   console.log(this.availableMovesInPositionComponent);
-      // });
     } else {
       alert("Whoops! A position can only be added when a move is the last element in the Draft")
     }
-
   }
-
 }
