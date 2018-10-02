@@ -1,6 +1,16 @@
+.dance-set {
+  background-color: red;
+  /* display: inline-grid; // h4's in set could just line up with Flexbox in the same row
+  grid-template-columns: repeat(50, 40px);
+  grid-template-rows: 1 320px; */
+}
 
-.graph {
+.position {
   display: grid;
-  grid-template-columns: repeat(28, 40px);
-  grid-template-rows: repeat(4, 40px);
+  grid-template-columns: repeat(4, 40px);
+  grid-template-rows: repeat(8, 40px);
+}
+
+.move {
+  display: none;
 }
