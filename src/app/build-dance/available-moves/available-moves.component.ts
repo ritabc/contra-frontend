@@ -22,7 +22,6 @@ export class AvailableMovesComponent implements OnInit {
   @Input() availableMovesInMoveComponent;
   @Input()
   set positionLastMoveEndsAtInMoveComponent(newValue) {
-    console.log(newValue, " this method can do things inside the moves component")
     this.apiService.get_next_available_moves("next-moves", newValue).subscribe((move_data:Move[]) => {
       this.available_moves = move_data
     });
@@ -42,7 +41,7 @@ export class AvailableMovesComponent implements OnInit {
 
   ngOnInit() { // on Init we really want all moves visible...
 
-    this.apiService.get_next_available_moves("next-moves", 415).subscribe((move_data:Move[]) => {
+    this.apiService.getAllMoves("moves").subscribe((move_data:Move[]) => {
       this.available_moves = move_data
     });
   }
