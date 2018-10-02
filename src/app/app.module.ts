@@ -12,6 +12,7 @@ import { BuildDanceComponent } from './build-dance/build-dance.component';
 import { DraftComponent } from './build-dance/draft/draft.component';
 import { AvailableMovesComponent } from './build-dance/available-moves/available-moves.component';
 import { PositionsComponent } from './build-dance/positions/positions.component';
+import { VisualizeComponent } from './visualize/visualize.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { PositionsComponent } from './build-dance/positions/positions.component'
     TitleCasePipe,
     DraftComponent,
     AvailableMovesComponent,
-    PositionsComponent
+    PositionsComponent,
+    VisualizeComponent
   ],
   imports: [
     BrowserModule,
@@ -31,6 +33,10 @@ import { PositionsComponent } from './build-dance/positions/positions.component'
       {
         path: 'build-a-dance',
         component: BuildDanceComponent
+      },
+      {
+        path: 'visualize',
+        component: VisualizeComponent
       }
     ]),
   ],
