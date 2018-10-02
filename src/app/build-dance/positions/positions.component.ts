@@ -17,9 +17,17 @@ export class PositionsComponent implements OnInit {
 
   @Input() danceArrayInPositionComponent;
   // @Input () availableMovesInPositionComponent
-  @Output() sendRequestToGetMovesUpdated = new EventEmitter();
+  // @Output() sendRequestToGetMovesUpdated = new EventEmitter();
+
+  public childMessage = "Hola Mundo!"
+
+  @Output() messageEvent = new EventEmitter<string>();
 
   constructor(public apiService:ApiService, public updateMovesService:UpdateMovesService) { }
+
+  sendMessage() {
+    this.messageEvent.emit(this.childMessage)
+  }
 
   ngOnInit() {
     this.apiService.get_positions("positions").subscribe((position_data:Position[]) => {
@@ -31,7 +39,7 @@ export class PositionsComponent implements OnInit {
     if (this.danceArrayInPositionComponent.slice(-1)[0] instanceof Move) {
       let position = new Position(event.path[0].id, false, event.path[0].outerText);
       this.danceArrayInPositionComponent.push(position)
-      this.updateMovesService.updateMoves(position.id)
+      // this.updateMovesService.updateMoves(position.id)
       // this.apiService.get_next_available_moves("next-moves", position.id).subscribe((move_data:Move[]) => {
       //   console.log(move_data)
       //   this.availableMovesInPositionComponent = move_data;

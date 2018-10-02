@@ -15,15 +15,27 @@ import { Observable } from 'rxjs/Observable';
 })
 export class AvailableMovesComponent implements OnInit, OnChanges {
 
-  public available_moves;
+  // public available_moves;
+  private _available_moves;
 
   @Input() danceArrayInMoveComponent;
   @Input() availableMovesInMoveComponent;
+  @Input()
+  set currentDancePositionInMoveComponent(newValue) {
+    console.log(newValue)
+  }
+
   // @Output() sendRequestToGetMovesUpdated = new EventEmitter();
 
 
   constructor(public apiService:ApiService,
               public updateMovesService:UpdateMovesService) { }
+
+  // @Input()
+  // set available_moves() {
+  //
+  // }
+
 
   ngOnInit() { // on Init we really want all moves visible...
 
@@ -32,15 +44,22 @@ export class AvailableMovesComponent implements OnInit, OnChanges {
     });
   }
 
-  ngOnChanges(changes:SimpleChanges) {
-    for (let propName in changes) {
-      let change = changes[propName];
-      let curVal = JSON.stringify(change.currentValue)
-      let prevVal = JSON.stringify(change.previousValue);
-      console.log(curVal)
-      console.log(prevVal)
-    }
-  }
+  // ngOnChanges(changes:SimpleChanges) {
+  //   for (let propName in changes) {
+  //     console.log(propName)
+  //     let change = changes[propName];
+  //     let curVal = JSON.stringify(change.currentValue)
+  //     let prevVal = JSON.stringify(change.previousValue);
+  //     console.log(curVal)
+  //     console.log(prevVal)
+  //   }
+  // }
+
+  // ngOnChanges(changes: SimpleChanges) {
+  //   for (const propName of Object.keys(changes)) {
+  //     console.log(propName);
+  //   }
+  // }
 
   public onMoveAdd(event) {
     if (this.danceArrayInMoveComponent.slice(-1)[0] instanceof Position) {

@@ -11,17 +11,18 @@
   </div>
 
   <div class="grid-item" id="moves">
-    <app-available-moves [danceArrayInMoveComponent]="danceArray"></app-available-moves>
+    <app-available-moves [danceArrayInMoveComponent]="danceArray" [currentDancePositionInMoveComponent]="currentDancePosition"></app-available-moves>
   </div>
 
   <div class="grid-item" id="positions">
-    <app-positions [danceArrayInPositionComponent]="danceArray" (sendRequestToGetMovesUpdated)="updateMoves($event)"></app-positions>
+    {{message}}
+    <app-positions [danceArrayInPositionComponent]="danceArray" (sendRequestToGetMovesUpdated)="updateMoves($event)" (messageEvent)="receiveMessage($event)"></app-positions>
   </div>
 
   <div class="grid-item" id="draft">
     <app-draft [dancePieces]="danceArray"></app-draft>
   </div>
 
-  <button type="button" (click)="onClickOfTest()">Test: Show Available Moves</button>
+  <button type="button" (click)="showPosition()">Test: Show Available Moves</button>
 
 </div>
