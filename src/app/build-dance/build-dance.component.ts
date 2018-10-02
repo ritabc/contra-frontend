@@ -15,12 +15,12 @@ export class BuildDanceComponent implements OnInit {
   public danceArray = [];
 
   public availableMoves = [];
-  public currentDancePosition:number = 42;
+  public positionLastMoveEndsAt:number = 42;
   public improperFormationId:number;
   public becketFormationId:number;
 
   public showPositionn() {
-    console.log(this.currentDancePosition)
+    console.log(this.positionLastMoveEndsAt)
   }
 
   constructor(public router:Router, public apiService:ApiService) { }
@@ -38,8 +38,7 @@ export class BuildDanceComponent implements OnInit {
   }
 
   receiveMessage($event) {
-    this.currentDancePosition = 44
-    // this.message = $event
+    this.positionLastMoveEndsAt = $event
   }
 
   public onClickOfTest() {

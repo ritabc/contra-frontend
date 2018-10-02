@@ -13,16 +13,19 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./available-moves.component.css'],
   providers: [ApiService, UpdateMovesService]
 })
-export class AvailableMovesComponent implements OnInit, OnChanges {
+export class AvailableMovesComponent implements OnInit {
 
-  // public available_moves;
-  private _available_moves;
+  public available_moves;
+  // private _available_moves;
 
   @Input() danceArrayInMoveComponent;
   @Input() availableMovesInMoveComponent;
   @Input()
-  set currentDancePositionInMoveComponent(newValue) {
-    console.log(newValue)
+  set positionLastMoveEndsAtInMoveComponent(newValue) {
+    console.log(newValue, " this method can do things inside the moves component")
+    this.apiService.get_next_available_moves("next-moves", newValue).subscribe((move_data:Move[]) => {
+      this.available_moves = move_data
+    });
   }
 
   // @Output() sendRequestToGetMovesUpdated = new EventEmitter();
