@@ -1,9 +1,10 @@
+$raven-one-selector: '.A1';
+
 :root {
   --lark-one-color: #583820;
   --lark-two-color: #d1864c;
   --raven-one-color: #1f1f1f;
   --raven-two-color: #9f9f9f;
-  --raven-one-selector: .A1
 }
 
 .dance-set {
@@ -24,9 +25,9 @@
 }
 
 
-/* .A1 svg circle {
+#{$raven-one-selector} svg circle {
   fill:black;
-} */
+}
 
 
 /* .A1 {
