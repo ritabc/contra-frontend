@@ -3,6 +3,7 @@
   --lark-two-color: #d1864c;
   --raven-one-color: #1f1f1f;
   --raven-two-color: #9f9f9f;
+  --raven-one-selector: .A1
 }
 
 .dance-set {
@@ -17,10 +18,33 @@
   grid-template-rows: repeat(8, 40px);
 }
 
+.circle {
+  width: 40px;
+  height: 40px;
+}
+
+
+/* .A1 svg circle {
+  fill:black;
+} */
+
+
+/* .A1 {
+  background-color: blue;
+} */
+
+$color-h1:blue;
+
+h1 {
+  color: $color-h1;
+}
+
+
+
 .move {
   display: none;
 }
 
-.hide-me {
-  display:none;
+#dancer-use {
+  fill: #1f1f1f;
 }

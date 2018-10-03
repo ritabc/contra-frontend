@@ -3,10 +3,16 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-visualize',
   templateUrl: './visualize.component.html',
-  styleUrls: ['./visualize.component.css']
+  styleUrls: ['./visualize.component.scss']
 })
 export class VisualizeComponent implements OnInit {
 
+  dancerColors: {
+    '--larkOneColor': '#583820',
+    '--larkTwoColor': '#d1864c',
+    '--ravenOneColor': '#1f1f1f',
+    '--ravenTwoColor': '#9f9f9f',
+  }
   constructor() { }
 
   ngOnInit() {
@@ -19,7 +25,19 @@ export class VisualizeComponent implements OnInit {
     /// display 6D as is, (don't forget to select all 6D's)
     /// display others as appropriate
     //// raven-one in D3
+    this.setImproper()
 
+
+/// give up on host, dynamically set which circle should be raven by passing a variable into the css
+  }
+
+  public setImproper() {
+    let styles
+
+    styles = {
+      'fill' : '#1f1f1f'
+    };
+    return styles
   }
 
 }

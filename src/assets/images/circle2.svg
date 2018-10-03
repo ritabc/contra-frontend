@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:sketchjs="https://sketch.io/dtd/"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   id="svg9"
+   sketchjs:version="5.1.316"
+   viewBox="0 0 40 40"
+   height="40"
+   width="40"
+   sketchjs:metadata="eyJ0aXRsZSI6IkRyYXdpbmciLCJkZXNjcmlwdGlvbiI6Ik1hZGUgd2l0aCBTa2V0Y2hwYWQgLSBodHRwczovL3NrZXRjaC5pby9za2V0Y2hwYWQiLCJtZXRhZGF0YSI6e30sImNsaXBQYXRoIjp7ImVuYWJsZWQiOnRydWUsInN0eWxlIjp7InN0cm9rZVN0eWxlIjoiYmxhY2siLCJsaW5lV2lkdGgiOjF9fSwiZXhwb3J0RFBJIjo3MiwiZXhwb3J0Rm9ybWF0Ijoic3ZnIiwiZXhwb3J0UXVhbGl0eSI6MC45NSwidW5pdHMiOiJweCIsIndpZHRoIjo0MCwiaGVpZ2h0Ijo0MCwicGFnZXMiOnsibGVuZ3RoIjoxLCJkYXRhIjpbeyJ3aWR0aCI6NDAsImhlaWdodCI6NDB9XX19"
+   style=""
+   version="1.1">
+  <metadata
+     id="metadata13">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs5">
+    <pattern
+       height="40"
+       width="40"
+       patternUnits="userSpaceOnUse"
+       src="#asset-91879aec-ef9a-4f4f-b1bf-150ebe3c0bc0"
+       id="dna_4111317682">
+      <image
+         id="image2"
+         height="40"
+         width="40"
+         xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAEB0lEQVRYR82YT2gcVRzHv9+Z5o8WlaYRS9PujCnS9iBaF3e3LVUoeClaFdnOJgcp9SCilqIXj72IePKQIFgUFS3O7l6K0YOgKCsls9JQsWoqtnUmLaHaFESTNnF35ie7yazb/NnZ3ZnYznXe9/v9vN+b9+a9R4R8Bnfdq7ll934qSi9Eej1AFIgDEdstlZz86ctXwkSwHfFAXN8mHTBE8BSJBxt6CC6C8pFL9/386KVzreY1DXgUUMYTsX2kchjEY60GVdsLikIZylrO8Wb1TQGmk7G4CuUTEPc1a9yonQgKKLuHsmMXzwf5BQIaKe0VAG8SXBNk1sp7EfxD4g3Tso820jUENFLa2wRfEAEY2JVW8ADfU4C8Z9kDecBdzmHFWB+utdj2Wgvky2ul0pMjY5PXFjssC2gk9bdIHGkvrj2VACNZy94fCJhJ6QYAUwRCIuKBDYAX73mzOHGsvtUNAOmdm3oUUc8RXNdeHcKpBJjzynwgf+q3X3ynGwCNlJ4jkA4XE04tkM+ylvPEEsBMYvMeKGohnH04deWzqqzmnqts96tYq2Amqb0n4KGol5NWkReWnw9Nyz5Y0VYBD+p69+w9MgVybauGUbevAgIld3qmJ//Tlekq4IFU7IACJRt1WBg/z8PTue/sE1VAI6UNQfjSzR7e+g4JZDhrOS/PAya1z0nuC9PjyLWCb82i/cgCoH6WxNbIQ8IYilwwi84Wf4jLBNUwfpFrBSWzaHcyvWPD3WpX9x+RB0Rg6LK8vlJBZlK6F4Ff5BaXu+0Of4ivEuyJPCGUoUyaltPnA/4M4fZbaZmByKhZdHZVATNJ3RTAuJUARWBmi/bAPGBCew4K3w01IhGLBd7hrDUxVAVMxzfG1I5OJ+KM9u1EvNk5rj/xvf3nf7uZlP4NgEfbd41OWb8nrAEaidjjVJSR6GLad/LgGTlrIldxqN9R00jq4wC23qzJMr/Vkgt3lp1tx8ZQWgyIgYS2VxR+tRrn4KB6+pmeyN5c0fnab7/k1JZJasMgXwwyXKX3OdOyK6fK2rMEsLK7vr5BfiS4ZZUgltj6Qzs7x3hl5jYErLwcfDjW76osEOz7XyBFrrrl0kP5scmJxXkrHsyrF5OeFAjEVgtyoXIzcLHHPOWcXi6n4c1BeuemPtVTCyD7o4SsTULBr65SfiY/eunMSv6BVxv7d/fecbu79jUBXyXQFWaG12tF8M5tv+PIB7Y926jzgYC+OLNj80Z0qa+LYJBEZyugtas2kRmAxz2lPNyoaoGTpFGP0vH+u9Q1ZUPIZwnu9tuuBCwiUwBPgvjiujr98acnp/5u5XNpuoLLmVZnOxEnqQHQhein8C8QZwGMC+SHrOVU/k5tP6EA205tQfgvtK2BeMPoS8gAAAAASUVORK5CYII=" />
+    </pattern>
+  </defs>
+  <path
+     id="path7"
+     d="M0 0 L40 0 40 40 0 40 z"
+     style="fill: url(#dna_4111317682); mix-blend-mode: source-over; fill-opacity: 1; fill-rule: nonzero; vector-effect: non-scaling-stroke;"
+     sketchjs:tool="rectangle" />
+</svg>
