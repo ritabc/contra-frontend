@@ -1,5 +1,11 @@
+:root {
+  --lark-one-color: #583820;
+  --lark-two-color: #d1864c;
+  --raven-one-color: #1f1f1f;
+  --raven-two-color: #9f9f9f;
+}
+
 .dance-set {
-  background-color: red;
   /* display: inline-grid; // h4's in set could just line up with Flexbox in the same row
   grid-template-columns: repeat(50, 40px);
   grid-template-rows: 1 320px; */
@@ -13,4 +19,8 @@
 
 .move {
   display: none;
+}
+
+.hide-me {
+  display:none;
 }
