@@ -16,9 +16,18 @@ export class VisualizeComponent implements OnInit {
     '--ravenTwoColor': '#9f9f9f',
   }
 
+  squarePosition1 = '0px';
+  squarePosition2 = '80px';
+  squarePosition3 = '120px';
+  squarePosition4 = '200px';
+
+  larkOnePosition
+
   constructor() { }
 
   ngOnInit() {
+    this.larkOnePosition = {'left':this.squarePosition3,
+      'top':this.squarePosition4}
     // document.querySelector(".B2")[0].style.display = 'none';
 
   }
