@@ -1,4 +1,4 @@
-import { Component, Directive, OnInit, AfterViewInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, Directive, OnInit, AfterViewInit, ViewChild, ViewChildren, ElementRef, Renderer2 } from '@angular/core';
 
 declare var $:any;
 
@@ -9,12 +9,16 @@ declare var $:any;
 })
 
 // @Directive({
-//   selector: '[raven1]'
+//   selector: '[h4B]'
 // })
 
-export class VisualizeComponent implements AfterViewInit {
+export class VisualizeComponent implements OnInit, AfterViewInit {
 
-  @ViewChild('raven1') private ravenOne: ElementRef;
+  @ViewChild('raven1') private ravenOne:ElementRef;
+  //
+  // @ViewChild('h4B') private h4B: ElementRef
+
+  // @ViewChildren('raven1','h4B') myArrayRef
 
   dancerColors: {
     '--larkOneColor': '#583820',
@@ -42,11 +46,10 @@ export class VisualizeComponent implements AfterViewInit {
 
   ngOnInit() {
     this.setImproper()
-
   }
 
   ngAfterViewInit() {
-
+    this.renderer.addClass(this.ravenOne.nativeElement, 'h4B')
     this.petronella()
 
   }
@@ -56,7 +59,6 @@ export class VisualizeComponent implements AfterViewInit {
     // this.larkOne = "h4C"
 
     this.ravenOnePosition = {'left':this.squarePosition3, 'top':this.squarePosition2}
-    this.renderer.addClass(this.ravenOne.nativeElement, 'h4B')
 
     this.larkTwoPosition = {'left':this.squarePosition1, 'top':this.squarePosition2}
     // this.larkTwo = "h4A"
@@ -70,6 +72,13 @@ export class VisualizeComponent implements AfterViewInit {
     /// select element in with class h4B
     //ignor ngClass, and give .raven-one a class of h4B or #h4B
     // console.log(this.ravenOne)
+    // take the object with h4B and animate it
+    /// start with animating in css file selecting with class=raven-one, then animate from here and with class h4B
+    // debugger
+    this.renderer.setStyle(this.ravenOne.nativeElement, 'transition-property', 'transform')
+    this.renderer.setStyle(this.ravenOne.nativeElement, 'transition-duration', '1000ms')
+    this.renderer.setStyle(this.ravenOne.nativeElement, 'transition-timing-function', 'ease-in-out')
+    // this.ravenOnePosition = {'transition-property':'transform', 'transition-duration':'300ms', 'transition-timing-function':'ease-in-out'};
   }
 
 
