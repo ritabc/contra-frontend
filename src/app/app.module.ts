@@ -13,6 +13,7 @@ import { DraftComponent } from './build-dance/draft/draft.component';
 import { AvailableMovesComponent } from './build-dance/available-moves/available-moves.component';
 import { PositionsComponent } from './build-dance/positions/positions.component';
 import { VisualizeComponent } from './visualize/visualize.component';
+import { StepsComponent } from './visualize/steps/steps.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { VisualizeComponent } from './visualize/visualize.component';
     DraftComponent,
     AvailableMovesComponent,
     PositionsComponent,
-    VisualizeComponent
+    VisualizeComponent,
+    StepsComponent
   ],
   imports: [
     BrowserModule,

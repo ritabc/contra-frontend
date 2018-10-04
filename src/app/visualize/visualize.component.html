@@ -1,186 +1,181 @@
-<div class="container">
-  <div class="dance-set row">
-    <div class="first hands4">
-      <span class="move">
-        <svg class="lark-one" [ngStyle]="this.larkOnePosition">
+<div class="dance-set">
+  <div class="first hands4">
+    <span class="move">
+      <svg class="lark-one" [ngStyle]="this.larkOnePosition" [ngClass]="this.larkOneClass">
+        <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
+      </svg>
+      <svg class="raven-one" #raven1 [ngStyle]="ravenOnePosition" [ngClass]="this.ravenOneClass">
+        <circle class="circleClass" cx="20" cy="20" r="18" fill='#1f1f1f' />
+      </svg>
+      <svg class="lark-two" [ngStyle]="larkTwoPosition" [ngClass]="this.larkTwoClass">
+        <circle class="circleClass" cx="20" cy="20" r="18" fill='#d1864c' />
+      </svg>
+      <svg class="raven-two" [ngStyle]="ravenTwoPosition" [ngClass]="this.ravenTwoClass">
+        <circle class="circleClass" cx="20" cy="20" r="18" fill='#9f9f9f' />
+      </svg>
+    </span>
+    <!-- <span class="position">
+      <div class="position-item A1">
+        <svg>
           <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
         </svg>
-        <svg class="raven-one" [ngStyle]="ravenOnePosition">
-          <circle class="circleClass" cx="20" cy="20" r="18" fill='#1f1f1f' />
+      </div>
+      <div class="position-item B1">
+        <svg class="circle">
+          <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
         </svg>
-        <svg class="lark-two" [ngStyle]="larkTwoPosition">
-          <circle class="circleClass" cx="20" cy="20" r="18" fill='#d1864c' />
+        </div>
+      <div class="position-item C1">
+        <svg class="circle">
+          <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
         </svg>
-        <svg class="raven-two" [ngStyle]="ravenTwoPosition">
-          <circle class="circleClass" cx="20" cy="20" r="18" fill='#9f9f9f' />
+      </div>
+      <div class="position-item D1">
+        <svg class="circle">
+          <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
         </svg>
-      </span>
-      <!-- <span class="position">
-        <div class="position-item A1">
-          <svg>
-            <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
-          </svg>
-        </div>
-        <div class="position-item B1">
-          <svg class="circle">
-            <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
-          </svg>
-          </div>
-        <div class="position-item C1">
-          <svg class="circle">
-            <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
-          </svg>
-        </div>
-        <div class="position-item D1">
-          <svg class="circle">
-            <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
-          </svg>
-        </div>
-        <div class="position-item A2">
-          <svg class="circle">
-            <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
-          </svg>
-        </div>
-        <div class="position-item B2">
-          <svg class="circle">
-            <circle [ngStyle]="dancerBird" class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
-          </svg>
-        </div>
-        <div class="position-item C2">
-          <svg class="circle">
-            <circle [ngStyle]="dancerBird" class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
-          </svg>
-        </div>
-        <div class="position-item D2">
-          <svg class="circle">
-            <circle [ngStyle]="dancerBird" class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
-          </svg>
-        </div>
-        <div class="position-item mainh4 A3">
-          <svg class="circle">
-            <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
-          </svg>
-        </div>
-        <div class="position-item mainh4 B3">
-          <svg class="circle">
-            <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
-          </svg>
-        </div>
-        <div class="position-item mainh4 C3">
-          <svg class="circle">
-            <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
-          </svg>
-        </div>
-        <div class="position-item mainh4 D3">
-          <svg class="circle">
-            <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
-          </svg>
-        </div>
-        <div class="position-item mainh4 A4">
-          <svg class="circle">
-            <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
-          </svg>
-        </div>
-        <div class="position-item mainh4 B4">
-          <svg class="circle">
-            <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
-          </svg>
-        </div>
-        <div class="position-item mainh4 C4">
-          <svg class="circle">
-            <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
-          </svg>
-        </div>
-        <div class="position-item mainh4 D4">
-          <svg class="circle">
-            <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
-          </svg>
-        </div>
-        <div class="position-item mainh4 A5">
-          <svg class="circle">
-            <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
-          </svg>
-        </div>
-        <div class="position-item mainh4 B5">
-          <svg class="circle">
-            <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
-          </svg>
-        </div>
-        <div class="position-item mainh4 C5">
-          <svg class="circle">
-            <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
-          </svg>
-        </div>
-        <div class="position-item mainh4 D5">
-          <svg class="circle">
-            <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
-          </svg>
-        </div>
-        <div class="position-item mainh4 A6">
-          <svg class="circle">
-            <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
-          </svg>
-        </div>
-        <div class="position-item mainh4 B6">
-          <svg class="circle">
-            <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
-          </svg>
-        </div>
-        <div class="position-item mainh4 C6">
-          <svg class="circle">
-            <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
-          </svg>
-        </div>
-        <div class="position-item mainh4 D6">
-          <svg class="circle">
-            <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
-          </svg>
-        </div>
-        <div class="position-item A7">
-          <svg class="circle">
-            <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
-          </svg>
-        </div>
-        <div class="position-item B7">
-          <svg class="circle">
-            <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
-          </svg>
-        </div>
-        <div class="position-item C7">
-          <svg class="circle">
-            <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
-          </svg>
-        </div>
-        <div class="position-item D7">
-          <svg class="circle">
-            <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
-          </svg>
-        </div>
-        <div class="position-item A8">
-          <svg class="circle">
-            <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
-          </svg>
-        </div>
-        <div class="position-item B8">
-          <svg class="circle">
-            <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
-          </svg>
-        </div>
-        <div class="position-item C8">
-          <svg class="circle">
-            <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
-          </svg>
-        </div>
-        <div class="position-item D8">
-          <svg class="circle">
-            <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
-          </svg>
-        </div>
-      </span> -->
-    </div>
-  </div>
-  <div class="steps row">
-    <a href="#">This is a link!</a>
-    <button class="btn improper-btn" (click)="setImproper()">Position Improper</button>
+      </div>
+      <div class="position-item A2">
+        <svg class="circle">
+          <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
+        </svg>
+      </div>
+      <div class="position-item B2">
+        <svg class="circle">
+          <circle [ngStyle]="dancerBird" class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
+        </svg>
+      </div>
+      <div class="position-item C2">
+        <svg class="circle">
+          <circle [ngStyle]="dancerBird" class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
+        </svg>
+      </div>
+      <div class="position-item D2">
+        <svg class="circle">
+          <circle [ngStyle]="dancerBird" class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
+        </svg>
+      </div>
+      <div class="position-item mainh4 A3">
+        <svg class="circle">
+          <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
+        </svg>
+      </div>
+      <div class="position-item mainh4 B3">
+        <svg class="circle">
+          <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
+        </svg>
+      </div>
+      <div class="position-item mainh4 C3">
+        <svg class="circle">
+          <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
+        </svg>
+      </div>
+      <div class="position-item mainh4 D3">
+        <svg class="circle">
+          <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
+        </svg>
+      </div>
+      <div class="position-item mainh4 A4">
+        <svg class="circle">
+          <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
+        </svg>
+      </div>
+      <div class="position-item mainh4 B4">
+        <svg class="circle">
+          <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
+        </svg>
+      </div>
+      <div class="position-item mainh4 C4">
+        <svg class="circle">
+          <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
+        </svg>
+      </div>
+      <div class="position-item mainh4 D4">
+        <svg class="circle">
+          <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
+        </svg>
+      </div>
+      <div class="position-item mainh4 A5">
+        <svg class="circle">
+          <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
+        </svg>
+      </div>
+      <div class="position-item mainh4 B5">
+        <svg class="circle">
+          <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
+        </svg>
+      </div>
+      <div class="position-item mainh4 C5">
+        <svg class="circle">
+          <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
+        </svg>
+      </div>
+      <div class="position-item mainh4 D5">
+        <svg class="circle">
+          <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
+        </svg>
+      </div>
+      <div class="position-item mainh4 A6">
+        <svg class="circle">
+          <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
+        </svg>
+      </div>
+      <div class="position-item mainh4 B6">
+        <svg class="circle">
+          <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
+        </svg>
+      </div>
+      <div class="position-item mainh4 C6">
+        <svg class="circle">
+          <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
+        </svg>
+      </div>
+      <div class="position-item mainh4 D6">
+        <svg class="circle">
+          <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
+        </svg>
+      </div>
+      <div class="position-item A7">
+        <svg class="circle">
+          <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
+        </svg>
+      </div>
+      <div class="position-item B7">
+        <svg class="circle">
+          <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
+        </svg>
+      </div>
+      <div class="position-item C7">
+        <svg class="circle">
+          <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
+        </svg>
+      </div>
+      <div class="position-item D7">
+        <svg class="circle">
+          <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
+        </svg>
+      </div>
+      <div class="position-item A8">
+        <svg class="circle">
+          <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
+        </svg>
+      </div>
+      <div class="position-item B8">
+        <svg class="circle">
+          <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
+        </svg>
+      </div>
+      <div class="position-item C8">
+        <svg class="circle">
+          <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
+        </svg>
+      </div>
+      <div class="position-item D8">
+        <svg class="circle">
+          <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
+        </svg>
+      </div>
+    </span> -->
   </div>
 </div>
+<!-- <app-steps></app-steps> -->

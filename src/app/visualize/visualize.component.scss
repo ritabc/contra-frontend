@@ -1,5 +1,7 @@
 .dance-set {
-  display:block;
+  margin-top: 0px;
+  // display:block;
+  position:static;
   span.move {
     // --squarePosition1: 0px;
     // --squarePosition2: 80px;
@@ -9,7 +11,7 @@
     width: 160px;
     height: 320px;
     background-color: red;
-    position: fixed; //or absolute
+    position: fixed; //or fixed or absolute
 
     svg {
       width: 40px;
@@ -18,6 +20,10 @@
     }
   }
 }
+// 
+// .block-test {
+//   margin-top: 300px;
+// }
 
 
 // .raven-one {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Directive, OnInit, AfterViewInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 
 declare var $:any;
 
@@ -7,7 +7,14 @@ declare var $:any;
   templateUrl: './visualize.component.html',
   styleUrls: ['./visualize.component.scss']
 })
-export class VisualizeComponent implements OnInit {
+
+// @Directive({
+//   selector: '[raven1]'
+// })
+
+export class VisualizeComponent implements AfterViewInit {
+
+  @ViewChild('raven1') private ravenOne: ElementRef;
 
   dancerColors: {
     '--larkOneColor': '#583820',
@@ -26,20 +33,43 @@ export class VisualizeComponent implements OnInit {
   larkTwoPosition
   ravenTwoPosition
 
-  constructor() { }
+  // larkOneClass
+  // larkTwoClass
+  // ravenOneClass
+  // ravenTwoClass
+
+  constructor(private renderer: Renderer2) { }
 
   ngOnInit() {
-    this.larkOnePosition = {'left':this.squarePosition3, 'top':this.squarePosition4}
-    this.ravenOnePosition = {'left':this.squarePosition3, 'top':this.squarePosition2}
-    this.larkTwoPosition = {'left':this.squarePosition1, 'top':this.squarePosition2}
-    this.ravenTwoPosition = {'left':this.squarePosition1, 'top':this.squarePosition4}
+    this.setImproper()
+
+  }
+
+  ngAfterViewInit() {
+
+    this.petronella()
+
   }
 
   public setImproper() {
     this.larkOnePosition = {'left':this.squarePosition3, 'top':this.squarePosition4}
+    // this.larkOne = "h4C"
+
     this.ravenOnePosition = {'left':this.squarePosition3, 'top':this.squarePosition2}
+    this.renderer.addClass(this.ravenOne.nativeElement, 'h4B')
+
     this.larkTwoPosition = {'left':this.squarePosition1, 'top':this.squarePosition2}
+    // this.larkTwo = "h4A"
+
     this.ravenTwoPosition = {'left':this.squarePosition1, 'top':this.squarePosition4}
+    // this.ravenTwo = "h4D"
+  }
+
+  public petronella() {
+    // animate whatever is in place h4B to innerB
+    /// select element in with class h4B
+    //ignor ngClass, and give .raven-one a class of h4B or #h4B
+    // console.log(this.ravenOne)
   }
 
 
