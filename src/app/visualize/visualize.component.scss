@@ -7,45 +7,81 @@ $raven-one-selector: '.A1';
   --raven-two-color: #9f9f9f;
 }
 
-.dance-set {
-  /* display: inline-grid; // h4's in set could just line up with Flexbox in the same row
-  grid-template-columns: repeat(50, 40px);
-  grid-template-rows: 1 320px; */
-}
-
 .position {
-  display: grid;
-  grid-template-columns: repeat(4, 40px);
-  grid-template-rows: repeat(8, 40px);
-}
-
-.circle {
-  width: 40px;
-  height: 40px;
-}
-
-
-#{$raven-one-selector} svg circle {
-  fill:black;
-}
-
-
-/* .A1 {
-  background-color: blue;
-} */
-
-$color-h1:blue;
-
-h1 {
-  color: $color-h1;
-}
-
-
-
-.move {
   display: none;
 }
 
-#dancer-use {
-  fill: #1f1f1f;
+.move {
+  --squarePositionOne: 0px;
+  --squarePosition2: 80px;
+  --squarePosition3: 120px;
+  --squarePositionFour: 200px;
+
+  svg {
+    width: 40px;
+    height: 40px;
+  }
 }
+
+
+
+span.move {
+  width: 160px;
+  height: 320px;
+  background-color: red;
+  position: fixed; //or absolute
+}
+
+// .move svg {
+//   position: absolute;
+// }
+
+svg.raven-one {
+  position: absolute;
+  left: var(--squarePosition3);
+  top: var(--squarePosition2);
+}
+
+svg.lark-one {
+  position: absolute;
+  left: var(--squarePosition3);
+  top: var(--squarePosition4);
+}
+
+svg.lark-two {
+  position: absolute;
+  left: var(--squarePosition1);
+  top: var(--squarePosition2);
+}
+
+svg.raven-two {
+  position: absolute;
+  left: var(--squarePositionOne);
+  top: var(--squarePositionFour)
+}
+
+
+
+
+// .dance-set {
+//   /* display: inline-grid; // h4's in set could just line up with Flexbox in the same row
+//   grid-template-columns: repeat(50, 40px);
+//   grid-template-rows: 1 320px; */
+// }
+
+//
+// #{$raven-one-selector} svg circle {
+//   fill:black;
+// }
+
+
+// #dancer-use {
+//   fill: #1f1f1f;
+// }
+
+// .position {
+//   display: none;
+//   // display: grid;
+//   // grid-template-columns: repeat(4, 40px);
+//   // grid-template-rows: repeat(8, 40px);
+// }

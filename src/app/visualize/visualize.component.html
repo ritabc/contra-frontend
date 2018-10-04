@@ -1,6 +1,19 @@
 <div class="dance-set">
   <div class="first hands4">
-    <span class="move">..</span>
+    <span class="move">
+      <svg class="lark-one">
+        <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
+      </svg>
+      <svg class="raven-one">
+        <circle class="circleClass" cx="20" cy="20" r="18" fill='#1f1f1f' />
+      </svg>
+      <svg class="lark-two">
+        <circle class="circleClass" cx="20" cy="20" r="18" fill='#d1864c' />
+      </svg>
+      <svg class="raven-two">
+        <circle class="circleClass" cx="20" cy="20" r="18" fill='#9f9f9f' />
+      </svg>
+    </span>
     <span class="position">
       <div class="position-item A1">
         <svg>
@@ -29,17 +42,17 @@
       </div>
       <div class="position-item B2">
         <svg class="circle">
-          <circle [ngClass]="setClasses()" class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
+          <circle [ngStyle]="dancerBird" class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
         </svg>
       </div>
       <div class="position-item C2">
         <svg class="circle">
-          <circle [ngClass]="setClasses()" class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
+          <circle [ngStyle]="dancerBird" class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
         </svg>
       </div>
       <div class="position-item D2">
         <svg class="circle">
-          <circle [ngClass]="setClasses()" class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
+          <circle [ngStyle]="dancerBird" class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
         </svg>
       </div>
       <div class="position-item mainh4 A3">
@@ -166,4 +179,4 @@
   </div>
 </div>
 
-<button type="button" class="btn" (click)="doStuff()">Do Stuff</button>
+<!-- <button type="button" class="btn" (click)="doStuff()">Do Stuff</button> -->
