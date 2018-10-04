@@ -18,7 +18,7 @@ export class VisualizeComponent implements OnInit {
   ngOnInit() {
   }
 
-  public doStuff() {
+  public setStyle() {
     // doStuff for Heartbeat Contra
     // select improper position
     /// hide all except four in mainh4 corners
@@ -34,8 +34,10 @@ export class VisualizeComponent implements OnInit {
   public setImproper() {
     let styles
 
+    if (angular.element($document).hasClass('B2'))
+
     styles = {
-      'fill' : '#1f1f1f'
+      '$raven-one-selector' : '.B2'
     };
     return styles
   }
