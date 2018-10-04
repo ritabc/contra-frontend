@@ -11,19 +11,21 @@ $raven-one-selector: '.A1';
   display: none;
 }
 
+
+
 .move {
-  --squarePositionOne: 0px;
+  --squarePosition1: 0px;
   --squarePosition2: 80px;
   --squarePosition3: 120px;
-  --squarePositionFour: 200px;
+  --squarePosition4: 200px;
 
   svg {
     width: 40px;
     height: 40px;
+    position: absolute;
+
   }
 }
-
-
 
 span.move {
   width: 160px;
@@ -36,28 +38,24 @@ span.move {
 //   position: absolute;
 // }
 
-svg.raven-one {
-  position: absolute;
+.raven-one {
   left: var(--squarePosition3);
   top: var(--squarePosition2);
 }
 
-svg.lark-one {
-  position: absolute;
+.lark-one {
   left: var(--squarePosition3);
   top: var(--squarePosition4);
 }
 
-svg.lark-two {
-  position: absolute;
+.lark-two {
   left: var(--squarePosition1);
   top: var(--squarePosition2);
 }
 
-svg.raven-two {
-  position: absolute;
-  left: var(--squarePositionOne);
-  top: var(--squarePositionFour)
+.raven-two {
+  left: var(--squarePosition1);
+  top: var(--squarePosition4)
 }
 
 
