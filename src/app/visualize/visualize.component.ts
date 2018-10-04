@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+declare var $:any;
+
 @Component({
   selector: 'app-visualize',
   templateUrl: './visualize.component.html',
@@ -18,7 +20,7 @@ export class VisualizeComponent implements OnInit {
   ngOnInit() {
   }
 
-  public setStyle() {
+  public doStuff() {
     // doStuff for Heartbeat Contra
     // select improper position
     /// hide all except four in mainh4 corners
@@ -31,14 +33,14 @@ export class VisualizeComponent implements OnInit {
 /// give up on host, dynamically set which circle should be raven by passing a variable into the css
   }
 
-  public setImproper() {
-    let styles
+  public setClasses() {
+    let styles = {}
 
-    if (angular.element($document).hasClass('B2'))
-
-    styles = {
-      '$raven-one-selector' : '.B2'
-    };
+    if ($('div').hasClass("B2")) {
+      styles = {
+        'fill':'black'
+      };
+    }
     return styles
   }
 
