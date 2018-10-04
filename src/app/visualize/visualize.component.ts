@@ -22,38 +22,49 @@ export class VisualizeComponent implements OnInit {
   squarePosition4 = '200px';
 
   larkOnePosition
+  ravenOnePosition
+  larkTwoPosition
+  ravenTwoPosition
 
   constructor() { }
 
   ngOnInit() {
-    this.larkOnePosition = {'left':this.squarePosition3,
-      'top':this.squarePosition4}
-    // document.querySelector(".B2")[0].style.display = 'none';
-
+    this.larkOnePosition = {'left':this.squarePosition3, 'top':this.squarePosition4}
+    this.ravenOnePosition = {'left':this.squarePosition3, 'top':this.squarePosition2}
+    this.larkTwoPosition = {'left':this.squarePosition1, 'top':this.squarePosition2}
+    this.ravenTwoPosition = {'left':this.squarePosition1, 'top':this.squarePosition4}
   }
 
-  public doStuff() {
-    // doStuff for Heartbeat Contra
-    // select improper position
-    /// hide all except four in mainh4 corners
-    /// display 6D as is, (don't forget to select all 6D's)
-    /// display others as appropriate
-    //// raven-one in D3
-
-/// give up on host, dynamically set which circle should be raven by passing a variable into the css
+  public setImproper() {
+    this.larkOnePosition = {'left':this.squarePosition3, 'top':this.squarePosition4}
+    this.ravenOnePosition = {'left':this.squarePosition3, 'top':this.squarePosition2}
+    this.larkTwoPosition = {'left':this.squarePosition1, 'top':this.squarePosition2}
+    this.ravenTwoPosition = {'left':this.squarePosition1, 'top':this.squarePosition4}
   }
 
-  public setStyles() {
-    let styles
 
-    if ($('div').hasClass("B2")) {
-      styles = {
-        'fill':'black'
-      };
-    }
+//   public doStuff() {
+//     // doStuff for Heartbeat Contra
+//     // select improper position
+//     /// hide all except four in mainh4 corners
+//     /// display 6D as is, (don't forget to select all 6D's)
+//     /// display others as appropriate
+//     //// raven-one in D3
+//
+// /// give up on host, dynamically set which circle should be raven by passing a variable into the css
+//   }
 
-    return styles
-  }
+  // public setStyles() {
+  //   let styles
+  //
+  //   if ($('div').hasClass("B2")) {
+  //     styles = {
+  //       'fill':'black'
+  //     };
+  //   }
+  //
+  //   return styles
+  // }
 
 }
 // first, hide all circles

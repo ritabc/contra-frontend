@@ -1,62 +1,44 @@
-$raven-one-selector: '.A1';
+.dance-set {
+  display:block;
+  span.move {
+    // --squarePosition1: 0px;
+    // --squarePosition2: 80px;
+    // --squarePosition3: 120px;
+    // --squarePosition4: 200px;
 
-:root {
-  --lark-one-color: #583820;
-  --lark-two-color: #d1864c;
-  --raven-one-color: #1f1f1f;
-  --raven-two-color: #9f9f9f;
-}
+    width: 160px;
+    height: 320px;
+    background-color: red;
+    position: fixed; //or absolute
 
-.position {
-  display: none;
-}
-
-
-
-.move {
-  --squarePosition1: 0px;
-  --squarePosition2: 80px;
-  --squarePosition3: 120px;
-  --squarePosition4: 200px;
-
-  svg {
-    width: 40px;
-    height: 40px;
-    position: absolute;
-
+    svg {
+      width: 40px;
+      height: 40px;
+      position: absolute;
+    }
   }
 }
 
-span.move {
-  width: 160px;
-  height: 320px;
-  background-color: red;
-  position: fixed; //or absolute
-}
 
-// .move svg {
-//   position: absolute;
+// .raven-one {
+//   left: var(--squarePosition3);
+//   top: var(--squarePosition2);
 // }
-
-.raven-one {
-  left: var(--squarePosition3);
-  top: var(--squarePosition2);
-}
 
 // .lark-one {
 //   left: var(--squarePosition3);
 //   top: var(--squarePosition4);
 // }
 
-.lark-two {
-  left: var(--squarePosition1);
-  top: var(--squarePosition2);
-}
-
-.raven-two {
-  left: var(--squarePosition1);
-  top: var(--squarePosition4)
-}
+// .lark-two {
+//   left: var(--squarePosition1);
+//   top: var(--squarePosition2);
+// }
+//
+// .raven-two {
+//   left: var(--squarePosition1);
+//   top: var(--squarePosition4)
+// }
 
 
 
