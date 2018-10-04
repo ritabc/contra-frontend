@@ -1,3 +1,63 @@
+@keyframes petronellaRavenOne {
+  0% {
+    left: 120px;
+    top: 80px;
+  }
+  50% {
+    left: 80px;
+    top: 120px;
+  }
+  100% {
+    left: 0px;
+    top: 80px;
+  }
+}
+
+@keyframes petronellaLarkOne {
+  0% {
+    left: 120px;
+    top: 200px;
+  }
+  50% {
+    left: 80px;
+    top: 160px;
+  }
+  100% {
+    left: 120px;
+    top: 80px;
+  }
+}
+
+@keyframes petronellaLarkTwo {
+  0% {
+    left: 0px;
+    top: 80px;
+  }
+  50% {
+    left: 60px;
+    top: 120px;
+  }
+  100% {
+    left: 0px;
+    top: 200px;
+  }
+}
+
+@keyframes petronellaRavenTwo {
+  0% {
+    left: 0px;
+    top: 200px;
+  }
+  50% {
+    left: 40px;
+    top: 160px;
+  }
+  100% {
+    left: 120px;
+    top: 200px;
+  }
+}
+
 .dance-set {
   margin-top: 0px;
   // display:block;
@@ -10,8 +70,24 @@
 
     width: 160px;
     height: 320px;
-    background-color: red;
     position: fixed; //or fixed or absolute
+    // background-color: red;
+    // &:hover {
+      // .raven-one {
+      //   transform: translate(-40px, 40px);
+      // }
+      // .raven-two {
+      //   transform: translate(40px, -40px);
+      // }
+      //
+      // .lark-two {
+      //   transform: translate(40px, 40px);
+      // }
+      // .lark-one {
+      //   transform: translate(-40px, -40px);
+      // }
+    // }
+
 
     svg {
       width: 40px;
@@ -21,13 +97,6 @@
   }
 }
 
-.raven-one {
-  // transition: transform 300ms ease-in-out;
-}
-
-.raven-one:hover {
-  transform: translate(-40px, 40px);
-}
 //
 // .block-test {
 //   margin-top: 300px;

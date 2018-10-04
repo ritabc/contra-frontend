@@ -1,16 +1,16 @@
 <div class="dance-set">
   <div class="first hands4">
-    <span class="move">
-      <svg class="lark-one" [ngStyle]="this.larkOnePosition" [ngClass]="this.larkOneClass">
+    <span class="move trigger">
+      <svg class="lark-one" [ngStyle]="larkOnePosition" #lark1>
         <circle class="circleClass" cx="20" cy="20" r="18" fill='#583820' />
       </svg>
-      <svg class="raven-one" #raven1 [ngStyle]="ravenOnePosition" [ngClass]="this.ravenOneClass">
+      <svg class="raven-one" #raven1 [ngStyle]="ravenOnePosition">
         <circle class="circleClass" cx="20" cy="20" r="18" fill='#1f1f1f' />
       </svg>
-      <svg class="lark-two" [ngStyle]="larkTwoPosition" [ngClass]="this.larkTwoClass">
+      <svg class="lark-two" #lark2 [ngStyle]="larkTwoPosition">
         <circle class="circleClass" cx="20" cy="20" r="18" fill='#d1864c' />
       </svg>
-      <svg class="raven-two" [ngStyle]="ravenTwoPosition" [ngClass]="this.ravenTwoClass">
+      <svg class="raven-two" #raven2 [ngStyle]="ravenTwoPosition">
         <circle class="circleClass" cx="20" cy="20" r="18" fill='#9f9f9f' />
       </svg>
     </span>

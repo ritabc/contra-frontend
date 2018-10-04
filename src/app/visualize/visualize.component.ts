@@ -1,6 +1,6 @@
 import { Component, Directive, OnInit, AfterViewInit, ViewChild, ViewChildren, ElementRef, Renderer2 } from '@angular/core';
 
-declare var $:any;
+// Need to find way to select with h4 Position variable. I assign it as h4B, but can't select by it
 
 @Component({
   selector: 'app-visualize',
@@ -15,6 +15,9 @@ declare var $:any;
 export class VisualizeComponent implements OnInit, AfterViewInit {
 
   @ViewChild('raven1') private ravenOne:ElementRef;
+  @ViewChild('raven2') private ravenTwo:ElementRef;
+  @ViewChild('lark1') private larkOne:ElementRef;
+  @ViewChild('lark2') private larkTwo:ElementRef;
   //
   // @ViewChild('h4B') private h4B: ElementRef
 
@@ -49,7 +52,7 @@ export class VisualizeComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.renderer.addClass(this.ravenOne.nativeElement, 'h4B')
+    // this.renderer.addClass(this.ravenOne.nativeElement, 'h4B')
     this.petronella()
 
   }
@@ -74,11 +77,31 @@ export class VisualizeComponent implements OnInit, AfterViewInit {
     // console.log(this.ravenOne)
     // take the object with h4B and animate it
     /// start with animating in css file selecting with class=raven-one, then animate from here and with class h4B
-    // debugger
-    this.renderer.setStyle(this.ravenOne.nativeElement, 'transition-property', 'transform')
-    this.renderer.setStyle(this.ravenOne.nativeElement, 'transition-duration', '1000ms')
-    this.renderer.setStyle(this.ravenOne.nativeElement, 'transition-timing-function', 'ease-in-out')
-    // this.ravenOnePosition = {'transition-property':'transform', 'transition-duration':'300ms', 'transition-timing-function':'ease-in-out'};
+
+
+    this.renderer.setStyle(this.ravenOne.nativeElement, 'animation-name', 'petronellaRavenOne')
+    this.renderer.setStyle(this.ravenOne.nativeElement, 'animation-duration', '1000ms')
+    this.renderer.setStyle(this.ravenOne.nativeElement, 'animation-timing-function', 'ease-in-out')
+    this.renderer.setStyle(this.ravenOne.nativeElement, 'animation-fill-mode', 'forwards')
+    this.renderer.setStyle(this.ravenOne.nativeElement, 'animation-delay', '1.5s')
+
+    this.renderer.setStyle(this.larkOne.nativeElement, 'animation-name', 'petronellaLarkOne')
+    this.renderer.setStyle(this.larkOne.nativeElement, 'animation-duration', '1000ms')
+    this.renderer.setStyle(this.larkOne.nativeElement, 'animation-timing-function', 'ease-in-out')
+    this.renderer.setStyle(this.larkOne.nativeElement, 'animation-fill-mode', 'forwards')
+    this.renderer.setStyle(this.larkOne.nativeElement, 'animation-delay', '1.5s')
+
+    this.renderer.setStyle(this.larkTwo.nativeElement, 'animation-name', 'petronellaLarkTwo')
+    this.renderer.setStyle(this.larkTwo.nativeElement, 'animation-duration', '1000ms')
+    this.renderer.setStyle(this.larkTwo.nativeElement, 'animation-timing-function', 'ease-in-out')
+    this.renderer.setStyle(this.larkTwo.nativeElement, 'animation-fill-mode', 'forwards')
+    this.renderer.setStyle(this.larkTwo.nativeElement, 'animation-delay', '1.5s')
+
+    this.renderer.setStyle(this.ravenTwo.nativeElement, 'animation-name', 'petronellaRavenTwo')
+    this.renderer.setStyle(this.ravenTwo.nativeElement, 'animation-duration', '1000ms')
+    this.renderer.setStyle(this.ravenTwo.nativeElement, 'animation-timing-function', 'ease-in-out')
+    this.renderer.setStyle(this.ravenTwo.nativeElement, 'animation-fill-mode', 'forwards')
+    this.renderer.setStyle(this.ravenTwo.nativeElement, 'animation-delay', '1.5s')
   }
 
 
