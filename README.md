@@ -16,3 +16,7 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 ### Visualize: Code more moves, positions
 ### Visualize: I add a class during ngOnInit, can I select by it later?
 ### Code for progression (for Heartbeat)
+- Would it make sense to have a class to distinguish which h4 a dancer is in? Instead of having <div class='first-hands4'>< /dancer>< /dancer></div>; have <div class='hands-four-one'><dancer class='h4-1'>, etc.
+### Have logins (google seems easiest)
+- how will this work with API calls?
+### Visualize: Media Query utilizing $fewer-h4s and $more-h4s and Sass if statement

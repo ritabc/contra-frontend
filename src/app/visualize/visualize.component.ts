@@ -24,10 +24,10 @@ export class VisualizeComponent implements OnInit, AfterViewInit {
   // @ViewChildren('raven1','h4B') myArrayRef
 
   dancerColors: {
-    '--larkOneColor': '#583820',
-    '--larkTwoColor': '#d1864c',
-    '--ravenOneColor': '#1f1f1f',
-    '--ravenTwoColor': '#9f9f9f',
+    '--larkOneColor': '#8C5933',
+    '--larkTwoColor': '#AE703F',
+    '--ravenOneColor': '#343a40',
+    '--ravenTwoColor': '#6c757d',
   }
 
   squarePosition1 = '0px';
@@ -40,20 +40,15 @@ export class VisualizeComponent implements OnInit, AfterViewInit {
   larkTwoPosition
   ravenTwoPosition
 
-  // larkOneClass
-  // larkTwoClass
-  // ravenOneClass
-  // ravenTwoClass
-
   constructor(private renderer: Renderer2) { }
 
   ngOnInit() {
-    this.setImproper()
+    // this.setImproper()
   }
 
   ngAfterViewInit() {
     // this.renderer.addClass(this.ravenOne.nativeElement, 'h4B')
-    this.petronella()
+    // this.petronella()
 
   }
 

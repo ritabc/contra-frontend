@@ -59,42 +59,79 @@
 }
 
 .dance-set {
-  margin-top: 0px;
-  // display:block;
-  position:static;
-  span.move {
-    // --squarePosition1: 0px;
-    // --squarePosition2: 80px;
-    // --squarePosition3: 120px;
-    // --squarePosition4: 200px;
-
-    width: 160px;
+  $number-of-hands-fours: 3;
+  $odd-numbers-list: 1 3 5;
+  $even-numbers-list: 2 4 6;
+  // display: inline-block;
+  svg {
     height: 320px;
-    position: fixed; //or fixed or absolute
-    // background-color: red;
-    // &:hover {
-      // .raven-one {
-      //   transform: translate(-40px, 40px);
-      // }
-      // .raven-two {
-      //   transform: translate(40px, -40px);
-      // }
-      //
-      // .lark-two {
-      //   transform: translate(40px, 40px);
-      // }
-      // .lark-one {
-      //   transform: translate(-40px, -40px);
-      // }
-    // }
+    width: 160px + 240px * ($number-of-hands-fours - 1);
+    margin: 0 auto;
 
+    @for $i from 1 through length($odd-numbers-list) {
+      #L#{nth($odd-numbers-list, $i)} {
+        transform: translate(((240px*$i)-100px), 220px)
+      }
+      #R#{nth($odd-numbers-list, $i)} {
+        transform: translate(((240px*$i)-100px), 100px);
+      }
+    }
 
-    svg {
-      width: 40px;
-      height: 40px;
-      position: absolute;
+    @for $j from 1 through length($even-numbers-list) {
+      #L#{nth($even-numbers-list, $j)} {
+        transform: translate(((240px*$j)-220px), 100px)
+      }
+      #R#{nth($even-numbers-list, $j)} {
+        transform: translate(((240px*$j)-220px), 220px);
+      }
     }
   }
+    // &#hands-four-#{$i} {
+    //   // position: fixed;
+    //   display: inline;
+    //   height: 320px;
+    //   svg {
+    //     width: 40px;
+    //     height: 40px;
+    //     position: fixed;
+    //     // display: inline-block;
+    //   }
+    //   &.raven-one {
+    //     top: 80px;
+    //     left: 120px + 240px*$i;
+    //   }
+    //   &.lark-one {
+    //     top: 200px;
+    //     left: 120px + 240px*$i;
+    //   }
+    // }
+// }
+
+  // span.firsth4 {
+  //   position: absolute; //can be fixed or absolute
+  //
+  //   span.move {
+  //
+  //     // &:hover {
+  //       // .raven-one {
+  //       //   transform: translate(-40px, 40px);
+  //       // }
+  //       // .raven-two {
+  //       //   transform: translate(40px, -40px);
+  //       // }
+  //       //
+  //       // .lark-two {
+  //       //   transform: translate(40px, 40px);
+  //       // }
+  //       // .lark-one {
+  //       //   transform: translate(-40px, -40px);
+  //       // }
+  //     // }
+  //
+  //
+  //   }
+  //
+  // }
 }
 
 //
@@ -139,7 +176,7 @@
 
 
 // #dancer-use {
-//   fill: #1f1f1f;
+//   fill: #343a40;
 // }
 
 // .position {
