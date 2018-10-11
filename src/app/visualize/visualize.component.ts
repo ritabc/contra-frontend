@@ -26,8 +26,8 @@ export class VisualizeComponent implements OnInit, AfterViewInit {
   dancerColors: {
     '--larkOneColor': '#8C5933',
     '--larkTwoColor': '#AE703F',
-    '--ravenOneColor': '#343a40',
-    '--ravenTwoColor': '#6c757d',
+    '--ravenOneColor': '#3F3F3F',
+    '--ravenTwoColor': '#696969',
   }
 
   squarePosition1 = '0px';
