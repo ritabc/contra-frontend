@@ -67,24 +67,28 @@
     height: 320px;
     width: 160px + 240px * ($number-of-hands-fours - 1);
     margin: 0 auto;
-
-    @for $i from 1 through length($odd-numbers-list) {
-      #L#{nth($odd-numbers-list, $i)} {
-        transform: translate(((240px*$i)-100px), 220px)
-      }
-      #R#{nth($odd-numbers-list, $i)} {
-        transform: translate(((240px*$i)-100px), 100px);
-      }
+    position: relative;
+    circle {
+      position:absolute;
     }
 
-    @for $j from 1 through length($even-numbers-list) {
-      #L#{nth($even-numbers-list, $j)} {
-        transform: translate(((240px*$j)-220px), 100px)
-      }
-      #R#{nth($even-numbers-list, $j)} {
-        transform: translate(((240px*$j)-220px), 220px);
-      }
-    }
+    // @for $i from 1 through length($odd-numbers-list) {
+    //   #L#{nth($odd-numbers-list, $i)} {
+    //     transform: translate(((240px*$i)-100px), 220px)
+    //   }
+    //   #R#{nth($odd-numbers-list, $i)} {
+    //     transform: translate(((240px*$i)-100px), 100px);
+    //   }
+    // }
+    //
+    // @for $j from 1 through length($even-numbers-list) {
+    //   #L#{nth($even-numbers-list, $j)} {
+    //     transform: translate(((240px*$j)-220px), 100px)
+    //   }
+    //   #R#{nth($even-numbers-list, $j)} {
+    //     transform: translate(((240px*$j)-220px), 220px);
+    //   }
+    // }
   }
     // &#hands-four-#{$i} {
     //   // position: fixed;

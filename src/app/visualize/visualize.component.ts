@@ -14,10 +14,22 @@ import { Component, Directive, OnInit, AfterViewInit, ViewChild, ViewChildren, E
 
 export class VisualizeComponent implements OnInit, AfterViewInit {
 
-  @ViewChild('raven1') private ravenOne:ElementRef;
-  @ViewChild('raven2') private ravenTwo:ElementRef;
-  @ViewChild('lark1') private larkOne:ElementRef;
-  @ViewChild('lark2') private larkTwo:ElementRef;
+  @ViewChild('R1') private R1:ElementRef;
+  @ViewChild('L1') private L1:ElementRef;
+  @ViewChild('R2') private R2:ElementRef;
+  @ViewChild('L2') private L2:ElementRef;
+  @ViewChild('R3') private R3:ElementRef;
+  @ViewChild('L3') private L3:ElementRef;
+  @ViewChild('R4') private R4:ElementRef;
+  @ViewChild('L4') private L4:ElementRef;
+  @ViewChild('R5') private R5:ElementRef;
+  @ViewChild('L5') private L5:ElementRef;
+  @ViewChild('R6') private R6:ElementRef;
+  @ViewChild('L6') private L6:ElementRef;
+
+  // darkLarks = [this.L1, this.L3, this.L5]
+
+
   //
   // @ViewChild('h4B') private h4B: ElementRef
 
@@ -30,39 +42,78 @@ export class VisualizeComponent implements OnInit, AfterViewInit {
     '--ravenTwoColor': '#696969',
   }
 
-  squarePosition1 = '0px';
-  squarePosition2 = '80px';
-  squarePosition3 = '120px';
-  squarePosition4 = '200px';
+  // squarePosition1 = '0px';
+  // squarePosition2 = '80px';
+  // squarePosition3 = '120px';
+  // squarePosition4 = '200px';
 
-  larkOnePosition
-  ravenOnePosition
-  larkTwoPosition
-  ravenTwoPosition
+  // L1Style
+  // L2Style
+  // L3Style
+  // L4Style
+  // L5Style
+  // L6Style
+  // R1Style
+  // R2Style
+  // R3Style
+  // R4Style
+  // R5Style
+  // R6Style
 
-  constructor(private renderer: Renderer2) { }
+
+  constructor(private el: ElementRef,
+    private renderer: Renderer2) { }
 
   ngOnInit() {
-    // this.setImproper()
+    // console.log(this.L1.nativeElement)
+    this.setImproper()
+
   }
 
   ngAfterViewInit() {
+
     // this.renderer.addClass(this.ravenOne.nativeElement, 'h4B')
     // this.petronella()
 
   }
 
   public setImproper() {
-    this.larkOnePosition = {'left':this.squarePosition3, 'top':this.squarePosition4}
-    // this.larkOne = "h4C"
+    let darkLarks = [this.L1, this.L3, this.L5] // needs to eventually not be hard coded in each position
+    darkLarks.forEach(function(bird, index) {
+      bird.nativeElement.style.cx = (240*(index+1)-100).toString() + 'px';
+       bird.nativeElement.style.cy = '220px';
+    })
 
-    this.ravenOnePosition = {'left':this.squarePosition3, 'top':this.squarePosition2}
+    let lightLarks = [this.L2, this.L4, this.L6]
+    lightLarks.forEach(function(bird, index) {
+      bird.nativeElement.style.cx = (240*(index+1)-220).toString() + 'px';
+       bird.nativeElement.style.cy = '100px';
+    })
 
-    this.larkTwoPosition = {'left':this.squarePosition1, 'top':this.squarePosition2}
-    // this.larkTwo = "h4A"
+    let darkRavens = [this.R1, this.R3, this.R5]
+    darkRavens.forEach(function(bird, index) {
+      bird.nativeElement.style.cx = (240*(index+1)-100).toString() + 'px';
+       bird.nativeElement.style.cy = '100px';
+    })
 
-    this.ravenTwoPosition = {'left':this.squarePosition1, 'top':this.squarePosition4}
-    // this.ravenTwo = "h4D"
+    let lightRavens = [this.R2, this.R4, this.R6]
+    lightRavens.forEach(function(bird, index) {
+      bird.nativeElement.style.cx = (240*(index+1)-220).toString() + 'px';
+       bird.nativeElement.style.cy = '220px';
+    })
+
+
+
+    // this.larkOnePosition = {'left':this.squarePosition3, 'top':this.squarePosition4}
+    // // this.larkOne = "h4C"
+    //
+    // this.ravenOnePosition = {'left':this.squarePosition3, 'top':this.squarePosition2}
+    //
+    // this.larkTwoPosition = {'left':this.squarePosition1, 'top':this.squarePosition2}
+    // // this.larkTwo = "h4A"
+    //
+    // this.ravenTwoPosition = {'left':this.squarePosition1, 'top':this.squarePosition4}
+    // // this.ravenTwo = "h4D"
   }
 
   public petronella() {
@@ -74,29 +125,29 @@ export class VisualizeComponent implements OnInit, AfterViewInit {
     /// start with animating in css file selecting with class=raven-one, then animate from here and with class h4B
 
 
-    this.renderer.setStyle(this.ravenOne.nativeElement, 'animation-name', 'petronellaRavenOne')
-    this.renderer.setStyle(this.ravenOne.nativeElement, 'animation-duration', '1000ms')
-    this.renderer.setStyle(this.ravenOne.nativeElement, 'animation-timing-function', 'ease-in-out')
-    this.renderer.setStyle(this.ravenOne.nativeElement, 'animation-fill-mode', 'forwards')
-    this.renderer.setStyle(this.ravenOne.nativeElement, 'animation-delay', '1.5s')
-
-    this.renderer.setStyle(this.larkOne.nativeElement, 'animation-name', 'petronellaLarkOne')
-    this.renderer.setStyle(this.larkOne.nativeElement, 'animation-duration', '1000ms')
-    this.renderer.setStyle(this.larkOne.nativeElement, 'animation-timing-function', 'ease-in-out')
-    this.renderer.setStyle(this.larkOne.nativeElement, 'animation-fill-mode', 'forwards')
-    this.renderer.setStyle(this.larkOne.nativeElement, 'animation-delay', '1.5s')
-
-    this.renderer.setStyle(this.larkTwo.nativeElement, 'animation-name', 'petronellaLarkTwo')
-    this.renderer.setStyle(this.larkTwo.nativeElement, 'animation-duration', '1000ms')
-    this.renderer.setStyle(this.larkTwo.nativeElement, 'animation-timing-function', 'ease-in-out')
-    this.renderer.setStyle(this.larkTwo.nativeElement, 'animation-fill-mode', 'forwards')
-    this.renderer.setStyle(this.larkTwo.nativeElement, 'animation-delay', '1.5s')
-
-    this.renderer.setStyle(this.ravenTwo.nativeElement, 'animation-name', 'petronellaRavenTwo')
-    this.renderer.setStyle(this.ravenTwo.nativeElement, 'animation-duration', '1000ms')
-    this.renderer.setStyle(this.ravenTwo.nativeElement, 'animation-timing-function', 'ease-in-out')
-    this.renderer.setStyle(this.ravenTwo.nativeElement, 'animation-fill-mode', 'forwards')
-    this.renderer.setStyle(this.ravenTwo.nativeElement, 'animation-delay', '1.5s')
+    // this.renderer.setStyle(this.ravenOne.nativeElement, 'animation-name', 'petronellaRavenOne')
+    // this.renderer.setStyle(this.ravenOne.nativeElement, 'animation-duration', '1000ms')
+    // this.renderer.setStyle(this.ravenOne.nativeElement, 'animation-timing-function', 'ease-in-out')
+    // this.renderer.setStyle(this.ravenOne.nativeElement, 'animation-fill-mode', 'forwards')
+    // this.renderer.setStyle(this.ravenOne.nativeElement, 'animation-delay', '1.5s')
+    //
+    // this.renderer.setStyle(this.larkOne.nativeElement, 'animation-name', 'petronellaLarkOne')
+    // this.renderer.setStyle(this.larkOne.nativeElement, 'animation-duration', '1000ms')
+    // this.renderer.setStyle(this.larkOne.nativeElement, 'animation-timing-function', 'ease-in-out')
+    // this.renderer.setStyle(this.larkOne.nativeElement, 'animation-fill-mode', 'forwards')
+    // this.renderer.setStyle(this.larkOne.nativeElement, 'animation-delay', '1.5s')
+    //
+    // this.renderer.setStyle(this.larkTwo.nativeElement, 'animation-name', 'petronellaLarkTwo')
+    // this.renderer.setStyle(this.larkTwo.nativeElement, 'animation-duration', '1000ms')
+    // this.renderer.setStyle(this.larkTwo.nativeElement, 'animation-timing-function', 'ease-in-out')
+    // this.renderer.setStyle(this.larkTwo.nativeElement, 'animation-fill-mode', 'forwards')
+    // this.renderer.setStyle(this.larkTwo.nativeElement, 'animation-delay', '1.5s')
+    //
+    // this.renderer.setStyle(this.ravenTwo.nativeElement, 'animation-name', 'petronellaRavenTwo')
+    // this.renderer.setStyle(this.ravenTwo.nativeElement, 'animation-duration', '1000ms')
+    // this.renderer.setStyle(this.ravenTwo.nativeElement, 'animation-timing-function', 'ease-in-out')
+    // this.renderer.setStyle(this.ravenTwo.nativeElement, 'animation-fill-mode', 'forwards')
+    // this.renderer.setStyle(this.ravenTwo.nativeElement, 'animation-delay', '1.5s')
   }
 
 
