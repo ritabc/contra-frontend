@@ -44,7 +44,8 @@
   </svg>
 </div>
 <app-steps></app-steps>
-<app-choose-dance></app-choose-dance>
+<app-choose-dance (chooseDanceToOutput)="handleChosenDance($event)"></app-choose-dance>
+<p>Current Dance is: {{currentDanceFromChild}}</p>
 <!-- <span class="position">
   <div class="position-item A1">
     <svg>

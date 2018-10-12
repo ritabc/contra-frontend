@@ -11,16 +11,16 @@
   </div>
 
   <div class="grid-item" id="moves">
-    <app-available-moves [danceArrayInMoveComponent]="danceArray" [positionLastMoveEndsAtInMoveComponent]="positionLastMoveEndsAt"></app-available-moves>
+    <app-available-moves [draftArrayInMoveComponent]="draftArray" [positionLastMoveEndsAtInMoveComponent]="positionLastMoveEndsAt"></app-available-moves>
   </div>
 
   <div class="grid-item" id="positions">
     {{message}}
-    <app-positions [danceArrayInPositionComponent]="danceArray" (sendRequestToGetMovesUpdated)="updateMoves($event)" (messageEvent)="receiveMessage($event)"></app-positions>
+    <app-positions [draftArrayInPositionComponent]="draftArray" (sendRequestToGetMovesUpdated)="updateMoves($event)" (messageEvent)="receiveMessage($event)"></app-positions>
   </div>
 
   <div class="grid-item" id="draft">
-    <app-draft [dancePieces]="danceArray"></app-draft>
+    <app-draft [dancePieces]="draftArray"></app-draft>
   </div>
 
 </div>

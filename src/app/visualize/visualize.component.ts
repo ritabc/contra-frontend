@@ -27,6 +27,9 @@ export class VisualizeComponent implements OnInit, AfterViewInit {
   @ViewChild('R6') private R6:ElementRef;
   @ViewChild('L6') private L6:ElementRef;
 
+  public currentDance
+  currentDanceFromChild:number
+
   // darkLarks = [this.L1, this.L3, this.L5]
 
 
@@ -68,6 +71,10 @@ export class VisualizeComponent implements OnInit, AfterViewInit {
     // this.renderer.addClass(this.ravenOne.nativeElement, 'h4B')
     // this.petronella()
 
+  }
+
+  public handleChosenDance(eventData:number) {
+    this.currentDanceFromChild = eventData;
   }
 
   public setImproper() {

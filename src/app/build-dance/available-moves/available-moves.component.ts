@@ -16,7 +16,7 @@ export class AvailableMovesComponent implements OnInit {
 
   public available_moves;
 
-  @Input() danceArrayInMoveComponent;
+  @Input() draftArrayInMoveComponent;
   @Input() availableMovesInMoveComponent;
   @Input()
   set positionLastMoveEndsAtInMoveComponent(newValue) {
@@ -34,9 +34,9 @@ export class AvailableMovesComponent implements OnInit {
   }
 
   public onMoveAdd(event) {
-    if (this.danceArrayInMoveComponent.slice(-1)[0] instanceof Position) {
+    if (this.draftArrayInMoveComponent.slice(-1)[0] instanceof Position) {
       let move = new Move(event.path[0].id, event.path[0].outerText);
-      this.danceArrayInMoveComponent.push(move);
+      this.draftArrayInMoveComponent.push(move);
     } else {
       alert("Whoops! A move can only be added when a position is the last element in the Draft")
     }

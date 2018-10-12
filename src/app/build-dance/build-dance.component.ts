@@ -12,7 +12,7 @@ import { Position } from '../position';
   styleUrls: ['./build-dance.component.css']
 })
 export class BuildDanceComponent implements OnInit {
-  public danceArray = [];
+  public draftArray = [];
 
   public availableMoves = [];
   public positionLastMoveEndsAt:number;
@@ -46,9 +46,9 @@ export class BuildDanceComponent implements OnInit {
   }
 
   public onFormationAdd(event) {
-    if (this.danceArray.length === 0) {
+    if (this.draftArray.length === 0) {
       let formation = new   Position(event.path[0].id, true, event.path[0].outerText);
-      this.danceArray.push(formation);
+      this.draftArray.push(formation);
       console.log(formation.id)
       this.positionLastMoveEndsAt = formation.id
     } else {

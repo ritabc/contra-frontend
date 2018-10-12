@@ -14,7 +14,7 @@ export class PositionsComponent implements OnInit {
 
   public positions:Array<Position>;
 
-  @Input() danceArrayInPositionComponent;
+  @Input() draftArrayInPositionComponent;
   @Output() messageEvent = new EventEmitter<string>();
 
   constructor(public apiService:ApiService) { }
@@ -30,9 +30,9 @@ export class PositionsComponent implements OnInit {
   }
 
   public onPositionAdd(event) {
-    if (this.danceArrayInPositionComponent.slice(-1)[0] instanceof Move) {
+    if (this.draftArrayInPositionComponent.slice(-1)[0] instanceof Move) {
       let position = new Position(event.path[0].id, false, event.path[0].outerText);
-      this.danceArrayInPositionComponent.push(position)
+      this.draftArrayInPositionComponent.push(position)
       this.sendMessage(position.id)
     } else {
       alert("Whoops! A position can only be added when a move is the last element in the Draft")
