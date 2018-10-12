@@ -35,13 +35,6 @@ export class VisualizeComponent implements OnInit, AfterViewInit {
 
   // @ViewChildren('raven1','h4B') myArrayRef
 
-  dancerColors: {
-    '--larkOneColor': '#8C5933',
-    '--larkTwoColor': '#AE703F',
-    '--ravenOneColor': '#3F3F3F',
-    '--ravenTwoColor': '#696969',
-  }
-
   // squarePosition1 = '0px';
   // squarePosition2 = '80px';
   // squarePosition3 = '120px';

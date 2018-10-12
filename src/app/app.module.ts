@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ApiService } from './api.service';
 import { TitleCasePipe } from './titleCase.pipe';
@@ -14,6 +15,7 @@ import { AvailableMovesComponent } from './build-dance/available-moves/available
 import { PositionsComponent } from './build-dance/positions/positions.component';
 import { VisualizeComponent } from './visualize/visualize.component';
 import { StepsComponent } from './visualize/steps/steps.component';
+import { ChooseDanceComponent } from './visualize/choose-dance/choose-dance.component';
 
 
 @NgModule({
@@ -25,12 +27,14 @@ import { StepsComponent } from './visualize/steps/steps.component';
     AvailableMovesComponent,
     PositionsComponent,
     VisualizeComponent,
-    StepsComponent
+    StepsComponent,
+    ChooseDanceComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot([
       {
         path: 'build-a-dance',

@@ -31,4 +31,9 @@ export class ApiService {
     return this.http.get(endpoint);
   }
 
+  public getAllDances(path:string) {
+    var endpoint = this.API_URL + path;
+    return this.http.get(endpoint);
+  }
+
 }
