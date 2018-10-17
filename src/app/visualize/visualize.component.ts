@@ -1,11 +1,31 @@
-import { Component, Directive, OnInit, AfterViewInit, ViewChild, ViewChildren, ElementRef, Renderer2 } from '@angular/core';
+import { Component, Directive, OnInit, AfterViewInit, ViewChild, ViewChildren, ElementRef, Renderer2, } from '@angular/core';
 
 // Need to find way to select with h4 Position variable. I assign it as h4B, but can't select by it
+
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+  keyframes
+} from '@angular/animations'
 
 @Component({
   selector: 'app-visualize',
   templateUrl: './visualize.component.html',
   styleUrls: ['./visualize.component.scss']
+  // animations: [
+  //   trigger('goAnimate', [
+  //     state('priorToAnimation', style({
+  //       opacity: 1
+  //     })),
+  //     state('postAnimation', style({
+  //       opacity: 0
+  //     })),
+  //     transition('priorToAnimation => postAnimation', animate('600ms ease-out'))
+  //   ])
+  // ]
 })
 
 // @Directive({
@@ -28,11 +48,9 @@ export class VisualizeComponent implements OnInit, AfterViewInit {
   @ViewChild('L6') private L6:ElementRef;
 
   public currentDance
-  currentDanceFromChild:number
+  currentChosenDanceFromChild:number
 
   // darkLarks = [this.L1, this.L3, this.L5]
-
-
   //
   // @ViewChild('h4B') private h4B: ElementRef
 
@@ -57,8 +75,22 @@ export class VisualizeComponent implements OnInit, AfterViewInit {
   // R6Style
 
 
+  // animationHasHappened = false
+
   constructor(private el: ElementRef,
     private renderer: Renderer2) { }
+
+  // get stateName() {
+  //   if(this.animationHasHappened) {
+  //     return 'postAnimation'
+  //   } else {
+  //     return 'priorToAnimation'
+  //   }
+  // }
+  //
+  // toggle() {
+  //   this.animationHasHappened = !this.animationHasHappened;
+  // }
 
   ngOnInit() {
     // console.log(this.L1.nativeElement)
@@ -70,11 +102,10 @@ export class VisualizeComponent implements OnInit, AfterViewInit {
 
     // this.renderer.addClass(this.ravenOne.nativeElement, 'h4B')
     // this.petronella()
-
   }
 
   public handleChosenDance(eventData:number) {
-    this.currentDanceFromChild = eventData;
+    this.currentChosenDanceFromChild = eventData;
   }
 
   public setImproper() {
