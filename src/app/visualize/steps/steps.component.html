@@ -1,1 +1,7 @@
 <h2>Steps Component</h2>
+<p>This is the Steps Component. The selected danceId is: {{danceId}}</p>
+<p>These are the steps: </p>
+<span *ngFor="let step of steps">
+  <span *ngIf="step.hasOwnProperty('description')">{{step.description| titleCase}} |</span>
+  <span *ngIf="step.hasOwnProperty('name')">{{step.name | titleCase}} |</span>
+</span>

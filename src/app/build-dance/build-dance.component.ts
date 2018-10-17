@@ -27,7 +27,6 @@ export class BuildDanceComponent implements OnInit {
 
   ngOnInit() {
     this.apiService.getPositionId("position",'improper').subscribe((improper_id_data) => {
-      console.log(improper_id_data['id']);
       this.improperFormationId = improper_id_data['id'];
     });
 

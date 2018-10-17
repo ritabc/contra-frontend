@@ -36,4 +36,9 @@ export class ApiService {
     return this.http.get(endpoint);
   }
 
+  public getSteps(path:string, danceId:number) {
+    var endpoint = this.API_URL + path + '/?dance_id=' + danceId.toString();
+    return this.http.get(endpoint);
+  }
+
 }
