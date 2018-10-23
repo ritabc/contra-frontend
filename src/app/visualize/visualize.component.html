@@ -4,7 +4,7 @@
 <!-- ravens are always ravens, vice versa -->
 <!-- Original position means Odds are solid, -->
 <div class="dance-set">
-  <svg> <!-- [@goAnimate]="stateName" -->
+  <svg [@showDance]="stateName"> <!-- [@goAnimate]="stateName" -->
     <circle class="light" cx="0" cy="0" r="18" fill='#AE703F' stroke='#FF7F00' stroke-width="3" id="L6" #L6 [ngStyle]="L6Style"/>
     <circle class="light" cx="0" cy="0" r="18" fill='#5B5B5B' stroke='#FF7F00' stroke-width="3" id="R6" #R6 [ngStyle]="L6Style"/>
     <circle class="dark" cx="0" cy="0" r="18" fill='#ae703f' stroke='#FF0000' stroke-width="3" stroke-dasharray="5 2" id="L5" #L5 [ngStyle]="L5Style"/>
@@ -20,12 +20,14 @@
   </svg>
 </div>
 <p>Current Dance is: {{currentChosenDanceFromChild}}</p>
-<app-steps [danceId]="currentChosenDanceFromChild" (nextEvent)="eventFromSteps($event)"></app-steps>
+<app-steps [danceId]="currentChosenDanceFromChild" [stateName]="stateName" (nextEvent)="eventFromSteps($event)"></app-steps>
 <app-choose-dance (chooseDanceToOutput)="handleChosenDance($event)"></app-choose-dance>
 <div *ngIf="currentChosenDanceFromChild">
-  <p>blahblahblah</p>
+  <!-- <p>blahblahblah</p> -->
   <div *ngIf="currentStep">
+    Statename is: {{stateName}}
     <span *ngIf="currentStep.hasOwnProperty('description')">{{currentStep.description| titleCase}} |</span>
     <span *ngIf="currentStep.hasOwnProperty('name')">{{currentStep.name | titleCase}} |</span>
   </div>
+
 </div>

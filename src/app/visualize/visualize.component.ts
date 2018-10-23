@@ -1,5 +1,5 @@
+// states are equivalent to positions, transitions are equivalent to moves
 import { Component, Directive, OnInit, ViewChild, ViewChildren, ElementRef, Renderer2, } from '@angular/core';
-
 // Need to find way to select with h4 Position variable. I assign it as h4B, but can't select by it
 
 import {
@@ -8,13 +8,15 @@ import {
   style,
   animate,
   transition,
-  keyframes
+  keyframes,
+  query,
+  sequence
 } from '@angular/animations'
 
 @Component({
   selector: 'app-visualize',
   templateUrl: './visualize.component.html',
-  styleUrls: ['./visualize.component.scss']
+  styleUrls: ['./visualize.component.scss'],
   // animations: [
   //   trigger('goAnimate', [
   //     state('priorToAnimation', style({
@@ -26,13 +28,25 @@ import {
   //     transition('priorToAnimation => postAnimation', animate('600ms ease-out'))
   //   ])
   // ]
+
+  animations: [
+    trigger('showDance', [
+      // bring all 4 dancers into middle of h4
+      state('improper', style({
+      // states are equivalent to positions, transitions are equivalent to moves
+    }))
+      transition('* => improper', [
+        query('#L6', animate(1000, style({opacity:0}))),
+      ])
+    ])
+  ]
 })
 
 // @Directive({
 //   selector: '[h4B]'
 // })
 
-export class VisualizeComponent implements OnInit, AfterViewInit {
+export class VisualizeComponent implements OnInit {
 
   @ViewChild('R1') private R1:ElementRef;
   @ViewChild('L1') private L1:ElementRef;
@@ -48,8 +62,9 @@ export class VisualizeComponent implements OnInit, AfterViewInit {
   @ViewChild('L6') private L6:ElementRef;
 
   public currentDance
-  public currentChosenDanceFromChild:number
+  public currentChosenDanceFromChild:number;
   public currentStep;
+  public stateName;
 
   // darkLarks = [this.L1, this.L3, this.L5]
   //
@@ -95,7 +110,6 @@ export class VisualizeComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.setImproper()
-
   }
 
   public handleChosenDance(eventData:number) {

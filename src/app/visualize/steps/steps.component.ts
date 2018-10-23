@@ -11,9 +11,11 @@ import { Position } from '../../position';
 })
 export class StepsComponent implements OnInit, OnChanges {
   @Input() danceId:number;
+  @Input() stateName:string
   @Output() nextEvent = new EventEmitter();
   steps;
   currentStepCounter:number = 0;
+
   constructor(public apiService:ApiService) { }
 
   ngOnInit() {
@@ -38,6 +40,7 @@ export class StepsComponent implements OnInit, OnChanges {
     // console.log(this.steps[this.currentStepCounter])
     this.nextEvent.emit(this.steps[this.currentStepCounter])
     this.increaseStepCounter();
+    this.stateName = 'improper'
   }
 
   private increaseStepCounter() {
