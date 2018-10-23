@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, OnChanges, EventEmitter, Output } from '@angular/core';
 import { ApiService } from '../../api.service';
 
 import { Move } from '../../move';
@@ -11,7 +11,9 @@ import { Position } from '../../position';
 })
 export class StepsComponent implements OnInit, OnChanges {
   @Input() danceId:number;
-  steps
+  @Output() nextEvent = new EventEmitter();
+  steps;
+  currentStepCounter:number = 0;
   constructor(public apiService:ApiService) { }
 
   ngOnInit() {
@@ -32,5 +34,14 @@ export class StepsComponent implements OnInit, OnChanges {
 
   }
 
+  public animateNext() {
+    // console.log(this.steps[this.currentStepCounter])
+    this.nextEvent.emit(this.steps[this.currentStepCounter])
+    this.increaseStepCounter();
+  }
+
+  private increaseStepCounter() {
+    this.currentStepCounter++;
+  }
 
 }

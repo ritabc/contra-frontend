@@ -1,4 +1,4 @@
-import { Component, Directive, OnInit, AfterViewInit, ViewChild, ViewChildren, ElementRef, Renderer2, } from '@angular/core';
+import { Component, Directive, OnInit, ViewChild, ViewChildren, ElementRef, Renderer2, } from '@angular/core';
 
 // Need to find way to select with h4 Position variable. I assign it as h4B, but can't select by it
 
@@ -48,7 +48,8 @@ export class VisualizeComponent implements OnInit, AfterViewInit {
   @ViewChild('L6') private L6:ElementRef;
 
   public currentDance
-  currentChosenDanceFromChild:number
+  public currentChosenDanceFromChild:number
+  public currentStep;
 
   // darkLarks = [this.L1, this.L3, this.L5]
   //
@@ -93,19 +94,16 @@ export class VisualizeComponent implements OnInit, AfterViewInit {
   // }
 
   ngOnInit() {
-    // console.log(this.L1.nativeElement)
     this.setImproper()
 
   }
 
-  ngAfterViewInit() {
-
-    // this.renderer.addClass(this.ravenOne.nativeElement, 'h4B')
-    // this.petronella()
-  }
-
   public handleChosenDance(eventData:number) {
     this.currentChosenDanceFromChild = eventData;
+  }
+
+  public eventFromSteps(passed) {
+    this.currentStep = passed;
   }
 
   public setImproper() {

@@ -20,5 +20,12 @@
   </svg>
 </div>
 <p>Current Dance is: {{currentChosenDanceFromChild}}</p>
-<app-steps [danceId]="currentChosenDanceFromChild"></app-steps>
+<app-steps [danceId]="currentChosenDanceFromChild" (nextEvent)="eventFromSteps($event)"></app-steps>
 <app-choose-dance (chooseDanceToOutput)="handleChosenDance($event)"></app-choose-dance>
+<div *ngIf="currentChosenDanceFromChild">
+  <p>blahblahblah</p>
+  <div *ngIf="currentStep">
+    <span *ngIf="currentStep.hasOwnProperty('description')">{{currentStep.description| titleCase}} |</span>
+    <span *ngIf="currentStep.hasOwnProperty('name')">{{currentStep.name | titleCase}} |</span>
+  </div>
+</div>
