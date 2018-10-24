@@ -1,17 +1,19 @@
-// states are equivalent to positions, transitions are equivalent to moves
 import { Component, Directive, OnInit, ViewChild, ViewChildren, ElementRef, Renderer2, } from '@angular/core';
+import { improper } from '../positioning';
+
 // Need to find way to select with h4 Position variable. I assign it as h4B, but can't select by it
 
-import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition,
-  keyframes,
-  query,
-  sequence
-} from '@angular/animations'
+// import {
+//   trigger,
+//   state,
+//   style,
+//   animate,
+//   transition,
+//   keyframes,
+//   query,
+//   sequence,
+//   stagger
+// } from '@angular/animations'
 
 @Component({
   selector: 'app-visualize',
@@ -28,18 +30,20 @@ import {
   //     transition('priorToAnimation => postAnimation', animate('600ms ease-out'))
   //   ])
   // ]
-
-  animations: [
-    trigger('showDance', [
-      // bring all 4 dancers into middle of h4
-      state('improper', style({
-      // states are equivalent to positions, transitions are equivalent to moves
-    }))
-      transition('* => improper', [
-        query('#L6', animate(1000, style({opacity:0}))),
-      ])
-    ])
-  ]
+  // animations: [
+  //   trigger('danceSetAnimate', [
+  //     // bring all 4 dancers into middle of h4
+  //     state('improper', style({
+  //     // states are equivalent to positions, transitions are equivalent to moves
+  //   })),
+  //     transition('* => improper', [
+  //       query('#L6', animate(1000, style({opacity:0}))),
+  //     ])
+  //   ]),
+  //   trigger('dancerAnimate', [
+  //
+  //   ])
+  // ]
 })
 
 // @Directive({
@@ -64,7 +68,8 @@ export class VisualizeComponent implements OnInit {
   public currentDance
   public currentChosenDanceFromChild:number;
   public currentStep;
-  public stateName;
+  // public danceSetState;
+  // public dancerState;
 
   // darkLarks = [this.L1, this.L3, this.L5]
   //
@@ -96,7 +101,7 @@ export class VisualizeComponent implements OnInit {
   constructor(private el: ElementRef,
     private renderer: Renderer2) { }
 
-  // get stateName() {
+  // get danceSetAnimate() {
   //   if(this.animationHasHappened) {
   //     return 'postAnimation'
   //   } else {
