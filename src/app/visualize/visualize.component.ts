@@ -1,5 +1,5 @@
 import { Component, Directive, OnInit, ViewChild, ViewChildren, ElementRef, Renderer2, } from '@angular/core';
-import { improper } from '../positioning';
+// import { setImproper } from '../positioning';
 
 // Need to find way to select with h4 Position variable. I assign it as h4B, but can't select by it
 
@@ -125,43 +125,59 @@ export class VisualizeComponent implements OnInit {
     this.currentStep = passed;
   }
 
+
+
+
+// Set Positions
   public setImproper() {
-    let dottedLarks = [this.L5, this.L3, this.L1] // needs to eventually not be hard coded in each position
+    let dottedLarks = [this.L5, this.L3, this.L1] // needs to eventually not be hard coded in each position ???
+    let solidLarks = [this.L6, this.L4, this.L2]
+    let dottedRavens = [this.R5, this.R3, this.R1]
+    let solidRavens = [this.R6, this.R4, this.R2]
+
     dottedLarks.forEach(function(bird, index) {
       bird.nativeElement.style.cx = (240*(index+1)-100).toString() + 'px';
        bird.nativeElement.style.cy = '220px';
     })
 
-    let solidLarks = [this.L6, this.L4, this.L2]
     solidLarks.forEach(function(bird, index) {
       bird.nativeElement.style.cx = (240*(index+1)-220).toString() + 'px';
        bird.nativeElement.style.cy = '100px';
     })
 
-    let dottedRavens = [this.R5, this.R3, this.R1]
     dottedRavens.forEach(function(bird, index) {
       bird.nativeElement.style.cx = (240*(index+1)-100).toString() + 'px';
        bird.nativeElement.style.cy = '100px';
     })
 
-    let solidRavens = [this.R6, this.R4, this.R2]
     solidRavens.forEach(function(bird, index) {
       bird.nativeElement.style.cx = (240*(index+1)-220).toString() + 'px';
        bird.nativeElement.style.cy = '220px';
     })
+  }
 
+  public setOppositeBecket() {
+    let dottedLarks = [this.L5, this.L3, this.L1]
+    let solidLarks = [this.L6, this.L4, this.L2]
+    let dottedRavens = [this.R5, this.R3, this.R1]
+    let solidRavens = [this.R6, this.R4, this.R2]
 
-
-    // this.larkOnePosition = {'left':this.squarePosition3, 'top':this.squarePosition4}
-    // // this.larkOne = "h4C"
-    //
-    // this.ravenOnePosition = {'left':this.squarePosition3, 'top':this.squarePosition2}
-    //
-    // this.larkTwoPosition = {'left':this.squarePosition1, 'top':this.squarePosition2}
-    // // this.larkTwo = "h4A"
-    //
-    // this.ravenTwoPosition = {'left':this.squarePosition1, 'top':this.squarePosition4}
-    // // this.ravenTwo = "h4D"
+    dottedLarks.forEach(function(bird, index) {
+      bird.nativeElement.style.cx = (240*(index+1)-100).toString() + 'px';
+       bird.nativeElement.style.cy = '100px';
+    })
+    solidLarks.forEach(function(bird, index) {
+      bird.nativeElement.style.cx = (240*(index+1)-220).toString() + 'px';
+       bird.nativeElement.style.cy = '220px';
+    })
+    dottedRavens.forEach(function(bird, index) {
+      bird.nativeElement.style.cx = (240*(index+1)-220).toString() + 'px';
+       bird.nativeElement.style.cy = '100px';
+    })
+    solidRavens.forEach(function(bird, index) {
+      bird.nativeElement.style.cx = (240*(index+1)-100).toString() + 'px';
+       bird.nativeElement.style.cy = '220px';
+    })
   }
 
   public petronella() {
@@ -236,3 +252,16 @@ export class VisualizeComponent implements OnInit {
 // if we want B2 to display as lark one, set variable B2 = { style object }
 // how to select the rest to hide?
 // give [ngClass]=tohide variable to each circle,
+
+
+
+// this.larkOnePosition = {'left':this.squarePosition3, 'top':this.squarePosition4}
+// // this.larkOne = "h4C"
+//
+// this.ravenOnePosition = {'left':this.squarePosition3, 'top':this.squarePosition2}
+//
+// this.larkTwoPosition = {'left':this.squarePosition1, 'top':this.squarePosition2}
+// // this.larkTwo = "h4A"
+//
+// this.ravenTwoPosition = {'left':this.squarePosition1, 'top':this.squarePosition4}
+// // this.ravenTwo = "h4D"
