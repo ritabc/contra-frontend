@@ -126,26 +126,26 @@ export class VisualizeComponent implements OnInit {
   }
 
   public setImproper() {
-    let darkLarks = [this.L1, this.L3, this.L5] // needs to eventually not be hard coded in each position
-    darkLarks.forEach(function(bird, index) {
+    let dottedLarks = [this.L5, this.L3, this.L1] // needs to eventually not be hard coded in each position
+    dottedLarks.forEach(function(bird, index) {
       bird.nativeElement.style.cx = (240*(index+1)-100).toString() + 'px';
        bird.nativeElement.style.cy = '220px';
     })
 
-    let lightLarks = [this.L2, this.L4, this.L6]
-    lightLarks.forEach(function(bird, index) {
+    let solidLarks = [this.L6, this.L4, this.L2]
+    solidLarks.forEach(function(bird, index) {
       bird.nativeElement.style.cx = (240*(index+1)-220).toString() + 'px';
        bird.nativeElement.style.cy = '100px';
     })
 
-    let darkRavens = [this.R1, this.R3, this.R5]
-    darkRavens.forEach(function(bird, index) {
+    let dottedRavens = [this.R5, this.R3, this.R1]
+    dottedRavens.forEach(function(bird, index) {
       bird.nativeElement.style.cx = (240*(index+1)-100).toString() + 'px';
        bird.nativeElement.style.cy = '100px';
     })
 
-    let lightRavens = [this.R2, this.R4, this.R6]
-    lightRavens.forEach(function(bird, index) {
+    let solidRavens = [this.R6, this.R4, this.R2]
+    solidRavens.forEach(function(bird, index) {
       bird.nativeElement.style.cx = (240*(index+1)-220).toString() + 'px';
        bird.nativeElement.style.cy = '220px';
     })
