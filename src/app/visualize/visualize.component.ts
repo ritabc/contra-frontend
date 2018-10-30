@@ -1,19 +1,8 @@
 import { Component, Directive, OnInit, ViewChild, ViewChildren, ElementRef, Renderer2, } from '@angular/core';
+import { TweenMax, TimelineLite } from 'gsap/TweenMax';
 // import { setImproper } from '../positioning';
 
 // Need to find way to select with h4 Position variable. I assign it as h4B, but can't select by it
-
-// import {
-//   trigger,
-//   state,
-//   style,
-//   animate,
-//   transition,
-//   keyframes,
-//   query,
-//   sequence,
-//   stagger
-// } from '@angular/animations'
 
 @Component({
   selector: 'app-visualize',
@@ -65,56 +54,61 @@ export class VisualizeComponent implements OnInit {
   @ViewChild('R6') private R6:ElementRef;
   @ViewChild('L6') private L6:ElementRef;
 
+  // private get R1() {
+  //   return this.r1.nativeElement;
+  // }
+  // private get L1() {
+  //   return this.r1.nativeElement;
+  // }
+  // private get R2() {
+  //   return this.r1.nativeElement;
+  // }
+  // private get L2() {
+  //   return this.r1.nativeElement;
+  // }
+  // private get R3() {
+  //   return this.r1.nativeElement;
+  // }
+  // private get L3() {
+  //   return this.r1.nativeElement;
+  // }
+  // private get R4() {
+  //   return this.r1.nativeElement;
+  // }
+  // private get L4() {
+  //   return this.r1.nativeElement;
+  // }
+  // private get R5() {
+  //   return this.r1.nativeElement;
+  // }
+  // private get L5() {
+  //   return this.r1.nativeElement;
+  // }
+  // private get R6() {
+  //   return this.r1.nativeElement;
+  // }
+  // private get L6() {
+  //   return this.r1.nativeElement;
+  // }
+
+
+
+
   public currentDance
   public currentChosenDanceFromChild:number;
   public currentStep;
-  // public danceSetState;
-  // public dancerState;
-
-  // darkLarks = [this.L1, this.L3, this.L5]
-  //
-  // @ViewChild('h4B') private h4B: ElementRef
-
-  // @ViewChildren('raven1','h4B') myArrayRef
-
-  // squarePosition1 = '0px';
-  // squarePosition2 = '80px';
-  // squarePosition3 = '120px';
-  // squarePosition4 = '200px';
-
-  // L1Style
-  // L2Style
-  // L3Style
-  // L4Style
-  // L5Style
-  // L6Style
-  // R1Style
-  // R2Style
-  // R3Style
-  // R4Style
-  // R5Style
-  // R6Style
-
-
-  // animationHasHappened = false
+  public nEBirds = [];
+  public sEBirds = [];
+  public sWBirds = [];
+  public nWBirds = [];
+  public birds = {} // an object may make accessing birds easier
 
   constructor(private el: ElementRef,
     private renderer: Renderer2) { }
 
-  // get danceSetAnimate() {
-  //   if(this.animationHasHappened) {
-  //     return 'postAnimation'
-  //   } else {
-  //     return 'priorToAnimation'
-  //   }
-  // }
-  //
-  // toggle() {
-  //   this.animationHasHappened = !this.animationHasHappened;
-  // }
-
   ngOnInit() {
     this.setImproper()
+    this.petronella()
   }
 
   public handleChosenDance(eventData:number) {
@@ -125,10 +119,8 @@ export class VisualizeComponent implements OnInit {
     this.currentStep = passed;
   }
 
+  // Set Positions
 
-
-
-// Set Positions
   public setImproper() {
     let dottedLarks = [this.L5, this.L3, this.L1] // needs to eventually not be hard coded in each position ???
     let solidLarks = [this.L6, this.L4, this.L2]
@@ -152,6 +144,35 @@ export class VisualizeComponent implements OnInit {
 
     solidRavens.forEach(function(bird, index) {
       bird.nativeElement.style.cx = (240*(index+1)-220).toString() + 'px';
+       bird.nativeElement.style.cy = '220px';
+    })
+
+    this.nEBirds = [this.R5, this.R3, this.R1];
+    this.sEBirds = [this.L5, this.L3, this.R1];
+    this.sWBirds = [this.R6, this.R4, this.R2];
+    this.nWBirds = [this.L6, this.L4, this.L2];
+  }
+
+  public setImproperProgressed() {
+    let dottedLarks = [this.L5, this.L3, this.L1]
+    let solidLarks = [this.L6, this.L4, this.L2]
+    let dottedRavens = [this.R5, this.R3, this.R1]
+    let solidRavens = [this.R6, this.R4, this.R2]
+
+    dottedLarks.forEach(function(bird, index) {
+      bird.nativeElement.style.cx = (240*(index+1)-220).toString() + 'px';
+       bird.nativeElement.style.cy = '220px';
+    })
+    solidLarks.forEach(function(bird, index) {
+      bird.nativeElement.style.cx = (240*(index+1)-100).toString() + 'px';
+       bird.nativeElement.style.cy = '100px';
+    })
+    dottedRavens.forEach(function(bird, index) {
+      bird.nativeElement.style.cx = (240*(index+1)-220).toString() + 'px';
+       bird.nativeElement.style.cy = '100px';
+    })
+    solidRavens.forEach(function(bird, index) {
+      bird.nativeElement.style.cx = (240*(index+1)-100).toString() + 'px';
        bird.nativeElement.style.cy = '220px';
     })
   }
@@ -180,38 +201,23 @@ export class VisualizeComponent implements OnInit {
     })
   }
 
+
+// Define Moves
+/// Moves need to know:
+// - ending_pos,
+// - how many complete h4's there are (3 or 2)
+// - is the move a progression?
+/// The animation will update the nE, sE, sW, nW variables, which will be set like this.NE = [this.R1, this.R3, this.R5]
+
   public petronella() {
-    // animate whatever is in place h4B to innerB
-    /// select element in with class h4B
-    //ignor ngClass, and give .raven-one a class of h4B or #h4B
-    // console.log(this.ravenOne)
-    // take the object with h4B and animate it
-    /// start with animating in css file selecting with class=raven-one, then animate from here and with class h4B
+    TweenMax.to(R1, 2, {x:100, y:100, scale:0.5})
 
-
-    // this.renderer.setStyle(this.ravenOne.nativeElement, 'animation-name', 'petronellaRavenOne')
-    // this.renderer.setStyle(this.ravenOne.nativeElement, 'animation-duration', '1000ms')
-    // this.renderer.setStyle(this.ravenOne.nativeElement, 'animation-timing-function', 'ease-in-out')
-    // this.renderer.setStyle(this.ravenOne.nativeElement, 'animation-fill-mode', 'forwards')
-    // this.renderer.setStyle(this.ravenOne.nativeElement, 'animation-delay', '1.5s')
-    //
-    // this.renderer.setStyle(this.larkOne.nativeElement, 'animation-name', 'petronellaLarkOne')
-    // this.renderer.setStyle(this.larkOne.nativeElement, 'animation-duration', '1000ms')
-    // this.renderer.setStyle(this.larkOne.nativeElement, 'animation-timing-function', 'ease-in-out')
-    // this.renderer.setStyle(this.larkOne.nativeElement, 'animation-fill-mode', 'forwards')
-    // this.renderer.setStyle(this.larkOne.nativeElement, 'animation-delay', '1.5s')
-    //
-    // this.renderer.setStyle(this.larkTwo.nativeElement, 'animation-name', 'petronellaLarkTwo')
-    // this.renderer.setStyle(this.larkTwo.nativeElement, 'animation-duration', '1000ms')
-    // this.renderer.setStyle(this.larkTwo.nativeElement, 'animation-timing-function', 'ease-in-out')
-    // this.renderer.setStyle(this.larkTwo.nativeElement, 'animation-fill-mode', 'forwards')
-    // this.renderer.setStyle(this.larkTwo.nativeElement, 'animation-delay', '1.5s')
-    //
-    // this.renderer.setStyle(this.ravenTwo.nativeElement, 'animation-name', 'petronellaRavenTwo')
-    // this.renderer.setStyle(this.ravenTwo.nativeElement, 'animation-duration', '1000ms')
-    // this.renderer.setStyle(this.ravenTwo.nativeElement, 'animation-timing-function', 'ease-in-out')
-    // this.renderer.setStyle(this.ravenTwo.nativeElement, 'animation-fill-mode', 'forwards')
-    // this.renderer.setStyle(this.ravenTwo.nativeElement, 'animation-delay', '1.5s')
+    // this.nEBirds.map(function(bird) {
+    //   // bird = this.R1
+    //   var tl = new TimelineLite();
+    //   tl.to(bird, 1, {x:50, y:0})
+    //     .to(bird, 1, {x:0, y:50})
+    // })
   }
 
 
@@ -265,3 +271,67 @@ export class VisualizeComponent implements OnInit {
 //
 // this.ravenTwoPosition = {'left':this.squarePosition1, 'top':this.squarePosition4}
 // // this.ravenTwo = "h4D"
+
+
+
+// animate whatever is in place h4B to innerB
+/// select element in with class h4B
+//ignor ngClass, and give .raven-one a class of h4B or #h4B
+// console.log(this.ravenOne)
+// take the object with h4B and animate it
+/// start with animating in css file selecting with class=raven-one, then animate from here and with class h4B
+
+
+// this.renderer.setStyle(this.ravenOne.nativeElement, 'animation-name', 'petronellaRavenOne')
+// this.renderer.setStyle(this.ravenOne.nativeElement, 'animation-duration', '1000ms')
+// this.renderer.setStyle(this.ravenOne.nativeElement, 'animation-timing-function', 'ease-in-out')
+// this.renderer.setStyle(this.ravenOne.nativeElement, 'animation-fill-mode', 'forwards')
+// this.renderer.setStyle(this.ravenOne.nativeElement, 'animation-delay', '1.5s')
+//
+// this.renderer.setStyle(this.larkOne.nativeElement, 'animation-name', 'petronellaLarkOne')
+// this.renderer.setStyle(this.larkOne.nativeElement, 'animation-duration', '1000ms')
+// this.renderer.setStyle(this.larkOne.nativeElement, 'animation-timing-function', 'ease-in-out')
+// this.renderer.setStyle(this.larkOne.nativeElement, 'animation-fill-mode', 'forwards')
+// this.renderer.setStyle(this.larkOne.nativeElement, 'animation-delay', '1.5s')
+//
+// this.renderer.setStyle(this.larkTwo.nativeElement, 'animation-name', 'petronellaLarkTwo')
+// this.renderer.setStyle(this.larkTwo.nativeElement, 'animation-duration', '1000ms')
+// this.renderer.setStyle(this.larkTwo.nativeElement, 'animation-timing-function', 'ease-in-out')
+// this.renderer.setStyle(this.larkTwo.nativeElement, 'animation-fill-mode', 'forwards')
+// this.renderer.setStyle(this.larkTwo.nativeElement, 'animation-delay', '1.5s')
+//
+// this.renderer.setStyle(this.ravenTwo.nativeElement, 'animation-name', 'petronellaRavenTwo')
+// this.renderer.setStyle(this.ravenTwo.nativeElement, 'animation-duration', '1000ms')
+// this.renderer.setStyle(this.ravenTwo.nativeElement, 'animation-timing-function', 'ease-in-out')
+// this.renderer.setStyle(this.ravenTwo.nativeElement, 'animation-fill-mode', 'forwards')
+// this.renderer.setStyle(this.ravenTwo.nativeElement, 'animation-delay', '1.5s')
+
+// public danceSetState;
+// public dancerState;
+
+// darkLarks = [this.L1, this.L3, this.L5]
+//
+// @ViewChild('h4B') private h4B: ElementRef
+
+// @ViewChildren('raven1','h4B') myArrayRef
+
+// squarePosition1 = '0px';
+// squarePosition2 = '80px';
+// squarePosition3 = '120px';
+// squarePosition4 = '200px';
+
+// L1Style
+// L2Style
+// L3Style
+// L4Style
+// L5Style
+// L6Style
+// R1Style
+// R2Style
+// R3Style
+// R4Style
+// R5Style
+// R6Style
+
+
+// animationHasHappened = false

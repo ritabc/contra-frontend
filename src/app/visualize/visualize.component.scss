@@ -1,19 +1,19 @@
-@keyframes petronellaRavenOne {
+@keyframes petronellaNE {
   0% {
-    left: 120px;
-    top: 80px;
+    transform: translateX(0px);
+    transform: translateY(0px);
   }
   50% {
-    left: 80px;
-    top: 120px;
+    transform: translateX(-40px);
+    transform: translateY(40px);
   }
   100% {
-    left: 0px;
-    top: 80px;
+    transform: translateX(-80px);
+    transform: translateY(-40px);
   }
 }
 
-@keyframes petronellaLarkOne {
+@keyframes petronellaSE {
   0% {
     left: 120px;
     top: 200px;
@@ -28,7 +28,7 @@
   }
 }
 
-@keyframes petronellaLarkTwo {
+@keyframes petronellaNW {
   0% {
     left: 0px;
     top: 80px;
@@ -43,7 +43,7 @@
   }
 }
 
-@keyframes petronellaRavenTwo {
+@keyframes petronellaSW {
   0% {
     left: 0px;
     top: 200px;
