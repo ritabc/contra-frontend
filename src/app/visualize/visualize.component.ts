@@ -55,7 +55,7 @@ export class VisualizeComponent implements OnInit {
   @ViewChild('L6') private L6:ElementRef;
 
   // private get R1() {
-  //   return this.r1.nativeElement;
+  //   return this.r1;
   // }
   // private get L1() {
   //   return this.r1.nativeElement;
@@ -147,10 +147,10 @@ export class VisualizeComponent implements OnInit {
        bird.nativeElement.style.cy = '220px';
     })
 
-    this.nEBirds = [this.R5, this.R3, this.R1];
-    this.sEBirds = [this.L5, this.L3, this.R1];
-    this.sWBirds = [this.R6, this.R4, this.R2];
-    this.nWBirds = [this.L6, this.L4, this.L2];
+    this.nEBirds = [R5, R3, R1];
+    this.sEBirds = [L5, L3, L1];
+    this.sWBirds = [R6, R4, R2];
+    this.nWBirds = [L6, L4, L2];
   }
 
   public setImproperProgressed() {
@@ -210,14 +210,30 @@ export class VisualizeComponent implements OnInit {
 /// The animation will update the nE, sE, sW, nW variables, which will be set like this.NE = [this.R1, this.R3, this.R5]
 
   public petronella() {
-    TweenMax.to(R1, 2, {x:100, y:100, scale:0.5})
-
-    // this.nEBirds.map(function(bird) {
-    //   // bird = this.R1
-    //   var tl = new TimelineLite();
-    //   tl.to(bird, 1, {x:50, y:0})
-    //     .to(bird, 1, {x:0, y:50})
-    // })
+    this.nEBirds.map(function(bird) {
+      // bird = this.R1
+      var tl = new TimelineLite();
+      tl.to(bird, 1, {x:-40, y:40})
+        .to(bird, 1, {x:-120, y:0})
+    })
+    this.sEBirds.map(function(bird) {
+      // bird = this.R1
+      var tl = new TimelineLite();
+      tl.to(bird, 1, {x:-40, y:-40})
+        .to(bird, 1, {x:0, y:-120})
+    })
+    this.sWBirds.map(function(bird) {
+      // bird = this.R1
+      var tl = new TimelineLite();
+      tl.to(bird, 1, {x:40, y:-40})
+        .to(bird, 1, {x:120, y:0})
+    })
+    this.nWBirds.map(function(bird) {
+      // bird = this.R1
+      var tl = new TimelineLite();
+      tl.to(bird, 1, {x:40, y:40})
+        .to(bird, 1, {x:0, y:120})
+    })
   }
 
 
