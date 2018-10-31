@@ -20,7 +20,6 @@ export class ApiService {
     return this.http.get(endpoint);
   }
 
-  // I need a GET method for improper becket position.id a
   public getPositionId(path:string, formation:string) {
     var endpoint = this.API_URL + path + '/?description=' + formation;
     return this.http.get(endpoint);
@@ -37,6 +36,11 @@ export class ApiService {
   }
 
   public getSteps(path:string, danceId:number) {
+    var endpoint = this.API_URL + path + '/?dance_id=' + danceId.toString();
+    return this.http.get(endpoint);
+  }
+
+  public getAnimationInfo(path:string, danceId:number) {
     var endpoint = this.API_URL + path + '/?dance_id=' + danceId.toString();
     return this.http.get(endpoint);
   }

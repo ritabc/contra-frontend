@@ -12,7 +12,6 @@ import { Dance } from '../../dance'
 export class ChooseDanceComponent implements OnInit {
   public allDances: Array<Dance>;
 
-  @Input() currentDanceInChooseDanceComponent:Dance;
   @Output() chooseDanceToOutput: EventEmitter<number> = new EventEmitter<number>();
 
   constructor(public apiService:ApiService) { }

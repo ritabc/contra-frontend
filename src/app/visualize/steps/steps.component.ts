@@ -35,7 +35,7 @@ export class StepsComponent implements OnInit, OnChanges {
 
   }
 
-  public animateNext() {
+  public showNextStep() {
     // console.log(this.steps[this.currentStepCounter])
     this.nextEvent.emit(this.steps[this.currentStepCounter])
     this.increaseStepCounter();

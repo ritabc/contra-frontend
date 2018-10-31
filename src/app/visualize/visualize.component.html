@@ -24,8 +24,8 @@
 <app-choose-dance (chooseDanceToOutput)="handleChosenDance($event)"></app-choose-dance>
 <div *ngIf="currentChosenDanceFromChild">
   <div *ngIf="currentStep">
-    <span *ngIf="currentStep.hasOwnProperty('description')">{{currentStep.description| titleCase}} |</span>
-    <span *ngIf="currentStep.hasOwnProperty('name')">{{currentStep.name | titleCase}} |</span>
+    <span *ngIf="currentStep.hasOwnProperty('description')">{{currentStep.description | titleCase}}</span>
+    <span *ngIf="currentStep.hasOwnProperty('name')">{{currentStep.name | titleCase}}</span>
   </div>
 
 </div>

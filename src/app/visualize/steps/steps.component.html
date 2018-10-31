@@ -1,5 +1,5 @@
 <h2>Steps Component</h2>
-<button class="btn btn-primary" (click)="animateNext()">Next</button>
+<button class="btn btn-primary" (click)="showNextStep()">Next</button>
 <p>These are the steps: </p>
 <span *ngFor="let step of steps">
   <span *ngIf="step.hasOwnProperty('description')">{{step.description| titleCase}} |</span>

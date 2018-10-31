@@ -31,7 +31,6 @@ export class BuildDanceComponent implements OnInit {
     });
 
     this.apiService.getPositionId("position", "becket").subscribe((becket_id_data) => {
-      console.log(becket_id_data['id']);
       this.becketFormationId = becket_id_data['id'];
     });
   }
