@@ -1,4 +1,4 @@
-export class Dance{
+export class Dance {
   public id:number;
   public name:string;
   public writer:string;

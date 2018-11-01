@@ -10,16 +10,21 @@ import { Dance } from '../../dance'
   providers: [ApiService]
 })
 export class ChooseDanceComponent implements OnInit {
-  public allDances: Array<Dance>;
+  public allDances:Dance[]=[];
 
   @Output() chooseDanceToOutput: EventEmitter<number> = new EventEmitter<number>();
 
   constructor(public apiService:ApiService) { }
 
   ngOnInit() {
-    this.apiService.getAllDances("dances").subscribe((danceData:Dance[]) => {
-      this.allDances = danceData
-    });
+    this.apiService.getAllDances("dances").subscribe((danceData) => {
+      danceData.forEach(function(dance) {
+        this.allDances.push(new Dance(dance.id, dance.name, dance.writer, dance.description, dance.isBecket))
+      }, this)
+    })
+      // danceData.forEach(function(dance){
+      //   this.allDances.push(new Dance(dance.id, dance.name, dance.writer, dance.description, dance.isBecket))
+      // })
   }
 
   public chooseDance(event) {

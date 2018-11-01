@@ -28,6 +28,8 @@ export class StepsComponent implements OnInit, OnChanges {
       if (propName === 'danceId') {
         this.apiService.getSteps('dance-composition', parseInt(to)).subscribe((stepsData) => {
           this.steps = stepsData
+          console.log(stepsData)
+          console.log(this.steps)
         });
       }
       // console.log(propName + " changed from " + from + " to " + to)

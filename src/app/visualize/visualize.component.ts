@@ -71,10 +71,10 @@ export class VisualizeComponent implements OnInit {
     this.apiService.getAnimationInfo('info-for-animation', eventData).subscribe((animationData) => {
       this.animationData = animationData
     })
-    debugger
   }
 
   public eventFromSteps(passed) {
+    console.log(passed)
     this.currentStep = passed;
   }
 
