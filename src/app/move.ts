@@ -1,9 +1,9 @@
 export class Move{
   public id:number;
-  public displayName:string;
+  public name:string;
 
   constructor(id, name) {
     this.id = id
-    this.displayName = name
+    this.name = name
   }
 }

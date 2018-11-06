@@ -12,12 +12,13 @@ import { Position } from '../../position';
 export class StepsComponent implements OnInit, OnChanges {
   @Input() danceId:number;
   @Output() nextEvent = new EventEmitter();
-  steps=[];
+  steps;
   currentStepCounter:number = 0;
 
   constructor(public apiService:ApiService) { }
 
   ngOnInit() {
+    this.steps = [];
   }
 
   ngOnChanges(changes: SimpleChanges) {
