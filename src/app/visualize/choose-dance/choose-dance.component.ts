@@ -22,9 +22,6 @@ export class ChooseDanceComponent implements OnInit {
         this.allDances.push(new Dance(dance.id, dance.name, dance.writer, dance.description, dance.isBecket))
       }, this)
     })
-      // danceData.forEach(function(dance){
-      //   this.allDances.push(new Dance(dance.id, dance.name, dance.writer, dance.description, dance.isBecket))
-      // })
   }
 
   public chooseDance(event) {

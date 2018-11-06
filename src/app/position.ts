@@ -3,7 +3,7 @@ export class Position{
   public isFormation:boolean;
   public displayName:string;
 
-  constructor(id, isFormation, name) {
+  constructor(id, isFormation = false, name) {
     this.id = id;
     this.isFormation = isFormation;
     this.displayName = name;

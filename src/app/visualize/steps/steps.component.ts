@@ -12,7 +12,7 @@ import { Position } from '../../position';
 export class StepsComponent implements OnInit, OnChanges {
   @Input() danceId:number;
   @Output() nextEvent = new EventEmitter();
-  steps;
+  steps=[];
   currentStepCounter:number = 0;
 
   constructor(public apiService:ApiService) { }
@@ -27,14 +27,21 @@ export class StepsComponent implements OnInit, OnChanges {
       const to = JSON.stringify(parseInt(change.currentValue));
       if (propName === 'danceId') {
         this.apiService.getSteps('dance-composition', parseInt(to)).subscribe((stepsData) => {
-          this.steps = stepsData
-          console.log(stepsData)
-          console.log(this.steps)
+          stepsData.forEach(function(step, i) {
+            if (step.hasOwnProperty('description')) {
+              let position = new Position(step.id, false, step['description'])
+              if (i === 0) {
+                position.isFormation = true
+              }
+              this.steps.push(position)
+            }
+            else if (step.hasOwnProperty('name')) {
+              this.steps.push(new Move(step.id, step['name']))
+            }
+          }, this)
         });
       }
-      // console.log(propName + " changed from " + from + " to " + to)
     }
-
   }
 
   public showNextStep() {

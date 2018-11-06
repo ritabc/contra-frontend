@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { Dance } from './dance';
+import { Move } from './move';
+import { Position } from './position';
 @Injectable()
 export class ApiService {
 
@@ -35,15 +37,17 @@ export class ApiService {
   public getAllDances(path:string) {
     var endpoint = this.API_URL + path;
     return this.http.get<Dance[]>(endpoint)
-         // .subscribe((res: Response) =>
-         // console.log(res)
-         // res.json().response.map((dance: Dance) => new Dance().deserialize(dance))
-       // );
   }
 
   public getSteps(path:string, danceId:number) {
     var endpoint = this.API_URL + path + '/?dance_id=' + danceId.toString();
-    return this.http.get(endpoint);
+    return this.http.get<(Move|Position)[]>(endpoint)
+
+
+    // let steps = (params:string) => {
+    //   return this.http.get(params)
+    // }
+    // return steps(endpoint)
   }
 
   public getAnimationInfo(path:string, danceId:number) {
