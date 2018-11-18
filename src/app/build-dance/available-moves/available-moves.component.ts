@@ -21,10 +21,12 @@ export class AvailableMovesComponent implements OnInit {
   @Input()
   set positionLastMoveEndsAtInMoveComponent(newValue) {
     this.apiService.get_next_available_moves("next-moves", newValue).subscribe((move_data) => {
+      let movesToPush = [];
       move_data.forEach(function(move) {
         let newMove = new Move(move.id, move.name)
-        this.available_moves.push(newMove)
+        movesToPush.push(newMove)
       }, this);
+      this.available_moves = movesToPush
     });
   }
 
