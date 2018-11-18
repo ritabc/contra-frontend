@@ -4,7 +4,10 @@
 <h2>Dance Draft</h2>
 
 <ul >
-  <li *ngFor="let piece of dancePieces">{{piece.displayName}}</li>
+  <li *ngFor="let step of dancePieces">
+    <span *ngIf="step.hasOwnProperty('description')">{{step.description | titleCase}}</span>
+    <span *ngIf="step.hasOwnProperty('name')">{{step.name | titleCase}}</span>
+  </li>
 </ul>
 
 <!-- with property binding, I could set display to green for moves and red for positions, or something like that. -->

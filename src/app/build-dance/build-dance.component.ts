@@ -45,9 +45,8 @@ export class BuildDanceComponent implements OnInit {
 
   public onFormationAdd(event) {
     if (this.draftArray.length === 0) {
-      let formation = new   Position(event.path[0].id, true, event.path[0].outerText);
+      let formation = new Position(event.path[0].id, true, event.path[0].outerText);
       this.draftArray.push(formation);
-      console.log(formation.id)
       this.positionLastMoveEndsAt = formation.id
     } else {
       alert("Whoops! A formation is a starting point and cannot be added after moves or other positions have been added")

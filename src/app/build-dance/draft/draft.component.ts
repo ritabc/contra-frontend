@@ -1,5 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 
+import { Move } from '../../move';
+import { Position } from '../../position';
+
 @Component({
   selector: 'app-draft',
   templateUrl: './draft.component.html',
@@ -13,6 +16,10 @@ export class DraftComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  public printPiece(piece) {
+    console.log(piece)
   }
 
 }

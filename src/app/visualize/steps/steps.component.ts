@@ -54,5 +54,4 @@ export class StepsComponent implements OnInit, OnChanges {
   private increaseStepCounter() {
     this.currentStepCounter++;
   }
-
 }
