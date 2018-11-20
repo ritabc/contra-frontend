@@ -3,6 +3,9 @@ import { TweenMax, TimelineMax } from 'gsap/TweenMax';
 import { ApiService } from '../api.service';
 
 import { Dance } from '../dance';
+import { Move } from '../move';
+import { Position } from '../position';
+import { SnakeToCamelPipe } from '../snakeToCamel.pipe';
 
 @Component({
   selector: 'app-visualize',
@@ -29,6 +32,7 @@ export class VisualizeComponent implements OnInit {
   public animationData;
   public currentChosenDanceFromChild:number;
   public currentStep;
+  public steps:(Move|Position)[] = [];
   // public nEBirds = [];
   // public sEBirds = [];
   // public sWBirds = [];
@@ -39,13 +43,27 @@ export class VisualizeComponent implements OnInit {
                            nWBirds: [this.L6, this.L4, this.L2] };
 
   constructor(private el: ElementRef,
-    private renderer: Renderer2, public apiService:ApiService) { }
+    private renderer: Renderer2, public apiService:ApiService, private snakeToCamel:SnakeToCamelPipe) { }
 
   ngOnInit() {
+    this.danceCurrentDance()
+  }
+
+  public danceCurrentDance() {
     this.setImproper()
     // this.setUpDance()
     // this.setImproper()
     this.petronella()
+    console.log(this.steps)
+    this.steps.forEach(function(step) {
+      console.log(step)
+      if (step instanceof Position) {
+        let snakeString = step.description
+        console.log(snakeString)
+        let camelString = this.snakeToCamel.transform(snakeString)
+        console.log("abc" , camelString)
+      }
+    })
   }
 
   // ngOnChanges(changes: SimpleChanges) {
@@ -66,6 +84,24 @@ export class VisualizeComponent implements OnInit {
   //   // }
   // }
 
+  public getMovesAndPositions() {
+    let danceId:number = this.currentDance.id
+    this.apiService.getSteps('dance-composition', danceId).subscribe((stepsData) => {
+      stepsData.forEach(function(step, i) {
+        if (step.hasOwnProperty('description')) {
+          let position = new Position(step.id, false, step['description'])
+          if (i === 0) {
+            position.isFormation = true
+          }
+          this.steps.push(position)
+        }
+        else if (step.hasOwnProperty('name')) {
+          this.steps.push(new Move(step.id, step['name']))
+        }
+      }, this)
+    })
+  }
+
   public handleChosenDance(eventData:number) {
     this.currentChosenDanceFromChild = eventData;
     this.apiService.getAnimationInfo('info-for-animation', eventData).subscribe((animationData) => {
@@ -76,6 +112,7 @@ export class VisualizeComponent implements OnInit {
   public eventFromSteps(passed) {
     console.log(passed)
     this.currentStep = passed;
+    console.log(this.snakeToCamel.transform(this.currentStep.description))
   }
 
   // Set Positions

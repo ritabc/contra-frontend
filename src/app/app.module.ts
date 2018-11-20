@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ApiService } from './api.service';
 import { TitleCasePipe } from './titleCase.pipe';
+import { SnakeToCamelPipe } from './snakeToCamel.pipe'
 
 import { AppComponent } from './app.component';
 import { BuildDanceComponent } from './build-dance/build-dance.component';
@@ -46,7 +47,7 @@ import { ChooseDanceComponent } from './visualize/choose-dance/choose-dance.comp
       }
     ]),
   ],
-  providers: [ApiService],
+  providers: [ApiService, SnakeToCamelPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
