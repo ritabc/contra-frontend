@@ -1,191 +1,191 @@
-@keyframes petronellaNE {
-  0% {
-    transform: translateX(0px);
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateX(-40px);
-    transform: translateY(40px);
-  }
-  100% {
-    transform: translateX(-80px);
-    transform: translateY(-40px);
-  }
-}
-
-@keyframes petronellaSE {
-  0% {
-    left: 120px;
-    top: 200px;
-  }
-  50% {
-    left: 80px;
-    top: 160px;
-  }
-  100% {
-    left: 120px;
-    top: 80px;
-  }
-}
-
-@keyframes petronellaNW {
-  0% {
-    left: 0px;
-    top: 80px;
-  }
-  50% {
-    left: 60px;
-    top: 120px;
-  }
-  100% {
-    left: 0px;
-    top: 200px;
-  }
-}
-
-@keyframes petronellaSW {
-  0% {
-    left: 0px;
-    top: 200px;
-  }
-  50% {
-    left: 40px;
-    top: 160px;
-  }
-  100% {
-    left: 120px;
-    top: 200px;
-  }
-}
-
-.dance-set {
-  $number-of-hands-fours: 3;
-  $odd-numbers-list: 1 3 5;
-  $even-numbers-list: 2 4 6;
-  // display: inline-block;
-  svg {
-    height: 320px;
-    width: 160px + 240px * ($number-of-hands-fours - 1);
-    margin: 0 auto;
-    position: relative;
-    circle {
-      position:absolute;
-    }
-
-    // @for $i from 1 through length($odd-numbers-list) {
-    //   #L#{nth($odd-numbers-list, $i)} {
-    //     transform: translate(((240px*$i)-100px), 220px)
-    //   }
-    //   #R#{nth($odd-numbers-list, $i)} {
-    //     transform: translate(((240px*$i)-100px), 100px);
-    //   }
-    // }
-    //
-    // @for $j from 1 through length($even-numbers-list) {
-    //   #L#{nth($even-numbers-list, $j)} {
-    //     transform: translate(((240px*$j)-220px), 100px)
-    //   }
-    //   #R#{nth($even-numbers-list, $j)} {
-    //     transform: translate(((240px*$j)-220px), 220px);
-    //   }
-    // }
-  }
-    // &#hands-four-#{$i} {
-    //   // position: fixed;
-    //   display: inline;
-    //   height: 320px;
-    //   svg {
-    //     width: 40px;
-    //     height: 40px;
-    //     position: fixed;
-    //     // display: inline-block;
-    //   }
-    //   &.raven-one {
-    //     top: 80px;
-    //     left: 120px + 240px*$i;
-    //   }
-    //   &.lark-one {
-    //     top: 200px;
-    //     left: 120px + 240px*$i;
-    //   }
-    // }
-// }
-
-  // span.firsth4 {
-  //   position: absolute; //can be fixed or absolute
-  //
-  //   span.move {
-  //
-  //     // &:hover {
-  //       // .raven-one {
-  //       //   transform: translate(-40px, 40px);
-  //       // }
-  //       // .raven-two {
-  //       //   transform: translate(40px, -40px);
-  //       // }
-  //       //
-  //       // .lark-two {
-  //       //   transform: translate(40px, 40px);
-  //       // }
-  //       // .lark-one {
-  //       //   transform: translate(-40px, -40px);
-  //       // }
-  //     // }
-  //
-  //
-  //   }
-  //
-  // }
-}
-
-//
-// .block-test {
-//   margin-top: 300px;
-// }
-
-
-// .raven-one {
-//   left: var(--squarePosition3);
-//   top: var(--squarePosition2);
-// }
-
-// .lark-one {
-//   left: var(--squarePosition3);
-//   top: var(--squarePosition4);
-// }
-
-// .lark-two {
-//   left: var(--squarePosition1);
-//   top: var(--squarePosition2);
+// @keyframes petronellaNE {
+//   0% {
+//     transform: translateX(0px);
+//     transform: translateY(0px);
+//   }
+//   50% {
+//     transform: translateX(-40px);
+//     transform: translateY(40px);
+//   }
+//   100% {
+//     transform: translateX(-80px);
+//     transform: translateY(-40px);
+//   }
 // }
 //
-// .raven-two {
-//   left: var(--squarePosition1);
-//   top: var(--squarePosition4)
+// @keyframes petronellaSE {
+//   0% {
+//     left: 120px;
+//     top: 200px;
+//   }
+//   50% {
+//     left: 80px;
+//     top: 160px;
+//   }
+//   100% {
+//     left: 120px;
+//     top: 80px;
+//   }
 // }
-
-
-
-
+//
+// @keyframes petronellaNW {
+//   0% {
+//     left: 0px;
+//     top: 80px;
+//   }
+//   50% {
+//     left: 60px;
+//     top: 120px;
+//   }
+//   100% {
+//     left: 0px;
+//     top: 200px;
+//   }
+// }
+//
+// @keyframes petronellaSW {
+//   0% {
+//     left: 0px;
+//     top: 200px;
+//   }
+//   50% {
+//     left: 40px;
+//     top: 160px;
+//   }
+//   100% {
+//     left: 120px;
+//     top: 200px;
+//   }
+// }
+//
 // .dance-set {
-//   /* display: inline-grid; // h4's in set could just line up with Flexbox in the same row
-//   grid-template-columns: repeat(50, 40px);
-//   grid-template-rows: 1 320px; */
-// }
-
+//   $number-of-hands-fours: 3;
+//   $odd-numbers-list: 1 3 5;
+//   $even-numbers-list: 2 4 6;
+//   // display: inline-block;
+//   svg {
+//     height: 320px;
+//     width: 160px + 240px * ($number-of-hands-fours - 1);
+//     margin: 0 auto;
+//     position: relative;
+//     circle {
+//       position:absolute;
+//     }
 //
-// #{$raven-one-selector} svg circle {
-//   fill:black;
+//     // @for $i from 1 through length($odd-numbers-list) {
+//     //   #L#{nth($odd-numbers-list, $i)} {
+//     //     transform: translate(((240px*$i)-100px), 220px)
+//     //   }
+//     //   #R#{nth($odd-numbers-list, $i)} {
+//     //     transform: translate(((240px*$i)-100px), 100px);
+//     //   }
+//     // }
+//     //
+//     // @for $j from 1 through length($even-numbers-list) {
+//     //   #L#{nth($even-numbers-list, $j)} {
+//     //     transform: translate(((240px*$j)-220px), 100px)
+//     //   }
+//     //   #R#{nth($even-numbers-list, $j)} {
+//     //     transform: translate(((240px*$j)-220px), 220px);
+//     //   }
+//     // }
+//   }
+//     // &#hands-four-#{$i} {
+//     //   // position: fixed;
+//     //   display: inline;
+//     //   height: 320px;
+//     //   svg {
+//     //     width: 40px;
+//     //     height: 40px;
+//     //     position: fixed;
+//     //     // display: inline-block;
+//     //   }
+//     //   &.raven-one {
+//     //     top: 80px;
+//     //     left: 120px + 240px*$i;
+//     //   }
+//     //   &.lark-one {
+//     //     top: 200px;
+//     //     left: 120px + 240px*$i;
+//     //   }
+//     // }
+// // }
+//
+//   // span.firsth4 {
+//   //   position: absolute; //can be fixed or absolute
+//   //
+//   //   span.move {
+//   //
+//   //     // &:hover {
+//   //       // .raven-one {
+//   //       //   transform: translate(-40px, 40px);
+//   //       // }
+//   //       // .raven-two {
+//   //       //   transform: translate(40px, -40px);
+//   //       // }
+//   //       //
+//   //       // .lark-two {
+//   //       //   transform: translate(40px, 40px);
+//   //       // }
+//   //       // .lark-one {
+//   //       //   transform: translate(-40px, -40px);
+//   //       // }
+//   //     // }
+//   //
+//   //
+//   //   }
+//   //
+//   // }
 // }
-
-
-// #dancer-use {
-//   fill: #3F3F3F;
-// }
-
-// .position {
-//   display: none;
-//   // display: grid;
-//   // grid-template-columns: repeat(4, 40px);
-//   // grid-template-rows: repeat(8, 40px);
-// }
+//
+// //
+// // .block-test {
+// //   margin-top: 300px;
+// // }
+//
+//
+// // .raven-one {
+// //   left: var(--squarePosition3);
+// //   top: var(--squarePosition2);
+// // }
+//
+// // .lark-one {
+// //   left: var(--squarePosition3);
+// //   top: var(--squarePosition4);
+// // }
+//
+// // .lark-two {
+// //   left: var(--squarePosition1);
+// //   top: var(--squarePosition2);
+// // }
+// //
+// // .raven-two {
+// //   left: var(--squarePosition1);
+// //   top: var(--squarePosition4)
+// // }
+//
+//
+//
+//
+// // .dance-set {
+// //   /* display: inline-grid; // h4's in set could just line up with Flexbox in the same row
+// //   grid-template-columns: repeat(50, 40px);
+// //   grid-template-rows: 1 320px; */
+// // }
+//
+// //
+// // #{$raven-one-selector} svg circle {
+// //   fill:black;
+// // }
+//
+//
+// // #dancer-use {
+// //   fill: #3F3F3F;
+// // }
+//
+// // .position {
+// //   display: none;
+// //   // display: grid;
+// //   // grid-template-columns: repeat(4, 40px);
+// //   // grid-template-rows: repeat(8, 40px);
+// // }

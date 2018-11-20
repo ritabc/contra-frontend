@@ -1,24 +1,4 @@
-<!-- solid/dashed represents down(solid)/one's and up(dashed)/two's travel. Dancer's borders can change -->
-<!-- dancerId (R1, L6) remains with the svg, and does not change -->
-  <!-- At the start, R1/L1, R3/L3 mean 1's, however when R5/L5 get to the bottom, they will become 2's. -->
-<!-- ravens are always ravens, vice versa -->
-<!-- Original position means Odds are solid, -->
-<div class="dance-set">
-  <svg>
-    <circle class="dark" cx="0" cy="0" r="18" fill='#ae703f' stroke='#FF0000' stroke-width="3" stroke-dasharray="5 2" id="L1" #L1 [ngStyle]="L1Style"/>
-    <circle class="dark" cx="0" cy="0" r="18" fill='#5B5B5B' stroke='#FF0000' stroke-width="3" stroke-dasharray="5 2" id="R1" #R1 [ngStyle]="R1Style"/>
-    <circle class="light" cx="0" cy="0" r="18" fill='#AE703F' stroke='#FF7F00' stroke-width="3" id="L2" #L2 [ngStyle]="L2Style" />
-    <circle class="light" cx="0" cy="0" r="18" fill='#5B5B5B' stroke='#FF7F00' stroke-width="3" id="R2" #R2 [ngStyle]="L2Style" />
-    <circle class="dark" cx="0" cy="0" r="18" fill='#ae703f' stroke='#FFFF00' stroke-width="3" stroke-dasharray="5 2" id="L3" #L3 [ngStyle]="L3Style"/>
-    <circle class="dark" cx="0" cy="0" r="18" fill='#5B5B5B' stroke='#FFFF00' stroke-width="3"  stroke-dasharray="5 2" id="R3" #R3 [ngStyle]="R3Style"/>
-    <circle class="light" cx="0" cy="0" r="18" fill='#AE703F' stroke='#00FF00' stroke-width="3" id="L4" #L4 [ngStyle]="L4Style"/>
-    <circle class="light" cx="0" cy="0" r="18" fill='#5B5B5B' stroke='#00FF00' stroke-width="3" id="R4" #R4 [ngStyle]="R4Style"/>
-    <circle class="dark" cx="0" cy="0" r="18" fill='#ae703f' stroke='#0000FF' stroke-width="3"  stroke-dasharray="5 2" id="L5" #L5 [ngStyle]="L5Style"/>
-    <circle class="dark" cx="0" cy="0" r="18" fill='#5B5B5B' stroke='#0000FF' stroke-width="3" stroke-dasharray="5 2" id="R5" #R5 [ngStyle]="R5Style"/>
-    <circle class="light" cx="0" cy="0" r="18" fill='#AE703F' stroke='#9400D3' stroke-width="3" id="L6" #L6 [ngStyle]="L6Style"/>
-    <circle class="light" cx="0" cy="0" r="18" fill='#5B5B5B' stroke='#9400D3' stroke-width="3" id="R6" #R6 [ngStyle]="R6Style"/>
-  </svg>
-</div>
+<app-animation [steps]="steps"></app-animation>
 <p>Current Dance is: {{currentChosenDanceFromChild}}</p>
 <app-steps [danceId]="currentChosenDanceFromChild" (nextEvent)="eventFromSteps($event)"></app-steps>
 <app-choose-dance (chooseDanceToOutput)="handleChosenDance($event)"></app-choose-dance>
