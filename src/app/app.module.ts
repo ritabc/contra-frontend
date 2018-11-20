@@ -17,6 +17,7 @@ import { PositionsComponent } from './build-dance/positions/positions.component'
 import { VisualizeComponent } from './visualize/visualize.component';
 import { StepsComponent } from './visualize/steps/steps.component';
 import { ChooseDanceComponent } from './visualize/choose-dance/choose-dance.component';
+import { AnimationComponent } from './visualize/animation/animation.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { ChooseDanceComponent } from './visualize/choose-dance/choose-dance.comp
     PositionsComponent,
     VisualizeComponent,
     StepsComponent,
-    ChooseDanceComponent
+    ChooseDanceComponent,
+    AnimationComponent
   ],
   imports: [
     BrowserModule,
