@@ -32,7 +32,7 @@ export class VisualizeComponent implements OnInit {
   public animationData;
   public currentChosenDanceFromChild:number;
   public currentStep;
-  public steps:(Move|Position)[] = [];
+  public steps:Array<Move|Position>;
   // public nEBirds = [];
   // public sEBirds = [];
   // public sWBirds = [];
@@ -53,8 +53,7 @@ export class VisualizeComponent implements OnInit {
     this.setImproper()
     // this.setUpDance()
     // this.setImproper()
-    this.petronella()
-    console.log(this.steps)
+    this.petronella();
     this.steps.forEach(function(step) {
       console.log(step)
       if (step instanceof Position) {
@@ -75,13 +74,6 @@ export class VisualizeComponent implements OnInit {
   //     const to = JSON.stringify(change.currentValue);
   //     console.log('From: ' + from + ' to ' + to)
   //   }
-  // }
-
-  // public setUpDance() {
-  //   console.log(this.currentDance)
-  //   // if (move === "petronella") {
-  //     this.petronella()
-  //   // }
   // }
 
   public getMovesAndPositions() {
