@@ -1,6 +1,6 @@
 <app-animation [steps]="steps"></app-animation>
 <p>Current Dance is: {{currentChosenDanceFromChild}}</p>
-<app-steps [danceId]="currentChosenDanceFromChild" (nextEvent)="eventFromSteps($event)"></app-steps>
+<app-steps [danceId]="currentDance" (nextEvent)="eventFromSteps($event)"></app-steps>
 <app-choose-dance (chooseDanceToOutput)="handleChosenDance($event)"></app-choose-dance>
 <div *ngIf="currentChosenDanceFromChild">
   <div *ngIf="currentStep">

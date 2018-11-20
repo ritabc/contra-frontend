@@ -20,7 +20,6 @@ export class ChooseDanceComponent implements OnInit {
     this.apiService.getAllDances("dances").subscribe((danceData) => {
       danceData.forEach(function(dance) {
         this.allDances.push(new Dance(dance.id, dance.name, dance.writer, dance.description, dance.isBecket))
-        console.log(this.allDances)
       }, this)
     })
   }

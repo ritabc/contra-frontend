@@ -42,6 +42,7 @@ export class AnimationComponent implements OnInit {
     // this.setUpDance()
     // this.setImproper()
     this.petronella();
+    console.log(this.steps)
     // this.steps.forEach(function(step) {
     //   console.log(step)
     //   if (step instanceof Position) {

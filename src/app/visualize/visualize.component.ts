@@ -13,9 +13,8 @@ import { SnakeToCamelPipe } from '../snakeToCamel.pipe';
 })
 
 export class VisualizeComponent implements OnInit {
-  public currentDance:Dance;
+  public currentDance:Number;
   public animationData;
-  public currentChosenDanceFromChild:number;
   public currentStep;
   public steps:Array<Move|Position>;
   // public nEBirds = [];
@@ -26,10 +25,12 @@ export class VisualizeComponent implements OnInit {
   constructor(public apiService:ApiService, private snakeToCamel:SnakeToCamelPipe) { }
 
   ngOnInit() {
+    // this.getMovesAndPositions()
   }
 
   public getMovesAndPositions() {
-    let danceId:number = this.currentDance.id
+    let danceId:Number = this.currentDance
+    console.log(danceId)
     this.apiService.getSteps('dance-composition', danceId).subscribe((stepsData) => {
       stepsData.forEach(function(step, i) {
         if (step.hasOwnProperty('description')) {
@@ -46,15 +47,14 @@ export class VisualizeComponent implements OnInit {
     })
   }
 
-  public handleChosenDance(eventData:number) {
-    this.currentChosenDanceFromChild = eventData;
-    this.apiService.getAnimationInfo('info-for-animation', eventData).subscribe((animationData) => {
-      this.animationData = animationData
-    })
+  public handleChosenDance(danceFromChoice) {
+    this.currentDance = danceFromChoice
+    // this.apiService.getAnimationInfo('info-for-animation', eventData).subscribe((animationData) => {
+    //   this.animationData = animationData
+    // })
   }
 
   public eventFromSteps(passed) {
-    console.log(passed)
     this.currentStep = passed;
     console.log(this.snakeToCamel.transform(this.currentStep.description))
   }
