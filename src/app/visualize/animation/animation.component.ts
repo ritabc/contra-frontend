@@ -1,9 +1,9 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, SimpleChanges, OnChanges } from '@angular/core';
 import { TweenMax, TimelineMax } from 'gsap/TweenMax';
 
 import { Move } from '../../move';
 import { Position } from '../../position';
-
+import { SnakeToCamelPipe } from '../../snakeToCamel.pipe';
 
 @Component({
   selector: 'app-animation',
@@ -11,7 +11,7 @@ import { Position } from '../../position';
   styleUrls: ['./animation.component.scss']
 })
 
-export class AnimationComponent implements OnInit {
+export class AnimationComponent implements OnInit, OnChanges {
   @Input() steps:Array<Move|Position>
   @ViewChild('R1') private R1:ElementRef;
   @ViewChild('L1') private L1:ElementRef;
@@ -31,31 +31,49 @@ export class AnimationComponent implements OnInit {
                            sWBirds: [this.R6, this.R4, this.R2],
                            nWBirds: [this.L6, this.L4, this.L2] };
 
-  constructor(private el: ElementRef) { }
+  constructor(private el: ElementRef, private snakeToCamel:SnakeToCamelPipe) { }
 
   ngOnInit() {
-    this.danceCurrentDance()
+    console.log(this.steps)
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    for (const propName of Object.keys(changes)) {
+      const change = changes[propName];
+      change.currentValue.forEach(function(step) {
+        if (step instanceof Position) {
+          if (step.isFormation) {
+            this[this.snakeToCamel.transform(step.description)]();
+          }
+        }
+        else if (step instanceof Move) {
+          console.log(step)
+          this[this.snakeToCamel.transform(step.name)]();
+        }
+      }, this)
+    }
   }
 
   public danceCurrentDance() {
-    this.setImproper()
+    this.improper()
     // this.setUpDance()
     // this.setImproper()
     this.petronella();
-    console.log(this.steps)
+    // console.log(this.steps);
     // this.steps.forEach(function(step) {
-    //   console.log(step)
+    //   console.log(step);
     //   if (step instanceof Position) {
-    //     let snakeString = step.description
-    //     console.log(snakeString)
-    //     let camelString = this.snakeToCamel.transform(snakeString)
-    //     console.log("abc" , camelString)
+    //     let snakeString = step.description;
+    //     console.log(snakeString);
+    //     let camelString = this.snakeToCamel.transform(snakeString);
+    //     console.log("abc" , camelString);
     //   }
-    })
-  // }
+    // }
+  }
 
   // Set Positions
-  public setImproper() {
+  public improper() {
+    console.log("hit improper")
     let dottedLarks = [this.L5, this.L3, this.L1] // needs to eventually not be hard coded in each position ???
     let solidLarks = [this.L6, this.L4, this.L2]
     let dottedRavens = [this.R5, this.R3, this.R1]
@@ -89,7 +107,7 @@ export class AnimationComponent implements OnInit {
   }
 
 
-  public setImproperProgressed() {
+  public improperProgressed() {
     let dottedLarks = [this.L5, this.L3, this.L1]
     let solidLarks = [this.L6, this.L4, this.L2]
     let dottedRavens = [this.R5, this.R3, this.R1]
@@ -119,7 +137,7 @@ export class AnimationComponent implements OnInit {
     // return this;
   }
 
-  public setOppositeBecket() {
+  public oppositeBecket() {
     let dottedLarks = [this.L5, this.L3, this.L1]
     let solidLarks = [this.L6, this.L4, this.L2]
     let dottedRavens = [this.R5, this.R3, this.R1]
@@ -151,6 +169,7 @@ export class AnimationComponent implements OnInit {
 /// The animation will update the nE, sE, sW, nW variables, which will be set like this.NE = [this.R1, this.R3, this.R5]
 
   public petronella() {
+    console.log("Hit Petronella")
     this.birdsLocation.nEBirds.map(function(bird) {
       var tl = new TimelineMax();
       tl.to(bird, 1, {x:-40, y:40})

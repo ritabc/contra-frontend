@@ -13,7 +13,7 @@ import { SnakeToCamelPipe } from '../snakeToCamel.pipe';
 })
 
 export class VisualizeComponent implements OnInit {
-  public currentDance:Number;
+  public currentDanceId:number;
   public animationData;
   public currentStep;
   public steps:Array<Move|Position>;
@@ -25,39 +25,43 @@ export class VisualizeComponent implements OnInit {
   constructor(public apiService:ApiService, private snakeToCamel:SnakeToCamelPipe) { }
 
   ngOnInit() {
-    // this.getMovesAndPositions()
   }
 
-  public getMovesAndPositions() {
-    let danceId:Number = this.currentDance
-    console.log(danceId)
-    this.apiService.getSteps('dance-composition', danceId).subscribe((stepsData) => {
-      stepsData.forEach(function(step, i) {
-        if (step.hasOwnProperty('description')) {
-          let position = new Position(step.id, false, step['description'])
-          if (i === 0) {
-            position.isFormation = true
-          }
-          this.steps.push(position)
-        }
-        else if (step.hasOwnProperty('name')) {
-          this.steps.push(new Move(step.id, step['name']))
-        }
-      }, this)
-    })
-  }
-
-  public handleChosenDance(danceFromChoice) {
-    this.currentDance = danceFromChoice
-    // this.apiService.getAnimationInfo('info-for-animation', eventData).subscribe((animationData) => {
-    //   this.animationData = animationData
-    // })
+  public handleSteps(stepsArray) {
+    this.steps = stepsArray
+    console.log(this.steps)
   }
 
   public eventFromSteps(passed) {
     this.currentStep = passed;
     console.log(this.snakeToCamel.transform(this.currentStep.description))
   }
+
+  // public getMovesAndPositions() {
+  //   let danceId:number = this.currentDanceId
+  //   console.log(danceId)
+  //   this.apiService.getSteps('dance-composition', danceId).subscribe((stepsData) => {
+  //     stepsData.forEach(function(step, i) {
+  //       if (step.hasOwnProperty('description')) {
+  //         let position = new Position(step.id, false, step['description'])
+  //         if (i === 0) {
+  //           position.isFormation = true
+  //         }
+  //         this.steps.push(position)
+  //       }
+  //       else if (step.hasOwnProperty('name')) {
+  //         this.steps.push(new Move(step.id, step['name']))
+  //       }
+  //     }, this)
+  //   })
+  // }
+
+  // public handleChosenDance(danceFromChoice) {
+  //   this.currentDanceId = danceFromChoice
+  //   // this.apiService.getAnimationInfo('info-for-animation', this.currentDanceId).subscribe((animationData) => {
+  //   //   this.animationData = animationData
+  //   // })
+  // }
 
   // ngOnChanges(changes: SimpleChanges) {
   //   console.log(changes)

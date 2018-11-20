@@ -2,6 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ApiService } from '../../api.service';
 
 import { Dance } from '../../dance'
+import { Move } from '../../move'
+import { Position } from '../../position'
 
 @Component({
   selector: 'app-choose-dance',
@@ -12,7 +14,9 @@ import { Dance } from '../../dance'
 export class ChooseDanceComponent implements OnInit {
   public allDances:Dance[]=[];
 
-  @Output() chooseDanceToOutput: EventEmitter<number> = new EventEmitter<number>();
+  @Output() steps: EventEmitter<any> = new EventEmitter()
+
+  // @Output() chooseDanceToOutput: EventEmitter<number> = new EventEmitter();
 
   constructor(public apiService:ApiService) { }
 
@@ -24,8 +28,23 @@ export class ChooseDanceComponent implements OnInit {
     })
   }
 
-  public chooseDance(event) {
-    this.chooseDanceToOutput.emit(event.path[0].id);
+  public chooseDanceAndGetSteps(event) {
+    this.apiService.getSteps('dance-composition', event.path[0].id).subscribe((stepsData) => {
+      let steps:Array<Move|Position> = []
+      stepsData.forEach(function(step, i) {
+        if (step.hasOwnProperty('description')) {
+          let position = new Position(step.id, false, step['description'])
+          if (i === 0) {
+            position.isFormation = true
+          }
+          steps.push(position)
+        }
+        else if (step.hasOwnProperty('name')) {
+          steps.push(new Move(step.id, step['name']))
+        }
+      })
+      this.steps.emit(steps)
+    })
   }
 
 }

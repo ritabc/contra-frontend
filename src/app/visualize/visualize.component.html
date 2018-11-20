@@ -1,7 +1,7 @@
 <app-animation [steps]="steps"></app-animation>
-<p>Current Dance is: {{currentChosenDanceFromChild}}</p>
-<app-steps [danceId]="currentDance" (nextEvent)="eventFromSteps($event)"></app-steps>
-<app-choose-dance (chooseDanceToOutput)="handleChosenDance($event)"></app-choose-dance>
+<p>Current Dance is: {{currentChosenDanceFromChild}}</p> <!-- TODO: Update Visualize Component to tell it The Name of the Dance -->
+<app-steps [danceId]="currentDanceId" (nextEvent)="eventFromSteps($event)" [steps]="steps"></app-steps>
+<app-choose-dance (steps)="handleSteps($event)"></app-choose-dance>
 <div *ngIf="currentChosenDanceFromChild">
   <div *ngIf="currentStep">
     <span *ngIf="currentStep.hasOwnProperty('description')">{{currentStep.description | titleCase}}</span>

@@ -12,37 +12,19 @@ import { Position } from '../../position';
 export class StepsComponent implements OnInit, OnChanges {
   @Input() danceId:number;
   @Output() nextEvent = new EventEmitter();
-  steps;
+  @Input() steps: Array<Move|Position>;
   currentStepCounter:number = 0;
 
   constructor(public apiService:ApiService) { }
 
   ngOnInit() {
-    this.steps = [];
+    console.log(this.steps)
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    for (const propName of Object.keys(changes)) {
-      const change = changes[propName];
-      // const from = JSON.stringify(change.previousValue);
-      const to = JSON.stringify(parseInt(change.currentValue));
-      if (propName === 'danceId') {
-        this.apiService.getSteps('dance-composition', parseInt(to)).subscribe((stepsData) => {
-          stepsData.forEach(function(step, i) {
-            if (step.hasOwnProperty('description')) {
-              let position = new Position(step.id, false, step['description'])
-              if (i === 0) {
-                position.isFormation = true
-              }
-              this.steps.push(position)
-            }
-            else if (step.hasOwnProperty('name')) {
-              this.steps.push(new Move(step.id, step['name']))
-            }
-          }, this)
-        });
-      }
-    }
+  ngOnChanges(changes: SimpleChanges) { // CT: set this.steps somehow (after click of Dance BTn). poss. not w/this ngOnChanges
+    // for (const propName of Object.keys(changes)) {
+    //   const change = changes[propName];
+    // }
   }
 
   public showNextStep() {
