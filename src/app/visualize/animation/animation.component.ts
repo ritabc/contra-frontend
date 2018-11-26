@@ -34,31 +34,32 @@ export class AnimationComponent implements OnInit, OnChanges {
   constructor(private el: ElementRef, private snakeToCamel:SnakeToCamelPipe) { }
 
   ngOnInit() {
-    console.log(this.steps)
+    this.improper()
   }
 
   ngOnChanges(changes: SimpleChanges) {
     for (const propName of Object.keys(changes)) {
       const change = changes[propName];
-      change.currentValue.forEach(function(step) {
-        if (step instanceof Position) {
-          if (step.isFormation) {
-            this[this.snakeToCamel.transform(step.description)]();
+      if (!change.firstChange) {
+        change.currentValue.forEach(function(step) {
+          if (step instanceof Position) {
+            if (step.isFormation) {
+              this[this.snakeToCamel.transform(step.description)]();
+            }
           }
-        }
-        else if (step instanceof Move) {
-          console.log(step)
-          this[this.snakeToCamel.transform(step.name)]();
-        }
-      }, this)
+          else if (step instanceof Move) {
+            this[this.snakeToCamel.transform(step.name)]();
+          }
+        }, this)
+      }
     }
   }
 
-  public danceCurrentDance() {
-    this.improper()
+  // public danceCurrentDance() {
+  //   this.improper()
     // this.setUpDance()
     // this.setImproper()
-    this.petronella();
+    // this.petronella();
     // console.log(this.steps);
     // this.steps.forEach(function(step) {
     //   console.log(step);
@@ -69,34 +70,34 @@ export class AnimationComponent implements OnInit, OnChanges {
     //     console.log("abc" , camelString);
     //   }
     // }
-  }
+  // }
 
   // Set Positions
   public improper() {
-    console.log("hit improper")
     let dottedLarks = [this.L5, this.L3, this.L1] // needs to eventually not be hard coded in each position ???
     let solidLarks = [this.L6, this.L4, this.L2]
     let dottedRavens = [this.R5, this.R3, this.R1]
     let solidRavens = [this.R6, this.R4, this.R2]
 
     dottedLarks.forEach(function(bird, index) {
+      console.log(dottedLarks)
       bird.nativeElement.style.cx = (240*(index+1)-100).toString() + 'px';
-       bird.nativeElement.style.cy = '220px';
+      bird.nativeElement.style.cy = '220px';
     })
 
     solidLarks.forEach(function(bird, index) {
       bird.nativeElement.style.cx = (240*(index+1)-220).toString() + 'px';
-       bird.nativeElement.style.cy = '100px';
+      bird.nativeElement.style.cy = '100px';
     })
 
     dottedRavens.forEach(function(bird, index) {
       bird.nativeElement.style.cx = (240*(index+1)-100).toString() + 'px';
-       bird.nativeElement.style.cy = '100px';
+      bird.nativeElement.style.cy = '100px';
     })
 
     solidRavens.forEach(function(bird, index) {
       bird.nativeElement.style.cx = (240*(index+1)-220).toString() + 'px';
-       bird.nativeElement.style.cy = '220px';
+      bird.nativeElement.style.cy = '220px';
     })
 
     this.birdsLocation.nEBirds = [R5, R3, R1];
@@ -169,7 +170,6 @@ export class AnimationComponent implements OnInit, OnChanges {
 /// The animation will update the nE, sE, sW, nW variables, which will be set like this.NE = [this.R1, this.R3, this.R5]
 
   public petronella() {
-    console.log("Hit Petronella")
     this.birdsLocation.nEBirds.map(function(bird) {
       var tl = new TimelineMax();
       tl.to(bird, 1, {x:-40, y:40})

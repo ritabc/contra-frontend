@@ -18,7 +18,6 @@ export class StepsComponent implements OnInit, OnChanges {
   constructor(public apiService:ApiService) { }
 
   ngOnInit() {
-    console.log(this.steps)
   }
 
   ngOnChanges(changes: SimpleChanges) { // CT: set this.steps somehow (after click of Dance BTn). poss. not w/this ngOnChanges
