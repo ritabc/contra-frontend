@@ -26,15 +26,27 @@ export class AnimationComponent implements OnInit, OnChanges {
   @ViewChild('R6') private R6:ElementRef;
   @ViewChild('L6') private L6:ElementRef;
 
-  public birdsLocation = { nEBirds: [this.R5, this.R3, this.R1],
-                           sEBirds: [this.L5, this.L3, this.L1],
-                           sWBirds: [this.R6, this.R4, this.R2],
-                           nWBirds: [this.L6, this.L4, this.L2] };
+  public birdsLocation
+  // public birdsLocation = { nEBirds: [this.R5, this.R3, this.R1],
+  //                          sEBirds: [this.L5, this.L3, this.L1],
+  //                          sWBirds: [this.R6, this.R4, this.R2],
+  //                          nWBirds: [this.L6, this.L4, this.L2] };
 
   constructor(private el: ElementRef, private snakeToCamel:SnakeToCamelPipe) { }
 
   ngOnInit() {
-    this.improper()
+    this.improper(false);
+    // if improper:
+    this.birdsLocation = { nEBirds: [this.R5, this.R3, this.R1],
+                           sEBirds: [this.L5, this.L3, this.L1],
+                           sWBirds: [this.R6, this.R4, this.R2],
+                           nWBirds: [this.L6, this.L4, this.L2] };
+    this.balanceTheRing();
+    // this.improper();
+    this.petronella();
+    // this.oppositeBecket();
+    this.balanceTheRing();
+    this.petronella();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -73,7 +85,12 @@ export class AnimationComponent implements OnInit, OnChanges {
   // }
 
   // Set Positions
-  public improper() {
+  // Needs to know whether couples are out?, prior birdsLocation.
+  /// Re prior birdsLocation, can the move return that?
+  public improper(couplesOut) {
+    if (couplesOut === false) {
+
+    }
     let dottedLarks = [this.L5, this.L3, this.L1] // needs to eventually not be hard coded in each position ???
     let solidLarks = [this.L6, this.L4, this.L2]
     let dottedRavens = [this.R5, this.R3, this.R1]
@@ -106,7 +123,6 @@ export class AnimationComponent implements OnInit, OnChanges {
     this.birdsLocation.nWBirds = [L6, L4, L2];
     // return this;
   }
-
 
   public improperProgressed() {
     let dottedLarks = [this.L5, this.L3, this.L1]
@@ -146,20 +162,24 @@ export class AnimationComponent implements OnInit, OnChanges {
 
     dottedLarks.forEach(function(bird, index) {
       bird.nativeElement.style.cx = (240*(index+1)-100).toString() + 'px';
-       bird.nativeElement.style.cy = '100px';
+      bird.nativeElement.style.cy = '100px';
     })
     solidLarks.forEach(function(bird, index) {
       bird.nativeElement.style.cx = (240*(index+1)-220).toString() + 'px';
-       bird.nativeElement.style.cy = '220px';
+      bird.nativeElement.style.cy = '220px';
     })
     dottedRavens.forEach(function(bird, index) {
       bird.nativeElement.style.cx = (240*(index+1)-220).toString() + 'px';
-       bird.nativeElement.style.cy = '100px';
+      bird.nativeElement.style.cy = '100px';
     })
     solidRavens.forEach(function(bird, index) {
       bird.nativeElement.style.cx = (240*(index+1)-100).toString() + 'px';
-       bird.nativeElement.style.cy = '220px';
+      bird.nativeElement.style.cy = '220px';
     })
+    this.birdsLocation.nEBirds = [R5, R3, R1];
+    this.birdsLocation.sEBirds = [R6, R4, R2];
+    this.birdsLocation.sWBirds = [L6, L4, L2];
+    this.birdsLocation.nWBirds = [L5, L3, L1];
   }
 
 // Define Moves
@@ -169,34 +189,55 @@ export class AnimationComponent implements OnInit, OnChanges {
 // - is the move a progression?
 /// The animation will update the nE, sE, sW, nW variables, which will be set like this.NE = [this.R1, this.R3, this.R5]
 
-  public petronella() {
+  public balanceTheRing() {
     this.birdsLocation.nEBirds.map(function(bird) {
       var tl = new TimelineMax();
       tl.to(bird, 1, {x:-40, y:40})
-        .to(bird, 1, {x:-120, y:0})
+        .to(bird, 1, {x:0, y:0})
     })
-    this.birdsLocation.sEBirds.map(function(bird) {
+    this.birdsLocation.sEBirds.map(function(bird){
       var tl = new TimelineMax();
       tl.to(bird, 1, {x:-40, y:-40})
-        .to(bird, 1, {x:0, y:-120})
+        .to(bird, 1, {x:0, y:0})
     })
     this.birdsLocation.sWBirds.map(function(bird) {
       var tl = new TimelineMax();
       tl.to(bird, 1, {x:40, y:-40})
-        .to(bird, 1, {x:120, y:0})
+        .to(bird, 1, {x:0, y:0})
     })
     this.birdsLocation.nWBirds.map(function(bird) {
       var tl = new TimelineMax();
       tl.to(bird, 1, {x:40, y:40})
-        .to(bird, 1, {x:0, y:120})
+        .to(bird, 1, {x:0, y:0})
+    })
+  }
+
+  public petronella() {
+    this.birdsLocation.nEBirds.map(function(bird) {
+      var tl = new TimelineMax();
+      tl.to(bird, 1, {x:-120, y:0})
+    })
+    this.birdsLocation.sEBirds.map(function(bird) {
+      var tl = new TimelineMax();
+      tl.to(bird, 1, {x:0, y:-120})
+    })
+    this.birdsLocation.sWBirds.map(function(bird) {
+      var tl = new TimelineMax();
+      tl.to(bird, 1, {x:120, y:0})
+    })
+    this.birdsLocation.nWBirds.map(function(bird) {
+      var tl = new TimelineMax();
+      tl.to(bird, 1, {x:0, y:120})
     })
     // petronella needs to update this.birdsLocation, but in the relative sense - relative to where birds were before
-    let currentNWBirds = this.birdsLocation.nWBirds
+    console.log(this.birdsLocation.nWBirds)
+    let currentnWBirds = this.birdsLocation.nWBirds
     this.birdsLocation.nWBirds = this.birdsLocation.nEBirds
     this.birdsLocation.nEBirds = this.birdsLocation.sEBirds
     this.birdsLocation.sEBirds = this.birdsLocation.sWBirds
-    this.birdsLocation.sWBirds = currentNWBirds
+    this.birdsLocation.sWBirds = currentnWBirds
     // return this // ?? should this be here?
+    console.log(this.birdsLocation.nWBirds)
   }
 
 }
