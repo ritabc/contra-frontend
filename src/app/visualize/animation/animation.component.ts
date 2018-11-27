@@ -35,7 +35,9 @@ export class AnimationComponent implements OnInit, OnChanges {
   constructor(private el: ElementRef, private snakeToCamel:SnakeToCamelPipe) { }
 
   ngOnInit() {
-    this.improper(4);
+    let progression = 0;
+    let nextPositioning = this.improper(progression);
+    this.oppositeBecket(3)
     // if improper:
     // this.birdsLocation = { nEBirds: [this.R5, this.R3, this.R1],
     //                        sEBirds: [this.L5, this.L3, this.L1],
@@ -67,22 +69,6 @@ export class AnimationComponent implements OnInit, OnChanges {
     }
   }
 
-  // public danceCurrentDance() {
-  //   this.improper()
-    // this.setUpDance()
-    // this.setImproper()
-    // this.petronella();
-    // console.log(this.steps);
-    // this.steps.forEach(function(step) {
-    //   console.log(step);
-    //   if (step instanceof Position) {
-    //     let snakeString = step.description;
-    //     console.log(snakeString);
-    //     let camelString = this.snakeToCamel.transform(snakeString);
-    //     console.log("abc" , camelString);
-    //   }
-    // }
-  // }
 
   // Set Positions
   // Needs to know whether couples are out?, prior birdsLocation.
@@ -95,6 +81,43 @@ export class AnimationComponent implements OnInit, OnChanges {
                               sEBirds: [this.L5, this.L3, this.L1],
                               sWBirds: [this.R6, this.R4, this.R2],
                               nWBirds: [this.L6, this.L4, this.L2] }
+    for (let prog = 0; prog <= progressionNumber; prog++) {
+      if (prog > 12) {
+        return null
+      }
+      else if (prog === 0) {
+        couplesOut = false
+      } else if (prog % 2 === 1) {
+        couplesOut = true
+        let newNE = birdsLocation.sEBirds.shift();
+        let newSE = birdsLocation.nEBirds.shift();
+        birdsLocation.nEBirds.unshift(newNE);
+        birdsLocation.sEBirds.unshift(newSE);
+        let newSW = birdsLocation.nWBirds.pop();
+        let newNW = birdsLocation.sWBirds.pop();
+        birdsLocation.sWBirds.push(newSW);
+        birdsLocation.nWBirds.push(newNW);
+      } else if (prog % 2 === 0) {
+        couplesOut = false
+        let newNE = birdsLocation.nWBirds.pop();
+        birdsLocation.nEBirds.push(newNE);
+        let newSE = birdsLocation.sWBirds.pop();
+        birdsLocation.sEBirds.push(newSE);
+        let newSW = birdsLocation.sEBirds.shift();
+        birdsLocation.sWBirds.unshift(newSW);
+        let newNW = birdsLocation.nEBirds.shift();
+        birdsLocation.nWBirds.unshift(newNW);
+      } else { return null }
+    }
+    return birdsLocation;
+  }
+
+  public oppositeBecket(progressionNumber:number) {
+    let couplesOut:boolean;
+    let birdsLocation:any = { nEBirds: [this.L5, this.L3, this.L1],
+                              sEBirds: [this.R6, this.R4, this.R2],
+                              sWBirds: [this.L6, this.L4, this.L2],
+                              nWBirds: [this.R5, this.R3, this.R1] }
     for (let prog = 0; prog <= progressionNumber; prog++) {
       if (prog > 12) {
         return null
@@ -115,14 +138,14 @@ export class AnimationComponent implements OnInit, OnChanges {
         // }
       } else if (prog % 2 === 1) {
         couplesOut = true
-        let newNE = birdsLocation.sEBirds.shift();
-        let newSE = birdsLocation.nEBirds.shift();
-        birdsLocation.nEBirds.unshift(newNE);
-        birdsLocation.sEBirds.unshift(newSE);
-        let newSW = birdsLocation.nWBirds.pop();
-        let newNW = birdsLocation.sWBirds.pop();
-        birdsLocation.sWBirds.push(newSW);
-        birdsLocation.nWBirds.push(newNW);
+        let newNE = birdsLocation.sWBirds.pop();
+        let newSE = birdsLocation.nWBirds.shift();
+        let newSW = birdsLocation.nEBirds.shift();
+        let newNW = birdsLocation.sEBirds.pop();
+        birdsLocation.nEBirds.push(newNE)
+        birdsLocation.sEBirds.unshift(newSE)
+        birdsLocation.sWBirds.unshift(newSW)
+        birdsLocation.nWBirds.push(newNW)
         // for (let i = 0; i <= 2; ++i) {
         //   console.log(prog, "nE", birdsLocation.nEBirds[i])
         // }
@@ -137,14 +160,6 @@ export class AnimationComponent implements OnInit, OnChanges {
         // }
       } else if (prog % 2 === 0) {
         couplesOut = false
-        let newNE = birdsLocation.nWBirds.pop();
-        birdsLocation.nEBirds.push(newNE);
-        let newSE = birdsLocation.sWBirds.pop();
-        birdsLocation.sEBirds.push(newSE);
-        let newSW = birdsLocation.sEBirds.shift();
-        birdsLocation.sWBirds.unshift(newSW);
-        let newNW = birdsLocation.nEBirds.shift();
-        birdsLocation.nWBirds.unshift(newNW);
         // for (let i = 0; i <= 2; ++i) {
         //   console.log(prog, "nE", birdsLocation.nEBirds[i])
         // }
@@ -157,49 +172,10 @@ export class AnimationComponent implements OnInit, OnChanges {
         // for (let i = 0; i <= 2; ++i) {
         //   console.log(prog, "nW", birdsLocation.nWBirds[i])
         // }
-      }
-
-
+      } else { return null }
     }
-    return birdsLocation;
+    return birdsLocation
   }
-
-  // public improper(couplesOut) {
-  //   if (couplesOut === false) {
-  //
-  //   }
-  //   let dottedLarks = [this.L5, this.L3, this.L1] // needs to eventually not be hard coded in each position ???
-  //   let solidLarks = [this.L6, this.L4, this.L2]
-  //   let dottedRavens = [this.R5, this.R3, this.R1]
-  //   let solidRavens = [this.R6, this.R4, this.R2]
-  //
-  //   dottedLarks.forEach(function(bird, index) {
-  //     console.log(dottedLarks)
-  //     bird.nativeElement.style.cx = (240*(index+1)-100).toString() + 'px';
-  //     bird.nativeElement.style.cy = '220px';
-  //   })
-  //
-  //   solidLarks.forEach(function(bird, index) {
-  //     bird.nativeElement.style.cx = (240*(index+1)-220).toString() + 'px';
-  //     bird.nativeElement.style.cy = '100px';
-  //   })
-  //
-  //   dottedRavens.forEach(function(bird, index) {
-  //     bird.nativeElement.style.cx = (240*(index+1)-100).toString() + 'px';
-  //     bird.nativeElement.style.cy = '100px';
-  //   })
-  //
-  //   solidRavens.forEach(function(bird, index) {
-  //     bird.nativeElement.style.cx = (240*(index+1)-220).toString() + 'px';
-  //     bird.nativeElement.style.cy = '220px';
-  //   })
-  //
-  //   this.birdsLocation.nEBirds = [R5, R3, R1];
-  //   this.birdsLocation.sEBirds = [L5, L3, L1];
-  //   this.birdsLocation.sWBirds = [R6, R4, R2];
-  //   this.birdsLocation.nWBirds = [L6, L4, L2];
-  //   // return this;
-  // }
 
   public improperProgressed() {
     let dottedLarks = [this.L5, this.L3, this.L1]
@@ -228,35 +204,6 @@ export class AnimationComponent implements OnInit, OnChanges {
     this.birdsLocation.sWBirds = [R5, R3, R1];
     this.birdsLocation.nWBirds = [L5, L3, L1];
 
-    // return this;
-  }
-
-  public oppositeBecket() {
-    let dottedLarks = [this.L5, this.L3, this.L1]
-    let solidLarks = [this.L6, this.L4, this.L2]
-    let dottedRavens = [this.R5, this.R3, this.R1]
-    let solidRavens = [this.R6, this.R4, this.R2]
-
-    dottedLarks.forEach(function(bird, index) {
-      bird.nativeElement.style.cx = (240*(index+1)-100).toString() + 'px';
-      bird.nativeElement.style.cy = '100px';
-    })
-    solidLarks.forEach(function(bird, index) {
-      bird.nativeElement.style.cx = (240*(index+1)-220).toString() + 'px';
-      bird.nativeElement.style.cy = '220px';
-    })
-    dottedRavens.forEach(function(bird, index) {
-      bird.nativeElement.style.cx = (240*(index+1)-220).toString() + 'px';
-      bird.nativeElement.style.cy = '100px';
-    })
-    solidRavens.forEach(function(bird, index) {
-      bird.nativeElement.style.cx = (240*(index+1)-100).toString() + 'px';
-      bird.nativeElement.style.cy = '220px';
-    })
-    this.birdsLocation.nEBirds = [R5, R3, R1];
-    this.birdsLocation.sEBirds = [R6, R4, R2];
-    this.birdsLocation.sWBirds = [L6, L4, L2];
-    this.birdsLocation.nWBirds = [L5, L3, L1];
   }
 
 // Define Moves
