@@ -30,12 +30,12 @@ export class AnimationComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     // let progression = 0;
-    this.improperFormation();
-    let priorPos = this.improper(0);
-    console.log(priorPos)
-    this.balanceTheRing(priorPos)
-    this.petronella(priorPos)
-    priorPos = this.oppositeBecket(0)
+    // this.improperFormation();
+    // let priorPos = this.improper(0);
+    // console.log(priorPos)
+    // this.balanceTheRing(priorPos)
+    // this.petronella(priorPos)
+    // priorPos = this.oppositeBecket(0)
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -53,22 +53,26 @@ export class AnimationComponent implements OnInit, OnChanges {
           }
         }, this)
         console.log(positions, moves)
-        let priorPositioning:any
-        let endPositioning:any
+        let birdPositioning:any
+        let mainDanceTl = new TimelineMax({})
         positions.forEach((position, index) => {
           if (index === 0) {
-            this[this.snakeToCamel.transform(position.description) + "Formation"]();
-            priorPositioning = this[this.snakeToCamel.transform(position.description)](0);
+            this[this.snakeToCamel.transform(position.description) + "Formation"]()
+            birdPositioning = this[this.snakeToCamel.transform(position.description)](0);
           } else { // should work for all moves and their ending positions after the formation
             let camelMoveName = this.snakeToCamel.transform(moves[index-1].name)
             if (typeof this[camelMoveName] === 'function') {
-              this[camelMoveName](priorPositioning)
-              priorPositioning = this[this.snakeToCamel.transform(position.description)](0) // 0 needs updating later based on which play through the user is on (aka how far red has gotten)
-            } else { return null }
+              mainDanceTl.addCallback(this[camelMoveName], index, [birdPositioning]);
+              let camelPositionDescription = this.snakeToCamel.transform(position.description)
+              if (typeof this[camelPositionDescription] === 'function') {
+                mainDanceTl.addCallback(function() {
+                  console.log(position)
+                  birdPositioning = this[camelPositionDescription](0) // 0 needs updating later based on which play through the user is on (aka how far red has gotten)
+                }, index, [position, birdPositioning], this)
+              } else { return null } // if position method doesn't exist
+            } else { return null } // if move method doesn't exist. TODO: also, stop animation if this is the case
           }
         }, this)
-
-
       }
     }
   }
@@ -143,6 +147,7 @@ export class AnimationComponent implements OnInit, OnChanges {
   }
 
   public oppositeBecket(progressionNumber:number) {
+    console.log("hit POSITION oppositeBecket")
     let couplesOut:boolean;
     let birdsLocation:any = { nEBirds: [this.L5, this.L3, this.L1],
                               sEBirds: [this.R6, this.R4, this.R2],
@@ -241,6 +246,7 @@ export class AnimationComponent implements OnInit, OnChanges {
   }
 
   public petronella(startPos) {
+    console.log("hit petronella")
     startPos.nEBirds.map(function(bird) {
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 1, {x:-120, y:0})
