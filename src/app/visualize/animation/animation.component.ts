@@ -26,30 +26,16 @@ export class AnimationComponent implements OnInit, OnChanges {
   @ViewChild('R6') private R6:ElementRef;
   @ViewChild('L6') private L6:ElementRef;
 
-  public birdsLocation
-  // public birdsLocation = { nEBirds: [this.R5, this.R3, this.R1],
-  //                          sEBirds: [this.L5, this.L3, this.L1],
-  //                          sWBirds: [this.R6, this.R4, this.R2],
-  //                          nWBirds: [this.L6, this.L4, this.L2] };
-
   constructor(private el: ElementRef, private snakeToCamel:SnakeToCamelPipe) { }
 
   ngOnInit() {
-
-    let progression = 0;
-    let nextPositioning = this.improper(progression);
-    this.oppositeBecket(3)
-    // if improper:
-    // this.birdsLocation = { nEBirds: [this.R5, this.R3, this.R1],
-    //                        sEBirds: [this.L5, this.L3, this.L1],
-    //                        sWBirds: [this.R6, this.R4, this.R2],
-    //                        nWBirds: [this.L6, this.L4, this.L2] };
-    // this.balanceTheRing();
-    // // this.improper();
-    // this.petronella();
-    // // this.oppositeBecket();
-    // this.balanceTheRing();
-    // this.petronella();
+    // let progression = 0;
+    this.improperFormation();
+    let priorPos = this.improper(0);
+    console.log(priorPos)
+    this.balanceTheRing(priorPos)
+    this.petronella(priorPos)
+    priorPos = this.oppositeBecket(0)
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -69,22 +55,27 @@ export class AnimationComponent implements OnInit, OnChanges {
         console.log(positions, moves)
         let priorPositioning:any
         let endPositioning:any
-        for (let i:number = 0; i <= positions.length; ++i) { // check ending condition later
-          if (i === 0) {
-            this[this.snakeToCamel.transform(positions[i].description) + "Formation"]();
-            priorPositioning = this[this.snakeToCamel.transform(positions[i].description)]();
-          } else {
-            // run move
-            endPositioning = this[this.snakeToCamel.transform(positions[i].description)]();
-            this[this.snakeToCamel.transform(moves[i-1].name)](priorPositioning, endPositioning)
+        positions.forEach((position, index) => {
+          if (index === 0) {
+            this[this.snakeToCamel.transform(position.description) + "Formation"]();
+            priorPositioning = this[this.snakeToCamel.transform(position.description)](0);
+          } else { // should work for all moves and their ending positions after the formation
+            let camelMoveName = this.snakeToCamel.transform(moves[index-1].name)
+            if (typeof this[camelMoveName] === 'function') {
+              this[camelMoveName](priorPositioning)
+              priorPositioning = this[this.snakeToCamel.transform(position.description)](0) // 0 needs updating later based on which play through the user is on (aka how far red has gotten)
+            } else { return null }
           }
-        }
+        }, this)
+
+
       }
     }
   }
 
   // Setup Formations
   public improperFormation() {
+  console.log("hit formation setup")
     let dottedLarks = [this.L5, this.L3, this.L1];
     let solidLarks = [this.L6, this.L4, this.L2];
     let dottedRavens = [this.R5, this.R3, this.R1];
@@ -113,7 +104,8 @@ export class AnimationComponent implements OnInit, OnChanges {
   /// Re prior birdsLocation, can the move return that?
   // Positions progression number (aka where red is: 0 means start of dance, 12 is upper limit where everyone's back where they started). With this, couplesOut is calculated
 
-  public improper(progressionNumber:Number) {
+  public improper(progressionNumber:number) {
+    console.log("hit improper")
     let couplesOut:boolean;
     let birdsLocation:any = { nEBirds: [this.R5, this.R3, this.R1],
                               sEBirds: [this.L5, this.L3, this.L1],
@@ -218,60 +210,53 @@ export class AnimationComponent implements OnInit, OnChanges {
 // Define Moves
 /// Moves need to know:
 // starting position
-// - ending_pos, (Dont freak out: doesn't really do anything with this except return it)
+// - ending_pos, (Dont freak out: doesn't really do anything with this except return it). HMMMM is this really necessary? Can't ngOnChanges just keep track of next start pos?
 // - whether couples are out?
 // - is the move a progression?
 // Instead of the animating move updating the birdsLocation varible, it will just animate, then return the ending position that it was given
 
-  public balanceTheRing(startPos, endPos) {
-    this.birdsLocation.nEBirds.map(function(bird) {
-      var tl = new TimelineMax();
-      tl.to(bird, 1, {x:-40, y:40})
-        .to(bird, 1, {x:0, y:0})
+  public balanceTheRing(startPos) {
+    console.log("hit balanceTheRing")
+    console.log(startPos.nEBirds)
+    startPos.nEBirds.map(function(bird) {
+      let tl = new TimelineMax();
+      tl.to(bird.nativeElement, 1, {x:-40, y:40})
+        .to(bird.nativeElement, 1, {x:0, y:0})
     })
-    this.birdsLocation.sEBirds.map(function(bird){
-      var tl = new TimelineMax();
-      tl.to(bird, 1, {x:-40, y:-40})
-        .to(bird, 1, {x:0, y:0})
+    startPos.sEBirds.map(function(bird){
+      let tl = new TimelineMax();
+      tl.to(bird.nativeElement, 1, {x:-40, y:-40})
+        .to(bird.nativeElement, 1, {x:0, y:0})
     })
-    this.birdsLocation.sWBirds.map(function(bird) {
-      var tl = new TimelineMax();
-      tl.to(bird, 1, {x:40, y:-40})
-        .to(bird, 1, {x:0, y:0})
+    startPos.sWBirds.map(function(bird) {
+      let tl = new TimelineMax();
+      tl.to(bird.nativeElement, 1, {x:40, y:-40})
+        .to(bird.nativeElement, 1, {x:0, y:0})
     })
-    this.birdsLocation.nWBirds.map(function(bird) {
-      var tl = new TimelineMax();
-      tl.to(bird, 1, {x:40, y:40})
-        .to(bird, 1, {x:0, y:0})
+    startPos.nWBirds.map(function(bird) {
+      let tl = new TimelineMax();
+      tl.to(bird.nativeElement, 1, {x:40, y:40})
+        .to(bird.nativeElement, 1, {x:0, y:0})
     })
   }
 
-  public petronella() {
-    this.birdsLocation.nEBirds.map(function(bird) {
-      var tl = new TimelineMax();
-      tl.to(bird, 1, {x:-120, y:0})
+  public petronella(startPos) {
+    startPos.nEBirds.map(function(bird) {
+      let tl = new TimelineMax();
+      tl.to(bird.nativeElement, 1, {x:-120, y:0})
     })
-    this.birdsLocation.sEBirds.map(function(bird) {
-      var tl = new TimelineMax();
-      tl.to(bird, 1, {x:0, y:-120})
+    startPos.sEBirds.map(function(bird) {
+      let tl = new TimelineMax();
+      tl.to(bird.nativeElement, 1, {x:0, y:-120})
     })
-    this.birdsLocation.sWBirds.map(function(bird) {
-      var tl = new TimelineMax();
-      tl.to(bird, 1, {x:120, y:0})
+    startPos.sWBirds.map(function(bird) {
+      let tl = new TimelineMax();
+      tl.to(bird.nativeElement, 1, {x:120, y:0})
     })
-    this.birdsLocation.nWBirds.map(function(bird) {
-      var tl = new TimelineMax();
-      tl.to(bird, 1, {x:0, y:120})
+    startPos.nWBirds.map(function(bird) {
+      let tl = new TimelineMax();
+      tl.to(bird.nativeElement, 1, {x:0, y:120})
     })
-    // petronella needs to update this.birdsLocation, but in the relative sense - relative to where birds were before
-    console.log(this.birdsLocation.nWBirds)
-    let currentnWBirds = this.birdsLocation.nWBirds
-    this.birdsLocation.nWBirds = this.birdsLocation.nEBirds
-    this.birdsLocation.nEBirds = this.birdsLocation.sEBirds
-    this.birdsLocation.sEBirds = this.birdsLocation.sWBirds
-    this.birdsLocation.sWBirds = currentnWBirds
-    // return this // ?? should this be here?
-    console.log(this.birdsLocation.nWBirds)
   }
 
 }
