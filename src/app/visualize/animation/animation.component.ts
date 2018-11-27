@@ -69,8 +69,12 @@ export class AnimationComponent implements OnInit, OnChanges {
                   console.log(position)
                   birdPositioning = this[camelPositionDescription](0) // 0 needs updating later based on which play through the user is on (aka how far red has gotten)
                 }, index, [position, birdPositioning], this)
-              } else { return null } // if position method doesn't exist
-            } else { return null } // if move method doesn't exist. TODO: also, stop animation if this is the case
+              } else { // if position method doesn't exist
+                mainDanceTl.killAll(false, false, false, true) // complete the killed things? kill tweens? kill delayedCalls? kill timelines?
+              }
+            } else { // if move method doesn't exist
+              mainDanceTl.killAll(false, false, false, true)
+            }
           }
         }, this)
       }
