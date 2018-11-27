@@ -35,6 +35,7 @@ export class AnimationComponent implements OnInit, OnChanges {
   constructor(private el: ElementRef, private snakeToCamel:SnakeToCamelPipe) { }
 
   ngOnInit() {
+
     let progression = 0;
     let nextPositioning = this.improper(progression);
     this.oppositeBecket(3)
@@ -55,22 +56,59 @@ export class AnimationComponent implements OnInit, OnChanges {
     for (const propName of Object.keys(changes)) {
       const change = changes[propName];
       if (!change.firstChange) {
-        change.currentValue.forEach(function(step) {
-          if (step instanceof Position) {
-            if (step.isFormation) {
-              this[this.snakeToCamel.transform(step.description)]();
-            }
-          }
-          else if (step instanceof Move) {
-            this[this.snakeToCamel.transform(step.name)]();
+        // console.log(change.currentValue) // Array of Steps in dance
+        let positions:Array<Position> = [];
+        let moves:Array<Move> = [];
+        change.currentValue.forEach(function(step, index) { // iterate over steps, compose positions and moves arrays
+          if (index % 2 === 0) {
+            positions.push(step)
+          } else if (index % 2 === 1) {
+            moves.push(step)
           }
         }, this)
+        console.log(positions, moves)
+        let priorPositioning:any
+        let endPositioning:any
+        for (let i:number = 0; i <= positions.length; ++i) { // check ending condition later
+          if (i === 0) {
+            this[this.snakeToCamel.transform(positions[i].description) + "Formation"]();
+            priorPositioning = this[this.snakeToCamel.transform(positions[i].description)]();
+          } else {
+            // run move
+            endPositioning = this[this.snakeToCamel.transform(positions[i].description)]();
+            this[this.snakeToCamel.transform(moves[i-1].name)](priorPositioning, endPositioning)
+          }
+        }
       }
     }
   }
 
+  // Setup Formations
+  public improperFormation() {
+    let dottedLarks = [this.L5, this.L3, this.L1];
+    let solidLarks = [this.L6, this.L4, this.L2];
+    let dottedRavens = [this.R5, this.R3, this.R1];
+    let solidRavens = [this.R6, this.R4, this.R2];
 
-  // Set Positions
+    dottedLarks.forEach(function(bird, index) {
+      bird.nativeElement.style.cx = (240*(index+1)-100).toString() + 'px';
+      bird.nativeElement.style.cy = '220px';
+    })
+    solidLarks.forEach(function(bird, index) {
+      bird.nativeElement.style.cx = (240*(index+1)-220).toString() + 'px';
+      bird.nativeElement.style.cy = '100px';
+    })
+    dottedRavens.forEach(function(bird, index) {
+      bird.nativeElement.style.cx = (240*(index+1)-100).toString() + 'px';
+      bird.nativeElement.style.cy = '100px';
+    })
+    solidRavens.forEach(function(bird, index) {
+      bird.nativeElement.style.cx = (240*(index+1)-220).toString() + 'px';
+      bird.nativeElement.style.cy = '220px';
+    })
+  }
+
+  // Set Positions Locations (which bird is at what cardinal direction?)
   // Needs to know whether couples are out?, prior birdsLocation.
   /// Re prior birdsLocation, can the move return that?
   // Positions progression number (aka where red is: 0 means start of dance, 12 is upper limit where everyone's back where they started). With this, couplesOut is calculated
@@ -177,43 +215,15 @@ export class AnimationComponent implements OnInit, OnChanges {
     return birdsLocation
   }
 
-  public improperProgressed() {
-    let dottedLarks = [this.L5, this.L3, this.L1]
-    let solidLarks = [this.L6, this.L4, this.L2]
-    let dottedRavens = [this.R5, this.R3, this.R1]
-    let solidRavens = [this.R6, this.R4, this.R2]
-
-    dottedLarks.forEach(function(bird, index) {
-      bird.nativeElement.style.cx = (240*(index+1)-220).toString() + 'px';
-       bird.nativeElement.style.cy = '220px';
-    })
-    solidLarks.forEach(function(bird, index) {
-      bird.nativeElement.style.cx = (240*(index+1)-100).toString() + 'px';
-       bird.nativeElement.style.cy = '100px';
-    })
-    dottedRavens.forEach(function(bird, index) {
-      bird.nativeElement.style.cx = (240*(index+1)-220).toString() + 'px';
-       bird.nativeElement.style.cy = '100px';
-    })
-    solidRavens.forEach(function(bird, index) {
-      bird.nativeElement.style.cx = (240*(index+1)-100).toString() + 'px';
-       bird.nativeElement.style.cy = '220px';
-    })
-    this.birdsLocation.nEBirds = [L6, L4, L2];
-    this.birdsLocation.sEBirds = [R6, R4, R2];
-    this.birdsLocation.sWBirds = [R5, R3, R1];
-    this.birdsLocation.nWBirds = [L5, L3, L1];
-
-  }
-
 // Define Moves
 /// Moves need to know:
-// - ending_pos,
-// - how many complete h4's there are (3 or 2)
+// starting position
+// - ending_pos, (Dont freak out: doesn't really do anything with this except return it)
+// - whether couples are out?
 // - is the move a progression?
-/// The animation will update the nE, sE, sW, nW variables, which will be set like this.NE = [this.R1, this.R3, this.R5]
+// Instead of the animating move updating the birdsLocation varible, it will just animate, then return the ending position that it was given
 
-  public balanceTheRing() {
+  public balanceTheRing(startPos, endPos) {
     this.birdsLocation.nEBirds.map(function(bird) {
       var tl = new TimelineMax();
       tl.to(bird, 1, {x:-40, y:40})
