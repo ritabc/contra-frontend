@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, SimpleChanges, OnChanges } from '@angular/core';
-import { TweenMax, TimelineMax } from 'gsap/TweenMax';
+import { TweenLite, TweenMax, TimelineMax } from 'gsap/TweenMax';
 
 import { Move } from '../../move';
 import { Position } from '../../position';
@@ -30,13 +30,15 @@ export class AnimationComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     // let progression = 0;
-    // this.improperFormation();
-    // let priorPos = this.improper(0);
+    this.improperFormation();
+    // let priorPos = this.improper(0)
+    let priorPos = this.improper(0);
+    this.swingOnSidesOfSet(priorPos)
     // console.log(priorPos)
     // this.balanceTheRing(priorPos)
     // this.petronella(priorPos)
     // priorPos = this.oppositeBecket(0)
-    this.improperProgressed(4)
+    // this.improperProgressed(4)
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -66,10 +68,11 @@ export class AnimationComponent implements OnInit, OnChanges {
               mainDanceTl.addCallback(this[camelMoveName], index, [birdPositioning]);
               let camelPositionDescription = this.snakeToCamel.transform(position.description)
               if (typeof this[camelPositionDescription] === 'function') {
+                // birdPositioning = this[camelPositionDescription](0)
                 mainDanceTl.addCallback(function() {
                   console.log(position)
                   birdPositioning = this[camelPositionDescription](0) // 0 needs updating later based on which play through the user is on (aka how far red has gotten)
-                }, index, [position, birdPositioning], this)
+                }, (index + 0.5), [position, birdPositioning], this)
               } else { // if position method doesn't exist
                 mainDanceTl.killAll(false, false, false, true) // complete the killed things? kill tweens? kill delayedCalls? kill timelines?
               }
@@ -182,7 +185,7 @@ export class AnimationComponent implements OnInit, OnChanges {
   }
 
   public improperProgressed(progressionNumber:number) {
-    console.log("hit POSITION oppositeBecket")
+    console.log("hit POSITION improperProgressed")
     let couplesOut:boolean;
     let birdsLocation:any = { nEBirds: [this.R6, this.R4, this.R2],
                               sEBirds: [this.L6, this.L4, this.L2],
@@ -206,50 +209,51 @@ export class AnimationComponent implements OnInit, OnChanges {
         // for (let i = 0; i <= 2; ++i) {
         //   console.log(prog, "nW", birdsLocation.nWBirds[i])
         // }
-    } else if (prog % 2 === 1) {
-      couplesOut = true
-      let newNE = birdsLocation.nWBirds.shift();
-      let newSE = birdsLocation.sWBirds.shift();
-      let newSW = birdsLocation.sEBirds.pop();
-      let newNW = birdsLocation.nEBirds.pop();
-      birdsLocation.nEBirds.unshift(newNE)
-      birdsLocation.sEBirds.unshift(newSE)
-      birdsLocation.sWBirds.push(newSW)
-      birdsLocation.nWBirds.push(newNW)
-      // for (let i = 0; i <= 2; ++i) {
-      //   console.log(prog, "nE", birdsLocation.nEBirds[i])
-      // }
-      // for (let i = 0; i <= 2; ++i) {
-      //   console.log(prog, "sE", birdsLocation.sEBirds[i])
-      // }
-      // for (let i = 0; i <= 2; ++i) {
-      //   console.log(prog, "sW", birdsLocation.sWBirds[i])
-      // }
-      // for (let i = 0; i <= 2; ++i) {
-      //   console.log(prog, "nW", birdsLocation.nWBirds[i])
-      // }
-    } else if (prog % 2 === 0) {
-      couplesOut = false
-      let newNE = birdsLocation.sEBirds.shift();
-      let newSE = birdsLocation.nEBirds.shift();
-      let newSW = birdsLocation.nWBirds.pop();
-      let newNW = birdsLocation.sWBirds.pop();
-      birdsLocation.nEBirds.unshift(newNE)
-      birdsLocation.sEBirds.unshift(newSE)
-      birdsLocation.sWBirds.push(newSW)
-      birdsLocation.nWBirds.push(newNW)
-      // for (let i = 0; i <= 2; ++i) {
-      //   console.log(prog, "nE", birdsLocation.nEBirds[i])
-      // }
-      // for (let i = 0; i <= 2; ++i) {
-      //   console.log(prog, "sE", birdsLocation.sEBirds[i])
-      // }
-      // for (let i = 0; i <= 2; ++i) {
-      //   console.log(prog, "sW", birdsLocation.sWBirds[i])
-      // }
-      // for (let i = 0; i <= 2; ++i) {
-      //   console.log(prog, "nW", birdsLocation.nWBirds[i])
-      // }
+      } else if (prog % 2 === 1) {
+        couplesOut = true
+        let newNE = birdsLocation.nWBirds.shift();
+        let newSE = birdsLocation.sWBirds.shift();
+        let newSW = birdsLocation.sEBirds.pop();
+        let newNW = birdsLocation.nEBirds.pop();
+        birdsLocation.nEBirds.unshift(newNE)
+        birdsLocation.sEBirds.unshift(newSE)
+        birdsLocation.sWBirds.push(newSW)
+        birdsLocation.nWBirds.push(newNW)
+        // for (let i = 0; i <= 2; ++i) {
+        //   console.log(prog, "nE", birdsLocation.nEBirds[i])
+        // }
+        // for (let i = 0; i <= 2; ++i) {
+        //   console.log(prog, "sE", birdsLocation.sEBirds[i])
+        // }
+        // for (let i = 0; i <= 2; ++i) {
+        //   console.log(prog, "sW", birdsLocation.sWBirds[i])
+        // }
+        // for (let i = 0; i <= 2; ++i) {
+        //   console.log(prog, "nW", birdsLocation.nWBirds[i])
+        // }
+      } else if (prog % 2 === 0) {
+        couplesOut = false
+        let newNE = birdsLocation.sEBirds.shift();
+        let newSE = birdsLocation.nEBirds.shift();
+        let newSW = birdsLocation.nWBirds.pop();
+        let newNW = birdsLocation.sWBirds.pop();
+        birdsLocation.nEBirds.unshift(newNE)
+        birdsLocation.sEBirds.unshift(newSE)
+        birdsLocation.sWBirds.push(newSW)
+        birdsLocation.nWBirds.push(newNW)
+        // for (let i = 0; i <= 2; ++i) {
+        //   console.log(prog, "nE", birdsLocation.nEBirds[i])
+        // }
+        // for (let i = 0; i <= 2; ++i) {
+        //   console.log(prog, "sE", birdsLocation.sEBirds[i])
+        // }
+        // for (let i = 0; i <= 2; ++i) {
+        //   console.log(prog, "sW", birdsLocation.sWBirds[i])
+        // }
+        // for (let i = 0; i <= 2; ++i) {
+        //   console.log(prog, "nW", birdsLocation.nWBirds[i])
+        // }
+      }
     }
   }
 
@@ -303,6 +307,23 @@ export class AnimationComponent implements OnInit, OnChanges {
     startPos.nWBirds.map(function(bird) {
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 1, {x:0, y:120})
+    })
+  }
+
+  public swingOnSidesOfSet(startPos) {
+    console.log("Hit MOVE swing on sides of set")
+    startPos.sEBirds.map(function(sEBird) {
+      TweenMax.to(sEBird.nativeElement, 0.5, {x:-40, y:20})
+      if (sEBird.nativeElement.id[0] === 'L') {
+        let rotation = 540;
+      } else if (sEBird.nativeElement.id[0] === 'R') {
+        let rotation = 360;
+      }
+      TweenMax.to(sEBird.nativeElement, 1, {rotation: rotation, transformOrigin: "0% 0%"})
+
+    })
+    startPos.sWBirds.map(function(sWBird) {
+      // TweenMax.to(sWBird.nativeElement, 0.5, {x:40, y:-20})
     })
   }
 
