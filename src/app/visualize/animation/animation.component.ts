@@ -26,14 +26,13 @@ export class AnimationComponent implements OnInit, OnChanges {
   @ViewChild('R6') private R6:ElementRef;
   @ViewChild('L6') private L6:ElementRef;
 
-  constructor(private el: ElementRef, private snakeToCamel:SnakeToCamelPipe) { }
+  constructor(private el: ElementRef, private nameConverter:SnakeToCamelPipe) { }
 
   ngOnInit() {
-    // let progression = 0;
-    this.improperFormation();
-    // let priorPos = this.improper(0)
-    let priorPos = this.improper(0);
-    this.swingOnSidesOfSet(priorPos)
+    // this.improperFormation();
+    // let priorPos = this.improper(0);
+    // this.swingOnSidesOfSet(priorPos)
+
     // console.log(priorPos)
     // this.balanceTheRing(priorPos)
     // this.petronella(priorPos)
@@ -60,13 +59,14 @@ export class AnimationComponent implements OnInit, OnChanges {
         let mainDanceTl = new TimelineMax({})
         positions.forEach((position, index) => {
           if (index === 0) {
-            this[this.snakeToCamel.transform(position.description) + "Formation"]()
-            birdPositioning = this[this.snakeToCamel.transform(position.description)](0);
+            this[this.nameConverter.transform(position.description) + "Formation"]()
+            birdPositioning = this[this.nameConverter.transform(position.description)](0);
           } else { // should work for all moves and their ending positions after the formation
-            let camelMoveName = this.snakeToCamel.transform(moves[index-1].name)
+            birdPositioning = this[this.nameConverter.transform(position.description)](0);
+            let camelMoveName = this.nameConverter.transform(moves[index-1].name)
             if (typeof this[camelMoveName] === 'function') {
               mainDanceTl.addCallback(this[camelMoveName], index, [birdPositioning]);
-              let camelPositionDescription = this.snakeToCamel.transform(position.description)
+              let camelPositionDescription = this.nameConverter.transform(position.description)
               if (typeof this[camelPositionDescription] === 'function') {
                 // birdPositioning = this[camelPositionDescription](0)
                 mainDanceTl.addCallback(function() {
