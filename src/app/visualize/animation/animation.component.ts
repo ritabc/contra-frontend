@@ -29,9 +29,17 @@ export class AnimationComponent implements OnInit, OnChanges {
   constructor(private el: ElementRef, private nameConverter:SnakeToCamelPipe) { }
 
   ngOnInit() {
-    // this.improperFormation();
-    // let priorPos = this.improper(0);
-    // this.swingOnSidesOfSet(priorPos)
+    this.improperFormation();
+    // let startPos = this.improper(0);
+    // this.balanceTheRing(startPos)
+    // startPos = this.improper(0);
+    // this.petronella(startPos);
+    // startPos = this.oppositeBecket(0);
+    // this.balanceTheRing(startPos);
+    // startPos = this.oppositeBecket(0);
+    // this.petronella(startPos);
+    // startPos = this.improperProgressed(0);
+    // this.balanceTheRing(0)
 
     // console.log(priorPos)
     // this.balanceTheRing(priorPos)
@@ -47,47 +55,62 @@ export class AnimationComponent implements OnInit, OnChanges {
         // console.log(change.currentValue) // Array of Steps in dance
         let positions:Array<Position> = [];
         let moves:Array<Move> = [];
-        change.currentValue.forEach(function(step, index) { // iterate over steps, compose positions and moves arrays
+        change.currentValue.forEach(function(danceStep, index) { // iterate over danceSteps, compose positions and moves arrays
           if (index % 2 === 0) {
-            positions.push(step)
+            positions.push(danceStep)
           } else if (index % 2 === 1) {
-            moves.push(step)
+            moves.push(danceStep)
           }
-        }, this)
+        })
         console.log(positions, moves)
-        let birdPositioning:any
-        let mainDanceTl = new TimelineMax({})
-        positions.forEach((position, index) => {
-          if (index === 0) {
-            this[this.nameConverter.transform(position.description) + "Formation"]()
-            birdPositioning = this[this.nameConverter.transform(position.description)](0);
-          } else { // should work for all moves and their ending positions after the formation
-            birdPositioning = this[this.nameConverter.transform(position.description)](0);
-            let camelMoveName = this.nameConverter.transform(moves[index-1].name)
-            if (typeof this[camelMoveName] === 'function') {
-              mainDanceTl.addCallback(this[camelMoveName], index, [birdPositioning]);
-              let camelPositionDescription = this.nameConverter.transform(position.description)
-              if (typeof this[camelPositionDescription] === 'function') {
-                // birdPositioning = this[camelPositionDescription](0)
-                mainDanceTl.addCallback(function() {
-                  console.log(position)
-                  birdPositioning = this[camelPositionDescription](0) // 0 needs updating later based on which play through the user is on (aka how far red has gotten)
-                }, (index + 0.5), [position, birdPositioning], this)
-              } else { // if position method doesn't exist
-                mainDanceTl.killAll(false, false, false, true) // complete the killed things? kill tweens? kill delayedCalls? kill timelines?
-              }
-            } else { // if move method doesn't exist
-              mainDanceTl.killAll(false, false, false, true)
-            }
+        this[this.nameConverter.transform(positions[0].description) + "Formation"]()
+        let danceTimeline = new TimelineMax({})
+        moves.forEach(function(move, index) {
+          console.log("beginning of loop, index is: ", index)
+          let moveMethod = this[this.nameConverter.transform(move.name)]
+          let positionDescriptionAtIndex = positions[index].description.toString()
+          let moveStartPositioning = this[this.nameConverter.transform(positionDescriptionAtIndex)](0); // 0 needs updating later based on which play through the user is on (aka how far red has gotten)
+          console.log(moveStartPositioning.nEBirds[0].nativeElement.id, moveStartPositioning.nEBirds[1].nativeElement.id, moveStartPositioning.nEBirds[2].nativeElement.id)
+          if (typeof moveMethod === 'function' && moveStartPositioning != undefined) { // TODO: this logic may need to be moved up
+            danceTimeline.addCallback(moveMethod, index*2, [moveStartPositioning]) // TODO: Ensure each move lasts 2 seconds
+          } else {
+            return null // OR should this be some variation of danceTimeline.killAll(false, true, false, true) // complete the killed things? kill tweens?  kill delayedCalls? kill timelines?
           }
+          console.log("end of loop, index is: ", index)
         }, this)
+        // positions.forEach((position, index) => {
+        //   if (index === 0) {
+        //     this[this.nameConverter.transform(position.description) + "Formation"]()
+        //     moveStartPositioning = this[this.nameConverter.transform(position.description)](0);
+        //   } else { // should work for all moves and their ending positions after the formation
+        //     moveStartPositioning = this[this.nameConverter.transform(position.description)](0);
+        //     let moveMethod = this[this.nameConverter.transform(moves[index-1].name)](0)
+        //     if (typeof moveMethod === 'function') {
+        //       danceTimeline.addCallback(moveMethod, index, [moveStartPositioning]);
+        //       let positionMethod = this[this.nameConverter.transform(position.description)](0)
+        //       if (typeof positionMethod === 'function') {
+        //         // moveStartPositioning = this[positionMethod](0)
+        //         danceTimeline.addCallback(function() {
+        //           moveStartPositioning = positionMethod(0)
+        //         }, (index + 0.5), [], this)
+        //       } else { // if position method doesn't exist
+        //         danceTimeline.killAll(false, false, false, true) // complete the killed things? kill tweens? kill delayedCalls? kill timelines?
+        //       }
+        //     } else { // if move method doesn't exist
+        //       danceTimeline.killAll(false, false, false, true)
+        //     }
+        //   }
+        // }, this)
       }
     }
   }
 
-  // Setup Formations
+//=================================================
+//               Formations
+//=================================================
+
   public improperFormation() {
-  console.log("hit formation setup")
+    console.log("hit formation setup")
     let dottedLarks = [this.L5, this.L3, this.L1];
     let solidLarks = [this.L6, this.L4, this.L2];
     let dottedRavens = [this.R5, this.R3, this.R1];
@@ -110,14 +133,16 @@ export class AnimationComponent implements OnInit, OnChanges {
       bird.nativeElement.style.cy = '220px';
     })
   }
-
+//=================================================
+//               Positions
+//=================================================
   // Set Positions Locations (which bird is at what cardinal direction?)
   // Needs to know whether couples are out?, prior birdsLocation.
   /// Re prior birdsLocation, can the move return that?
   // Positions progression number (aka where red is: 0 means start of dance, 12 is upper limit where everyone's back where they started). With this, couplesOut is calculated
 
   public improper(progressionNumber:number) {
-    console.log("hit improper")
+    console.log("hit POSITION improper")
     let couplesOut:boolean;
     let birdsLocation:any = { nEBirds: [this.R5, this.R3, this.R1],
                               sEBirds: [this.L5, this.L3, this.L1],
@@ -257,6 +282,10 @@ export class AnimationComponent implements OnInit, OnChanges {
     }
   }
 
+//=================================================
+//               Moves
+//=================================================
+
 // Define Moves
 /// Moves need to know:
 // starting position
@@ -264,10 +293,12 @@ export class AnimationComponent implements OnInit, OnChanges {
 // - whether couples are out?
 // - is the move a progression?
 // Instead of the animating move updating the birdsLocation varible, it will just animate, then return the ending position that it was given
+// Note on animations: Remember that x and y changes in a .to addition to a timeline change the x and y relative to where they were before. Instead, use the absolute (where origin is 0,0) cx and cy positioning
 
   public balanceTheRing(startPos) {
-    console.log("hit balanceTheRing")
-    console.log(startPos.nEBirds)
+    console.log("hit MOVE balanceTheRing")
+    console.log(startPos)
+    console.log(startPos.nEBirds[0].nativeElement.id, startPos.nEBirds[1].nativeElement.id, startPos.nEBirds[2].nativeElement.id)
     startPos.nEBirds.map(function(bird) {
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 1, {x:-40, y:40})
@@ -291,27 +322,28 @@ export class AnimationComponent implements OnInit, OnChanges {
   }
 
   public petronella(startPos) {
-    console.log("hit petronella")
-    startPos.nEBirds.map(function(bird) {
+    console.log("hit MOVE petronella")
+    console.log(startPos.nEBirds[0].nativeElement.id, startPos.nEBirds[1].nativeElement.id, startPos.nEBirds[2].nativeElement.id)
+    startPos.nEBirds.map(function(bird, i) {
       let tl = new TimelineMax();
-      tl.to(bird.nativeElement, 1, {x:-120, y:0})
+      tl.to(bird.nativeElement.style, 2, {cx: 240*i + 20})
     })
     startPos.sEBirds.map(function(bird) {
       let tl = new TimelineMax();
-      tl.to(bird.nativeElement, 1, {x:0, y:-120})
+      tl.to(bird.nativeElement.style, 2, {cy:100})
     })
-    startPos.sWBirds.map(function(bird) {
+    startPos.sWBirds.map(function(bird, i) {
       let tl = new TimelineMax();
-      tl.to(bird.nativeElement, 1, {x:120, y:0})
+      tl.to(bird.nativeElement.style, 2, {cx: 240*i + 140})
     })
     startPos.nWBirds.map(function(bird) {
       let tl = new TimelineMax();
-      tl.to(bird.nativeElement, 1, {x:0, y:120})
+      tl.to(bird.nativeElement.style, 2, {cy:220})
     })
   }
 
   public swingOnSidesOfSet(startPos) {
-    console.log("Hit MOVE swing on sides of set")
+    console.log("Hit MOVE swingOnSidesOfSet")
     startPos.sEBirds.map(function(sEBird) {
       TweenMax.to(sEBird.nativeElement, 0.5, {x:-40, y:20})
       if (sEBird.nativeElement.id[0] === 'L') {
