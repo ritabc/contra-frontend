@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, SimpleChanges, OnChanges } from '@angular/core';
-import { TweenLite, TweenMax, TimelineMax } from 'gsap/TweenMax';
+import { TweenLite, TweenMax, TimelineMax, CSSPlugin } from 'gsap/TweenMax';
 
 import { Move } from '../../move';
 import { Position } from '../../position';
@@ -31,22 +31,7 @@ export class AnimationComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.improperFormation();
     let startPos = this.improper(0);
-    this.swingOnSidesOfSet(startPos)
-    // this.balanceTheRing(startPos)
-    // startPos = this.improper(0);
-    // this.petronella(startPos);
-    // startPos = this.oppositeBecket(0);
-    // this.balanceTheRing(startPos);
-    // startPos = this.oppositeBecket(0);
-    // this.petronella(startPos);
-    // startPos = this.improperProgressed(0);
-    // this.balanceTheRing(0)
-
-    // console.log(priorPos)
-    // this.balanceTheRing(priorPos)
-    // this.petronella(priorPos)
-    // priorPos = this.oppositeBecket(0)
-    // this.improperProgressed(4)
+    this.swingOnSidesOfSet(startPos);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -118,20 +103,34 @@ export class AnimationComponent implements OnInit, OnChanges {
     let solidRavens = [this.R6, this.R4, this.R2];
 
     dottedLarks.forEach(function(bird, index) {
-      bird.nativeElement.style.cx = 240*index + 140 + 'px';
-      bird.nativeElement.style.cy = '220px';
+      let dx = (240*index + 140)
+      bird.nativeElement.setAttribute("transform", "translate(" + dx.toString() + " 220)");
+      // setTimeout(function() {
+      //   console.log(bird.nativeElement.attributes["data-svg-origin"].nodeValue)
+      // }, 400)
+      // if (index === 0) {
+      //   setTimeout(function() {
+      //     console.log(bird)
+      //     // console.log(bird.nativeElement.
+      //               // bird.nativeElement.)
+      //   }, 500)
+      // }
     })
     solidLarks.forEach(function(bird, index) {
-      bird.nativeElement.style.cx = 240*index + 20 + 'px';
-      bird.nativeElement.style.cy = '100px';
+      let dx = (240*index + 20)
+      bird.nativeElement.setAttribute("transform", "translate(" + dx.toString() + " 100)");
     })
     dottedRavens.forEach(function(bird, index) {
-      bird.nativeElement.style.cx = 240*index + 140 + 'px';
-      bird.nativeElement.style.cy = '100px';
+      let dx = (240*index + 140)
+      bird.nativeElement.setAttribute("transform", "translate(" + dx.toString() + " 100)");
     })
     solidRavens.forEach(function(bird, index) {
-      bird.nativeElement.style.cx = 240*index + 20 + 'px';
-      bird.nativeElement.style.cy = '220px';
+      let dx = (240*index + 20)
+      bird.nativeElement.setAttribute("transform", "translate(" + dx.toString() + " 220)");
+      // if (index === 0) {
+      //   console.log(bird.nativeElement._gsTransform.xOrigin,
+      //               bird.nativeElement._gsTransform.yOrigin)
+      // }
     })
   }
 //=================================================
@@ -344,47 +343,46 @@ export class AnimationComponent implements OnInit, OnChanges {
     console.log("Hit MOVE swingOnSidesOfSet")
     startPos.sEBirds.map(function(sEBird, i) {
       let tl = new TimelineMax()
-      tl.to(sEBird.nativeElement.style, 0.25, {cx: 240*i + 100, cy:240})
+      tl.to(sEBird.nativeElement, 0.8, {x: 240*i + 100, y:240})
       if (sEBird.nativeElement.id[0] === 'L') {
-        tl.to(sEBird.nativeElement, 1.5, {rotation: 450, transformOrigin: "0 0"})
-        tl.to(sEBird.nativeElement, 0, {rotation:0, transformOrigin: "0 0"})
+        tl.to(sEBird.nativeElement, 2, {rotation: 450, transformOrigin: "0 0"})
+        console.log(sEBird.nativeElement.getBoundingClientRect())
+        tl.to(sEBird.nativeElement, 0.8, {x: 240*i + 56.5, y: 220}) // here, absolute
+        console.log(sEBird.nativeElement.getBoundingClientRect())
       } else if (sEBird.nativeElement.id[0] === 'R') {
-        tl.to(sEBird.nativeElement, 1.5, {rotation: 630, transformOrigin: "0 0"})
-        tl.to(sEBird.nativeElement, 0, {rotation:0, transformOrigin: "0 0"})
+        tl.to(sEBird.nativeElement, 2, {rotation: 630, transformOrigin: "0 0"})
       }
-      tl.to(sEBird.nativeElement.style, 5, {cx: 240*i + 20, cy: 220})
     })
     startPos.sWBirds.map(function(sWBird, i) {
       let tl = new TimelineMax()
-      tl.to(sWBird.nativeElement.style, 0.25, {cx: 240*i + 60, cy:200})
+      tl.to(sWBird.nativeElement, 0.8, {x: 240*i + 60, y:200})
       if (sWBird.nativeElement.id[0] === 'R') {
-        tl.to(sWBird.nativeElement, 1.5, {rotation: 450, transformOrigin: "40 40"})
-        tl.to(sWBird.nativeElement, 0, {rotation:0, transformOrigin: "40 40"})
+        tl.to(sWBird.nativeElement, 2, {rotation: 450, transformOrigin: "40 40"})
+        tl.to(sWBird.nativeElement, 0.8, {x: 240*i + 96.5, y: 220}) // here
       } else if (sWBird.nativeElement.id[0] === 'L') {
-        tl.to(sWBird.nativeElement, 1.5, {rotation: 630, transformOrigin: "40 40"})
-        tl.to(sWBird.nativeElement, 0, {rotation:0, transformOrigin: "40 40"})
+        tl.to(sWBird.nativeElement, 2, {rotation: 630, transformOrigin: "40 40"})
       }
-      tl.to(sWBird.nativeElement.style, 5, {cx: 240*i + 140, cy: 220})
+      // tl.to(sWBird.nativeElement, 0.8, {x: 240*i + 140, y: 220})
     })
 
-    startPos.nWBirds.map(function(nWBird, i) {
-      let tl = new TimelineMax()
-      tl.to(nWBird.nativeElement.style, 0.25, {cx: 240*i + 60, cy:80})
-      if (nWBird.nativeElement.id[0] === 'L') {
-        tl.to(nWBird.nativeElement, 1.5, {rotation: 450, transformOrigin: "40 40"})
-      } else if (nWBird.nativeElement.id[0] === 'R') {
-        tl.to(nWBird.nativeElement, 1.5, {rotation: 630, transformOrigin: "40 40"})
-      }
-    })
-    startPos.nEBirds.map(function(nEBird, i) {
-      let tl = new TimelineMax()
-      tl.to(nEBird.nativeElement.style, 0.25, {cx: 240*i + 100, cy:120})
-      if (nEBird.nativeElement.id[0] === 'R') {
-        tl.to(nEBird.nativeElement, 1.5, {rotation: 450, transformOrigin: "0 0"})
-      } else if (nEBird.nativeElement.id[0] === 'L') {
-        tl.to(nEBird.nativeElement, 1.5, {rotation: 630, transformOrigin: "0 0"})
-      }
-    })
+    // startPos.nWBirds.map(function(nWBird, i) {
+    //   let tl = new TimelineMax()
+    //   tl.to(nWBird.nativeElement.style, 0.25, {cx: 240*i + 60, cy:80})
+    //   if (nWBird.nativeElement.id[0] === 'L') {
+    //     tl.to(nWBird.nativeElement, 1.5, {rotation: 450, transformOrigin: "40 40"})
+    //   } else if (nWBird.nativeElement.id[0] === 'R') {
+    //     tl.to(nWBird.nativeElement, 1.5, {rotation: 630, transformOrigin: "40 40"})
+    //   }
+    // })
+    // startPos.nEBirds.map(function(nEBird, i) {
+    //   let tl = new TimelineMax()
+    //   tl.to(nEBird.nativeElement.style, 0.25, {cx: 240*i + 100, cy:120})
+    //   if (nEBird.nativeElement.id[0] === 'R') {
+    //     tl.to(nEBird.nativeElement, 1.5, {rotation: 450, transformOrigin: "0 0"})
+    //   } else if (nEBird.nativeElement.id[0] === 'L') {
+    //     tl.to(nEBird.nativeElement, 1.5, {rotation: 630, transformOrigin: "0 0"})
+    //   }
+    // })
   }
 
 }
