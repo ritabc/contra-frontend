@@ -29,9 +29,9 @@ export class AnimationComponent implements OnInit, OnChanges {
   constructor(private el: ElementRef, private nameConverter:SnakeToCamelPipe) { }
 
   ngOnInit() {
-    this.improperFormation();
-    let startPos = this.improper(0);
-    this.swingOnSidesOfSet(startPos);
+    this.becketFormation()
+    // let startPos = this.improper(0);
+    // this.swingOnSidesOfSet(startPos);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -96,7 +96,7 @@ export class AnimationComponent implements OnInit, OnChanges {
 //=================================================
 
   public improperFormation() {
-    console.log("hit formation setup")
+    console.log("hit formation setup");
     let dottedLarks = [this.L5, this.L3, this.L1];
     let solidLarks = [this.L6, this.L4, this.L2];
     let dottedRavens = [this.R5, this.R3, this.R1];
@@ -105,16 +105,6 @@ export class AnimationComponent implements OnInit, OnChanges {
     dottedLarks.forEach(function(bird, index) {
       let dx = (240*index + 140)
       bird.nativeElement.setAttribute("transform", "translate(" + dx.toString() + " 220)");
-      // setTimeout(function() {
-      //   console.log(bird.nativeElement.attributes["data-svg-origin"].nodeValue)
-      // }, 400)
-      // if (index === 0) {
-      //   setTimeout(function() {
-      //     console.log(bird)
-      //     // console.log(bird.nativeElement.
-      //               // bird.nativeElement.)
-      //   }, 500)
-      // }
     })
     solidLarks.forEach(function(bird, index) {
       let dx = (240*index + 20)
@@ -127,10 +117,31 @@ export class AnimationComponent implements OnInit, OnChanges {
     solidRavens.forEach(function(bird, index) {
       let dx = (240*index + 20)
       bird.nativeElement.setAttribute("transform", "translate(" + dx.toString() + " 220)");
-      // if (index === 0) {
-      //   console.log(bird.nativeElement._gsTransform.xOrigin,
-      //               bird.nativeElement._gsTransform.yOrigin)
-      // }
+    })
+  }
+
+  public becketFormation() {
+    console.log("hit becket setup");
+    let dottedLarks = [this.L5, this.L3, this.L1];
+    let solidLarks = [this.L6, this.L4, this.L2];
+    let dottedRavens = [this.R5, this.R3, this.R1];
+    let solidRavens = [this.R6, this.R4, this.R2];
+
+    dottedLarks.forEach(function(bird, index) {
+      let dx = (240*index + 20);
+      bird.nativeElement.setAttribute("transform", "translate(" + dx.toString() + " 220)");
+    });
+    solidLarks.forEach(function(bird, index) {
+      let dx = (240*index + 140);
+      bird.nativeElement.setAttribute("transform", "translate(" + dx.toString() + " 100)");
+    });
+    dottedRavens.forEach(function(bird, index) {
+      let dx = (240*index + 140);
+      bird.nativeElement.setAttribute("transform", "translate(" + dx.toString() + " 220)");
+    });
+    solidRavens.forEach(function(bird, index) {
+      let dx = (240*index + 20);
+      bird.nativeElement.setAttribute("transform", "translate(" + dx.toString() + " 100)");
     })
   }
 //=================================================
@@ -346,9 +357,7 @@ export class AnimationComponent implements OnInit, OnChanges {
       tl.to(sEBird.nativeElement, 0.8, {x: 240*i + 100, y:240})
       if (sEBird.nativeElement.id[0] === 'L') {
         tl.to(sEBird.nativeElement, 2, {rotation: 450, transformOrigin: "0 0"})
-        console.log(sEBird.nativeElement.getBoundingClientRect())
-        tl.to(sEBird.nativeElement, 0.8, {x: 240*i + 56.5, y: 220}) // here, absolute
-        console.log(sEBird.nativeElement.getBoundingClientRect())
+        tl.to(sEBird.nativeElement, 0.8, {x: 240*i + 56.5, y: 220}) // absolute to current coordinate system
       } else if (sEBird.nativeElement.id[0] === 'R') {
         tl.to(sEBird.nativeElement, 2, {rotation: 630, transformOrigin: "0 0"})
       }
@@ -358,11 +367,10 @@ export class AnimationComponent implements OnInit, OnChanges {
       tl.to(sWBird.nativeElement, 0.8, {x: 240*i + 60, y:200})
       if (sWBird.nativeElement.id[0] === 'R') {
         tl.to(sWBird.nativeElement, 2, {rotation: 450, transformOrigin: "40 40"})
-        tl.to(sWBird.nativeElement, 0.8, {x: 240*i + 96.5, y: 220}) // here
+        tl.to(sWBird.nativeElement, 0.8, {x: 240*i + 96.5, y: 220})
       } else if (sWBird.nativeElement.id[0] === 'L') {
         tl.to(sWBird.nativeElement, 2, {rotation: 630, transformOrigin: "40 40"})
       }
-      // tl.to(sWBird.nativeElement, 0.8, {x: 240*i + 140, y: 220})
     })
 
     // startPos.nWBirds.map(function(nWBird, i) {
