@@ -30,7 +30,8 @@ export class AnimationComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.improperFormation();
-    // let startPos = this.improper(0);
+    let startPos = this.improper(0);
+    this.swingOnSidesOfSet(startPos)
     // this.balanceTheRing(startPos)
     // startPos = this.improper(0);
     // this.petronella(startPos);
@@ -68,11 +69,11 @@ export class AnimationComponent implements OnInit, OnChanges {
         moves.forEach(function(move, index) {
           console.log("beginning of loop, index is: ", index)
           let moveMethod = this[this.nameConverter.transform(move.name)]
-          let positionDescriptionAtIndex = positions[index].description.toString()
-          let moveStartPositioning = this[this.nameConverter.transform(positionDescriptionAtIndex)](0); // 0 needs updating later based on which play through the user is on (aka how far red has gotten)
-          console.log(moveStartPositioning.nEBirds[0].nativeElement.id, moveStartPositioning.nEBirds[1].nativeElement.id, moveStartPositioning.nEBirds[2].nativeElement.id)
-          if (typeof moveMethod === 'function' && moveStartPositioning != undefined) { // TODO: this logic may need to be moved up
-            danceTimeline.addCallback(moveMethod, index*2, [moveStartPositioning]) // TODO: Ensure each move lasts 2 seconds
+          let rubyPositionName = positions[index].description.toString()
+          let positionName = this.nameConverter.transform(rubyPositionName);
+          if (typeof moveMethod === 'function' && typeof this[positionName] === 'function' ) {
+            let moveStartPositionGenerator = this[positionName](0); // 0 needs updating later based on which play through the user is on (aka how far red has gotten)
+            danceTimeline.addCallback(moveMethod, index*2, [moveStartPositionGenerator]) // TODO: Ensure each move lasts 2 seconds
           } else {
             return null // OR should this be some variation of danceTimeline.killAll(false, true, false, true) // complete the killed things? kill tweens?  kill delayedCalls? kill timelines?
           }
@@ -117,19 +118,19 @@ export class AnimationComponent implements OnInit, OnChanges {
     let solidRavens = [this.R6, this.R4, this.R2];
 
     dottedLarks.forEach(function(bird, index) {
-      bird.nativeElement.style.cx = (240*(index+1)-100).toString() + 'px';
+      bird.nativeElement.style.cx = 240*index + 140 + 'px';
       bird.nativeElement.style.cy = '220px';
     })
     solidLarks.forEach(function(bird, index) {
-      bird.nativeElement.style.cx = (240*(index+1)-220).toString() + 'px';
+      bird.nativeElement.style.cx = 240*index + 20 + 'px';
       bird.nativeElement.style.cy = '100px';
     })
     dottedRavens.forEach(function(bird, index) {
-      bird.nativeElement.style.cx = (240*(index+1)-100).toString() + 'px';
+      bird.nativeElement.style.cx = 240*index + 140 + 'px';
       bird.nativeElement.style.cy = '100px';
     })
     solidRavens.forEach(function(bird, index) {
-      bird.nativeElement.style.cx = (240*(index+1)-220).toString() + 'px';
+      bird.nativeElement.style.cx = 240*index + 20 + 'px';
       bird.nativeElement.style.cy = '220px';
     })
   }
@@ -280,6 +281,7 @@ export class AnimationComponent implements OnInit, OnChanges {
         // }
       }
     }
+    return birdsLocation
   }
 
 //=================================================
@@ -288,8 +290,6 @@ export class AnimationComponent implements OnInit, OnChanges {
 
 // Define Moves
 /// Moves need to know:
-// starting position
-// - ending_pos, (Dont freak out: doesn't really do anything with this except return it). HMMMM is this really necessary? Can't ngOnChanges just keep track of next start pos?
 // - whether couples are out?
 // - is the move a progression?
 // Instead of the animating move updating the birdsLocation varible, it will just animate, then return the ending position that it was given
@@ -297,8 +297,6 @@ export class AnimationComponent implements OnInit, OnChanges {
 
   public balanceTheRing(startPos) {
     console.log("hit MOVE balanceTheRing")
-    console.log(startPos)
-    console.log(startPos.nEBirds[0].nativeElement.id, startPos.nEBirds[1].nativeElement.id, startPos.nEBirds[2].nativeElement.id)
     startPos.nEBirds.map(function(bird) {
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 1, {x:-40, y:40})
@@ -342,20 +340,25 @@ export class AnimationComponent implements OnInit, OnChanges {
     })
   }
 
-  public swingOnSidesOfSet(startPos) {
+  public swingOnSidesOfSet(startPos, couplesOut:boolean = true) {
     console.log("Hit MOVE swingOnSidesOfSet")
-    startPos.sEBirds.map(function(sEBird) {
-      TweenMax.to(sEBird.nativeElement, 0.5, {x:-40, y:20})
+    startPos.sEBirds.map(function(sEBird, i) {
+      let tl = new TimelineMax()
+      tl.to(sEBird.nativeElement.style, 0.25, {cx: 240*i + 100, cy:240})
       if (sEBird.nativeElement.id[0] === 'L') {
-        let rotation = 540;
+        tl.to(sEBird.nativeElement, 1.5, {rotation: 450, transformOrigin: "0 0"})
       } else if (sEBird.nativeElement.id[0] === 'R') {
-        let rotation = 360;
+        tl.to(sEBird.nativeElement, 1.5, {rotation: 630, transformOrigin: "0 0"})
       }
-      TweenMax.to(sEBird.nativeElement, 1, {rotation: rotation, transformOrigin: "0% 0%"})
-
     })
-    startPos.sWBirds.map(function(sWBird) {
-      // TweenMax.to(sWBird.nativeElement, 0.5, {x:40, y:-20})
+    startPos.sWBirds.map(function(sWBird, i) {
+      let tl = new TimelineMax()
+      tl.to(sWBird.nativeElement.style, 0.25, {cx: 240*i + 60, cy:200})
+      if (sWBird.nativeElement.id[0] === 'R') {
+        tl.to(sWBird.nativeElement, 1.5, {rotation: 450, transformOrigin: "40 40"})
+      } else if (sWBird.nativeElement.id[0] === 'L') {
+        tl.to(sWBird.nativeElement, 1.5, {rotation: 630, transformOrigin: "40 40"})
+      }
     })
   }
 
