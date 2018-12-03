@@ -347,17 +347,42 @@ export class AnimationComponent implements OnInit, OnChanges {
       tl.to(sEBird.nativeElement.style, 0.25, {cx: 240*i + 100, cy:240})
       if (sEBird.nativeElement.id[0] === 'L') {
         tl.to(sEBird.nativeElement, 1.5, {rotation: 450, transformOrigin: "0 0"})
+        tl.to(sEBird.nativeElement, 0, {rotation:0, transformOrigin: "0 0"})
       } else if (sEBird.nativeElement.id[0] === 'R') {
         tl.to(sEBird.nativeElement, 1.5, {rotation: 630, transformOrigin: "0 0"})
+        tl.to(sEBird.nativeElement, 0, {rotation:0, transformOrigin: "0 0"})
       }
+      tl.to(sEBird.nativeElement.style, 5, {cx: 240*i + 20, cy: 220})
     })
     startPos.sWBirds.map(function(sWBird, i) {
       let tl = new TimelineMax()
       tl.to(sWBird.nativeElement.style, 0.25, {cx: 240*i + 60, cy:200})
       if (sWBird.nativeElement.id[0] === 'R') {
         tl.to(sWBird.nativeElement, 1.5, {rotation: 450, transformOrigin: "40 40"})
+        tl.to(sWBird.nativeElement, 0, {rotation:0, transformOrigin: "40 40"})
       } else if (sWBird.nativeElement.id[0] === 'L') {
         tl.to(sWBird.nativeElement, 1.5, {rotation: 630, transformOrigin: "40 40"})
+        tl.to(sWBird.nativeElement, 0, {rotation:0, transformOrigin: "40 40"})
+      }
+      tl.to(sWBird.nativeElement.style, 5, {cx: 240*i + 140, cy: 220})
+    })
+
+    startPos.nWBirds.map(function(nWBird, i) {
+      let tl = new TimelineMax()
+      tl.to(nWBird.nativeElement.style, 0.25, {cx: 240*i + 60, cy:80})
+      if (nWBird.nativeElement.id[0] === 'L') {
+        tl.to(nWBird.nativeElement, 1.5, {rotation: 450, transformOrigin: "40 40"})
+      } else if (nWBird.nativeElement.id[0] === 'R') {
+        tl.to(nWBird.nativeElement, 1.5, {rotation: 630, transformOrigin: "40 40"})
+      }
+    })
+    startPos.nEBirds.map(function(nEBird, i) {
+      let tl = new TimelineMax()
+      tl.to(nEBird.nativeElement.style, 0.25, {cx: 240*i + 100, cy:120})
+      if (nEBird.nativeElement.id[0] === 'R') {
+        tl.to(nEBird.nativeElement, 1.5, {rotation: 450, transformOrigin: "0 0"})
+      } else if (nEBird.nativeElement.id[0] === 'L') {
+        tl.to(nEBird.nativeElement, 1.5, {rotation: 630, transformOrigin: "0 0"})
       }
     })
   }
