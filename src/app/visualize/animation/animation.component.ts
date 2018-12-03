@@ -29,8 +29,17 @@ export class AnimationComponent implements OnInit, OnChanges {
   constructor(private el: ElementRef, private nameConverter:SnakeToCamelPipe) { }
 
   ngOnInit() {
-    this.becketFormation()
-    let startPos = this.becket(3);
+    // this.becketFormation();
+    // let startPos = this.becket(0);
+    // this.balanceTheRing(startPos);
+    // let nextPos = this.improper(0);
+    // this.petronella(nextPos);
+    // nextPos = this.oppositeBecket(0);
+    // this.balanceTheRing(nextPos);
+    // this.petronella(nextPos);
+    // nextPos = this.improperProgressed(0);
+    // this.balanceTheRing(nextPos);
+    // nextPos = this.improperProgressed(0);
     // this.swingOnSidesOfSet(startPos);
   }
 
@@ -91,9 +100,7 @@ export class AnimationComponent implements OnInit, OnChanges {
     }
   }
 
-//=================================================
-//               Formations
-//=================================================
+// FORMATIONS =================================================
 
   public improperFormation() {
     console.log("hit formation setup");
@@ -144,9 +151,8 @@ export class AnimationComponent implements OnInit, OnChanges {
       bird.nativeElement.setAttribute("transform", "translate(" + dx.toString() + " 100)");
     })
   }
-//=================================================
-//               Positions
-//=================================================
+
+// POSITIONS =================================================
   // Set Positions Locations (which bird is at what cardinal direction?)
   // Needs to know whether couples are out?, prior birdsLocation.
   /// Re prior birdsLocation, can the move return that?
@@ -324,10 +330,7 @@ export class AnimationComponent implements OnInit, OnChanges {
     return birdsLocation
   }
 
-//=================================================
-//               Moves
-//=================================================
-
+// MOVES =================================================
 // Define Moves
 /// Moves need to know:
 // - whether couples are out?
@@ -337,46 +340,48 @@ export class AnimationComponent implements OnInit, OnChanges {
 
   public balanceTheRing(startPos) {
     console.log("hit MOVE balanceTheRing")
-    startPos.nEBirds.map(function(bird) {
+    startPos.nEBirds.map(function(bird, i) {
       let tl = new TimelineMax();
-      tl.to(bird.nativeElement, 1, {x:-40, y:40})
-        .to(bird.nativeElement, 1, {x:0, y:0})
+      console.log(bird.nativeElement)
+      // tl.set(bird.nativeElement, {transformOrigin: "center center"})
+      tl.to(bird.nativeElement, 1, {x: 240*i + 100, y: 140}) // x, y are absolute
+        .to(bird.nativeElement, 1, {x: 240*i + 140, y: 100})
     })
-    startPos.sEBirds.map(function(bird){
+    startPos.sEBirds.map(function(bird, i){
       let tl = new TimelineMax();
-      tl.to(bird.nativeElement, 1, {x:-40, y:-40})
-        .to(bird.nativeElement, 1, {x:0, y:0})
+      tl.to(bird.nativeElement, 1, {x: 240*i + 100, y: 180})
+        .to(bird.nativeElement, 1, {x: 240*i + 140, y: 220})
     })
-    startPos.sWBirds.map(function(bird) {
+    startPos.sWBirds.map(function(bird, i) {
       let tl = new TimelineMax();
-      tl.to(bird.nativeElement, 1, {x:40, y:-40})
-        .to(bird.nativeElement, 1, {x:0, y:0})
+      tl.to(bird.nativeElement, 1, {x: 240*i + 60, y: 180})
+        .to(bird.nativeElement, 1, {x: 240*i + 20, y: 220})
     })
-    startPos.nWBirds.map(function(bird) {
+    startPos.nWBirds.map(function(bird, i) {
       let tl = new TimelineMax();
-      tl.to(bird.nativeElement, 1, {x:40, y:40})
-        .to(bird.nativeElement, 1, {x:0, y:0})
+      tl.to(bird.nativeElement, 1, {x: 240*i + 60, y: 140})
+        .to(bird.nativeElement, 1, {x: 240*i + 20, y: 100})
     })
   }
 
   public petronella(startPos) {
     console.log("hit MOVE petronella")
-    console.log(startPos.nEBirds[0].nativeElement.id, startPos.nEBirds[1].nativeElement.id, startPos.nEBirds[2].nativeElement.id)
     startPos.nEBirds.map(function(bird, i) {
       let tl = new TimelineMax();
-      tl.to(bird.nativeElement.style, 2, {cx: 240*i + 20})
+      // tl.set(bird.nativeElement, {transformOrigin: "center center"})
+      tl.to(bird.nativeElement, 2, {x: 240*i + 20})
     })
     startPos.sEBirds.map(function(bird) {
       let tl = new TimelineMax();
-      tl.to(bird.nativeElement.style, 2, {cy:100})
+      tl.to(bird.nativeElement, 2, {y:100})
     })
     startPos.sWBirds.map(function(bird, i) {
       let tl = new TimelineMax();
-      tl.to(bird.nativeElement.style, 2, {cx: 240*i + 140})
+      tl.to(bird.nativeElement, 2, {x: 240*i + 140})
     })
     startPos.nWBirds.map(function(bird) {
       let tl = new TimelineMax();
-      tl.to(bird.nativeElement.style, 2, {cy:220})
+      tl.to(bird.nativeElement, 2, {y:220})
     })
   }
 
@@ -384,43 +389,48 @@ export class AnimationComponent implements OnInit, OnChanges {
     console.log("Hit MOVE swingOnSidesOfSet")
     startPos.sEBirds.map(function(sEBird, i) {
       let tl = new TimelineMax()
-      tl.to(sEBird.nativeElement, 0.8, {x: 240*i + 100, y:240})
+      tl.to(sEBird.nativeElement, 0.4, {x: 240*i + 100, y:240})
       if (sEBird.nativeElement.id[0] === 'L') {
-        tl.to(sEBird.nativeElement, 2, {rotation: 450, transformOrigin: "0 0"})
-        tl.to(sEBird.nativeElement, 0.8, {x: 240*i + 56.5, y: 220}) // absolute to current coordinate system
+        tl.to(sEBird.nativeElement, 1.2, {rotation: 450, transformOrigin: "0 0"})
+          .to(sEBird.nativeElement, 0.4, {x: 240*i + 56.5, y: 220}) // absolute(?) in current coordinate system
       } else if (sEBird.nativeElement.id[0] === 'R') {
-        tl.to(sEBird.nativeElement, 2, {rotation: 630, transformOrigin: "0 0"})
+        tl.to(sEBird.nativeElement, 1.2, {rotation: 630, transformOrigin: "0 0"})
+          .to(sEBird.nativeElement, 0.4, {x: 240*i + 140, y: 260})
       }
     })
     startPos.sWBirds.map(function(sWBird, i) {
       let tl = new TimelineMax()
-      tl.to(sWBird.nativeElement, 0.8, {x: 240*i + 60, y:200})
+      tl.to(sWBird.nativeElement, 0.4, {x: 240*i + 60, y:200})
       if (sWBird.nativeElement.id[0] === 'R') {
-        tl.to(sWBird.nativeElement, 2, {rotation: 450, transformOrigin: "40 40"})
-        tl.to(sWBird.nativeElement, 0.8, {x: 240*i + 96.5, y: 220})
+        tl.to(sWBird.nativeElement, 1.2, {rotation: 450, transformOrigin: "40 40"})
+          .to(sWBird.nativeElement, 0.4, {x: 240*i + 96.5, y: 220})
       } else if (sWBird.nativeElement.id[0] === 'L') {
-        tl.to(sWBird.nativeElement, 2, {rotation: 630, transformOrigin: "40 40"})
+        tl.to(sWBird.nativeElement, 1.2, {rotation: 630, transformOrigin: "40 40"})
+          .to(sWBird.nativeElement, 0.4, {x: 240*i + 20, y: 180})
       }
     })
-
-    // startPos.nWBirds.map(function(nWBird, i) {
-    //   let tl = new TimelineMax()
-    //   tl.to(nWBird.nativeElement.style, 0.25, {cx: 240*i + 60, cy:80})
-    //   if (nWBird.nativeElement.id[0] === 'L') {
-    //     tl.to(nWBird.nativeElement, 1.5, {rotation: 450, transformOrigin: "40 40"})
-    //   } else if (nWBird.nativeElement.id[0] === 'R') {
-    //     tl.to(nWBird.nativeElement, 1.5, {rotation: 630, transformOrigin: "40 40"})
-    //   }
-    // })
-    // startPos.nEBirds.map(function(nEBird, i) {
-    //   let tl = new TimelineMax()
-    //   tl.to(nEBird.nativeElement.style, 0.25, {cx: 240*i + 100, cy:120})
-    //   if (nEBird.nativeElement.id[0] === 'R') {
-    //     tl.to(nEBird.nativeElement, 1.5, {rotation: 450, transformOrigin: "0 0"})
-    //   } else if (nEBird.nativeElement.id[0] === 'L') {
-    //     tl.to(nEBird.nativeElement, 1.5, {rotation: 630, transformOrigin: "0 0"})
-    //   }
-    // })
+    startPos.nWBirds.map(function(nWBird, i) {
+      let tl = new TimelineMax()
+      tl.to(nWBird.nativeElement, 0.4, {x: 240*i + 60, y:80})
+      if (nWBird.nativeElement.id[0] === 'L') {
+        tl.to(nWBird.nativeElement, 1.2, {rotation: 450, transformOrigin: "40 40"})
+          .to(nWBird.nativeElement, 0.4, {x: 240*i + 96.5, y: 100})
+      } else if (nWBird.nativeElement.id[0] === 'R') {
+        tl.to(nWBird.nativeElement, 1.2, {rotation: 630, transformOrigin: "40 40"})
+          .to(nWBird.nativeElement, 0.4, {x: 240*i + 20, y: 60})
+      }
+    })
+    startPos.nEBirds.map(function(nEBird, i) {
+      let tl = new TimelineMax()
+      tl.to(nEBird.nativeElement, 0.4, {x: 240*i + 100, y:120})
+      if (nEBird.nativeElement.id[0] === 'R') {
+        tl.to(nEBird.nativeElement, 1.2, {rotation: 450, transformOrigin: "0 0"})
+          .to(nEBird.nativeElement, 0.4, {x: 240*i + 56.5, y: 100})
+      } else if (nEBird.nativeElement.id[0] === 'L') {
+        tl.to(nEBird.nativeElement, 1.2, {rotation: 630, transformOrigin: "0 0"})
+          .to(nEBird.nativeElement, 0.4, {x: 240*i + 140, y: 140})
+      }
+    })
   }
 
 }
