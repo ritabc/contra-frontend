@@ -29,7 +29,7 @@ export class AnimationComponent implements OnInit, OnChanges {
   constructor(private el: ElementRef, private nameConverter:SnakeToCamelPipe) { }
 
   ngOnInit() {
-    // this.becketFormation();
+    // this.improperFormation();
     // let startPos = this.becket(0);
     // this.balanceTheRing(startPos);
     // let nextPos = this.improper(0);
@@ -41,8 +41,6 @@ export class AnimationComponent implements OnInit, OnChanges {
     // this.balanceTheRing(nextPos);
     // nextPos = this.improperProgressed(0);
     // this.swingOnSidesOfSet(startPos);
-
-    this.sideOfSetWithNeighborOnesFacingDown(3)
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -289,6 +287,49 @@ export class AnimationComponent implements OnInit, OnChanges {
         birdsLocation.sEBirds.push(newSE)
         birdsLocation.sWBirds.push(newSW)
         birdsLocation.nWBirds.unshift(newNW)
+      } else if (prog % 2 === 0) {
+        couplesOut = false
+      } else { return null }
+    }
+    return birdsLocation
+  }
+
+  public sideOfSetWithNeighborOnesFacingDown(progressionNumber: number) {
+    // note that if and when out couples exist, they must wait proper
+    console.log("hit POSITION sideOfSetWithNeighborOnesFacingDown")
+    let couplesOut:boolean;
+    let birdsLocation:any = { nEBirds: [this.L5, this.L3, this.L1],
+                              sEBirds: [this.R5, this.R3, this.R1],
+                              sWBirds: [this.L6, this.L4, this.L2],
+                              nWBirds: [this.R6, this.R4, this.R2] }
+    for (let prog = 0; prog <= progressionNumber; prog++) {
+      if (prog > 12) {
+        return null
+      }
+      else if (prog === 0) {
+        couplesOut = false;
+        // for (let i = 0; i <= 2; ++i) {
+        //   console.log(prog, "nE", birdsLocation.nEBirds[i])
+        // }
+        // for (let i = 0; i <= 2; ++i) {
+        //   console.log(prog, "sE", birdsLocation.sEBirds[i])
+        // }
+        // for (let i = 0; i <= 2; ++i) {
+        //   console.log(prog, "sW", birdsLocation.sWBirds[i])
+        // }
+        // for (let i = 0; i <= 2; ++i) {
+        //   console.log(prog, "nW", birdsLocation.nWBirds[i])
+        // }
+      } else if (prog % 2 === 1) {
+        couplesOut = true
+        let newNE = birdsLocation.sWBirds.pop();
+        let newSE = birdsLocation.nWBirds.pop();
+        let newSW = birdsLocation.nEBirds.shift();
+        let newNW = birdsLocation.sEBirds.shift();
+        birdsLocation.nEBirds.push(newNE)
+        birdsLocation.sEBirds.push(newSE)
+        birdsLocation.sWBirds.unshift(newSW)
+        birdsLocation.nWBirds.unshift(newNW)
         // for (let i = 0; i <= 2; ++i) {
         //   console.log(prog, "nE", birdsLocation.nEBirds[i])
         // }
@@ -320,85 +361,18 @@ export class AnimationComponent implements OnInit, OnChanges {
     return birdsLocation
   }
 
-  public sideOfSetWithNeighborOnesFacingDown(progressionNumber: number) {
-    // note that if and when out couples exist, they must wait proper
-    console.log("hit POSITION sideOfSetWithNeighborOnesFacingDown")
-    let couplesOut:boolean;
-    let birdsLocation:any = { nEBirds: [this.L5, this.L3, this.L1],
-                              sEBirds: [this.R5, this.R3, this.R1],
-                              sWBirds: [this.L6, this.L4, this.L2],
-                              nWBirds: [this.R6, this.R4, this.R2] }
-    for (let prog = 0; prog <= progressionNumber; prog++) {
-      if (prog > 12) {
-        return null
-      }
-      else if (prog === 0) {
-        couplesOut = false;
-        for (let i = 0; i <= 2; ++i) {
-          console.log(prog, "nE", birdsLocation.nEBirds[i])
-        }
-        for (let i = 0; i <= 2; ++i) {
-          console.log(prog, "sE", birdsLocation.sEBirds[i])
-        }
-        for (let i = 0; i <= 2; ++i) {
-          console.log(prog, "sW", birdsLocation.sWBirds[i])
-        }
-        for (let i = 0; i <= 2; ++i) {
-          console.log(prog, "nW", birdsLocation.nWBirds[i])
-        }
-      } else if (prog % 2 === 1) {
-        couplesOut = true
-        let newNE = birdsLocation.sWBirds.pop();
-        let newSE = birdsLocation.nWBirds.pop();
-        let newSW = birdsLocation.nEBirds.shift();
-        let newNW = birdsLocation.sEBirds.shift();
-        birdsLocation.nEBirds.push(newNE)
-        birdsLocation.sEBirds.push(newSE)
-        birdsLocation.sWBirds.unshift(newSW)
-        birdsLocation.nWBirds.unshift(newNW)
-        for (let i = 0; i <= 2; ++i) {
-          console.log(prog, "nE", birdsLocation.nEBirds[i])
-        }
-        for (let i = 0; i <= 2; ++i) {
-          console.log(prog, "sE", birdsLocation.sEBirds[i])
-        }
-        for (let i = 0; i <= 2; ++i) {
-          console.log(prog, "sW", birdsLocation.sWBirds[i])
-        }
-        for (let i = 0; i <= 2; ++i) {
-          console.log(prog, "nW", birdsLocation.nWBirds[i])
-        }
-      } else if (prog % 2 === 0) {
-        couplesOut = false
-        for (let i = 0; i <= 2; ++i) {
-          console.log(prog, "nE", birdsLocation.nEBirds[i])
-        }
-        for (let i = 0; i <= 2; ++i) {
-          console.log(prog, "sE", birdsLocation.sEBirds[i])
-        }
-        for (let i = 0; i <= 2; ++i) {
-          console.log(prog, "sW", birdsLocation.sWBirds[i])
-        }
-        for (let i = 0; i <= 2; ++i) {
-          console.log(prog, "nW", birdsLocation.nWBirds[i])
-        }
-      }
-    }
-  }
-
 // MOVES =================================================
 // Define Moves
 /// Moves need to know:
 // - whether couples are out?
 // - is the move a progression?
-// Instead of the animating move updating the birdsLocation varible, it will just animate, then return the ending position that it was given
-// Note on animations: Remember that x and y changes in a .to addition to a timeline change the x and y relative to where they were before. Instead, use the absolute (where origin is 0,0) cx and cy positioning
+// Instead of the animating move updating the birdsLocation varible, it will just animate
+// Note on animations: Remember that x and y changes in a .to addition to a timeline change the x and y relative to where they were before. Instead, use the absolute (where origin is 0,0) cx and cy positioning?
 
-  public balanceTheRing(startPos) {
+  public balanceTheRing(startPos, couplesOut:boolean = false) {
     console.log("hit MOVE balanceTheRing")
     startPos.nEBirds.map(function(bird, i) {
       let tl = new TimelineMax();
-      console.log(bird.nativeElement)
       // tl.set(bird.nativeElement, {transformOrigin: "center center"})
       tl.to(bird.nativeElement, 1, {x: 240*i + 100, y: 140}) // x, y are absolute
         .to(bird.nativeElement, 1, {x: 240*i + 140, y: 100})
@@ -420,7 +394,7 @@ export class AnimationComponent implements OnInit, OnChanges {
     })
   }
 
-  public petronella(startPos) {
+  public petronella(startPos, couplesOut:boolean = false) {
     console.log("hit MOVE petronella")
     startPos.nEBirds.map(function(bird, i) {
       let tl = new TimelineMax();
@@ -441,7 +415,7 @@ export class AnimationComponent implements OnInit, OnChanges {
     })
   }
 
-  public swingOnSidesOfSet(startPos, couplesOut:boolean = true) {
+  public swingOnSidesOfSet(startPos, couplesOut:boolean = false) {
     console.log("Hit MOVE swingOnSidesOfSet")
     startPos.sEBirds.map(function(sEBird, i) {
       let tl = new TimelineMax()
@@ -489,4 +463,25 @@ export class AnimationComponent implements OnInit, OnChanges {
     })
   }
 
+  public dancersOnLeftRightShoulderRoundOnceAndAHalf(startPos, couplesOut:boolean = false) {
+    console.log("Hit MOVE dancersOnLeftRightShoulderRoundOnceAndAHalf")
+    startPos.sEBirds.map(function(bird, i) {
+      let tl = new TimelineMax();
+      tl.to(bird.nativeElement, 1, {x: 240*i + 40, y: 160})
+        // .set(bird.nativeElement, {transformOrigin: "top right"})
+        .to(bird.nativeElement, 1, {rotation: 360, transformOrigin: "top right"})
+    })
+  }
 }
+
+
+// // !!!!DON'T DELETE!!!!
+// console.log(bird.nativeElement.getBoundingClientRect().x) // origin?
+// console.log(bird.nativeElement.getClientRects()[0].x)
+// console.log(bird.nativeElement.getBoundingClientRect().left) // top corner x axis value
+// console.log(bird.nativeElement.getClientRects()[0].left)
+//
+// console.log(bird.nativeElement.getBoundingClientRect().y) // origin?
+// console.log(bird.nativeElement.getClientRects()[0].y)
+// console.log(bird.nativeElement.getBoundingClientRect().top) // left corner y axis value
+// console.log(bird.nativeElement.getClientRects()[0].top)
