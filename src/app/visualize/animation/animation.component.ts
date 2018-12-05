@@ -29,9 +29,9 @@ export class AnimationComponent implements OnInit, OnChanges {
   constructor(private el: ElementRef, private nameConverter:SnakeToCamelPipe) { }
 
   ngOnInit() {
-    // this.becketFormation();
-    // let startPos = this.becket(0);
-    // this.swingOnSidesOfSet(startPos)
+    this.improperFormation();
+    let startPos = this.improper(0);
+    this.dancersOnLeftRightShoulderRoundOnceAndAHalf(startPos)
 
   }
 
@@ -52,46 +52,24 @@ export class AnimationComponent implements OnInit, OnChanges {
         this[this.nameConverter.transform(positions[0].description) + "Formation"]()
         let danceTimeline = new TimelineMax({})
         moves.forEach(function(move, index) {
-          if (index > 6) { // Comment out when complete - this logic is only good for working on uncompleted moves
-            danceTimeline.killAll(false, true, false, true)
-            return
-          }
+          // // Logic for when working on uncompleted moves ONLY - remove later
+          // if (index > 6) {
+          //   danceTimeline.killAll(false, true, false, true)
+          //   return
+          // }
           console.log("beginning of loop, index is: ", index)
           let moveMethod = this[this.nameConverter.transform(move.name)]
           let rubyPositionName = positions[index].description.toString()
           let positionName = this.nameConverter.transform(rubyPositionName);
-          if (typeof moveMethod === 'function' && typeof this[positionName] === 'function' ) {
+          if (typeof moveMethod === 'function' && typeof this[positionName] === 'function' ) { // TODO: High level check to ensure the position at this index exists AND the move exists
             let moveStartPositionGenerator = this[positionName](0); // 0 needs updating later based on which play through the user is on (aka how far red has gotten)
             danceTimeline.addCallback(moveMethod, index*2, [moveStartPositionGenerator]) // TODO: Ensure each move lasts 2 seconds
           } else {
             danceTimeline.killAll(false, true, false, true) // complete the killed things? kill tweens?  kill delayedCalls? kill timelines?
-            return null // OR should this be some variation of
+            return null
           }
           console.log("end of loop, index is: ", index)
         }, this)
-        // positions.forEach((position, index) => {
-        //   if (index === 0) {
-        //     this[this.nameConverter.transform(position.description) + "Formation"]()
-        //     moveStartPositioning = this[this.nameConverter.transform(position.description)](0);
-        //   } else { // should work for all moves and their ending positions after the formation
-        //     moveStartPositioning = this[this.nameConverter.transform(position.description)](0);
-        //     let moveMethod = this[this.nameConverter.transform(moves[index-1].name)](0)
-        //     if (typeof moveMethod === 'function') {
-        //       danceTimeline.addCallback(moveMethod, index, [moveStartPositioning]);
-        //       let positionMethod = this[this.nameConverter.transform(position.description)](0)
-        //       if (typeof positionMethod === 'function') {
-        //         // moveStartPositioning = this[positionMethod](0)
-        //         danceTimeline.addCallback(function() {
-        //           moveStartPositioning = positionMethod(0)
-        //         }, (index + 0.5), [], this)
-        //       } else { // if position method doesn't exist
-        //         danceTimeline.killAll(false, false, false, true) // complete the killed things? kill tweens? kill delayedCalls? kill timelines?
-        //       }
-        //     } else { // if move method doesn't exist
-        //       danceTimeline.killAll(false, false, false, true)
-        //     }
-        //   }
-        // }, this)
       }
     }
   }
@@ -458,17 +436,35 @@ export class AnimationComponent implements OnInit, OnChanges {
     })
   }
 
-  public dancersOnLeftRightShoulderRoundOnceAndAHalf(startPos, couplesOut:boolean = false) {
-    console.log("Hit MOVE dancersOnLeftRightShoulderRoundOnceAndAHalf")
+  public dancersOnRightRightShoulderRoundOnceAndAHalf(startPos, couplesOut:boolean = false) {
+    console.log("Hit MOVE dancersOnRightRightShoulderRoundOnceAndAHalf")
     startPos.sEBirds.map(function(bird, i) {
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 1, {x: "-=80", y:"-=40"})
-        .to(bird.nativeElement, 1, {rotation: "+=360", svgOrigin: (240*i) + 80 + "px 160px"})
+        .to(bird.nativeElement, 1, {rotation: "+=450", svgOrigin: 240*i+80 + "px 160px"})
+        .to(bird.nativeElement, 1, {x: "-=40", y: "-=40"})
     })
     startPos.nWBirds.map(function(bird, i) {
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 1, {x:"+=80", y:"+=40"})
-        .to(bird.nativeElement, 1, {rotation: "+=360", svgOrigin: (240*i) + 80 + "px 160px"})
+        .to(bird.nativeElement, 1, {rotation: "+=450", svgOrigin: 240*i+80 + "px 160px"})
+        .to(bird.nativeElement, 1, {x: "+=40", y: "+=40"})
+    })
+  }
+
+  public dancersOnLeftRightShoulderRoundOnceAndAHalf(startPos, couplesOut:boolean = false) {
+    console.log("Hit MOVE dancersOnLeftRightShoulderRoundOnceAndAHalf")
+    startPos.sWBirds.map(function(bird, i) {
+      let tl = new TimelineMax();
+      tl.to(bird.nativeElement, 1, {x: "+=40", y:"-=80"})
+        .to(bird.nativeElement, 1, {rotation: "+=450", svgOrigin: 240*i+80 + "px 160px"})
+        .to(bird.nativeElement, 1, {x: "+=40", y: "-=40"})
+    })
+    startPos.nEBirds.map(function(bird, i) {
+      let tl = new TimelineMax();
+      tl.to(bird.nativeElement, 1, {x:"-=40", y:"+=80"})
+        .to(bird.nativeElement, 1, {rotation: "+=450", svgOrigin: 240*i+80 + "px 160px"})
+        .to(bird.nativeElement, 1, {x: "-=40", y: "+=40"})
     })
   }
 }
