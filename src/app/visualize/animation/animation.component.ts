@@ -29,10 +29,11 @@ export class AnimationComponent implements OnInit, OnChanges {
   constructor(private el: ElementRef, private nameConverter:SnakeToCamelPipe) { }
 
   ngOnInit() {
-    this.improperFormation();
-    let startPos = this.improper(0);
-    this.dancersOnLeftRightShoulderRoundOnceAndAHalf(startPos)
-
+    // this.becketFormation();
+    // let startPos = this.becket(0);
+    // this.dancersOnRightRightShoulderRoundOnceAndAHalf(startPos)
+    // let nextPos = this.improperProgressed(0);
+    // this.swingOnSidesOfSet(nextPos)
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -49,6 +50,7 @@ export class AnimationComponent implements OnInit, OnChanges {
             moves.push(danceStep)
           }
         })
+        // run the formation method to set up dancers at start of dance
         this[this.nameConverter.transform(positions[0].description) + "Formation"]()
         let danceTimeline = new TimelineMax({})
         moves.forEach(function(move, index) {
@@ -61,11 +63,13 @@ export class AnimationComponent implements OnInit, OnChanges {
           let moveMethod = this[this.nameConverter.transform(move.name)]
           let rubyPositionName = positions[index].description.toString()
           let positionName = this.nameConverter.transform(rubyPositionName);
-          if (typeof moveMethod === 'function' && typeof this[positionName] === 'function' ) { // TODO: High level check to ensure the position at this index exists AND the move exists
+          if (typeof moveMethod === 'function' && typeof this[positionName] === 'function' ) {
             let moveStartPositionGenerator = this[positionName](0); // 0 needs updating later based on which play through the user is on (aka how far red has gotten)
-            danceTimeline.addCallback(moveMethod, index*2, [moveStartPositionGenerator]) // TODO: Ensure each move lasts 2 seconds
+            danceTimeline.addCallback(moveMethod, index*2, [moveStartPositionGenerator, false]) // ENSURE: each move lasts 2 seconds
+            // TODO: Maybe adding a callback every 2 seconds isn't the best way to do this: Should each Move return a timeline we can add?
           } else {
             danceTimeline.killAll(false, true, false, true) // complete the killed things? kill tweens?  kill delayedCalls? kill timelines?
+            console.log("reached")
             return null
           }
           console.log("end of loop, index is: ", index)
@@ -395,9 +399,9 @@ export class AnimationComponent implements OnInit, OnChanges {
       tl.to(sEBird.nativeElement, 0.4, {x: "-=40", y: "+=20"})
       if (sEBird.nativeElement.id[0] === 'L') {
         tl.to(sEBird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i + 80 + "px 220px"})
-          .to(sEBird.nativeElement, 0.4, {x: "-=40", y: "-=20"}) // absolute(?) in current coordinate system
+          .to(sEBird.nativeElement, 0.4, {x: "-=40", y: "-=20"})
       } else if (sEBird.nativeElement.id[0] === 'R') {
-        tl.to(sEBird.nativeElement, 1.2, {rotation: 630, svgOrigin: 240*i + 80 + "px 220px"})
+        tl.to(sEBird.nativeElement, 1.2, {rotation: "+=630", svgOrigin: 240*i + 80 + "px 220px"})
           .to(sEBird.nativeElement, 0.4, {x: "+=40", y: "+=20"})
       }
     })
@@ -408,7 +412,7 @@ export class AnimationComponent implements OnInit, OnChanges {
         tl.to(sWBird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+80 + "px 220px"})
           .to(sWBird.nativeElement, 0.4, {x: "+=40", y: "+=20"})
       } else if (sWBird.nativeElement.id[0] === 'L') {
-        tl.to(sWBird.nativeElement, 1.2, {rotation: 630, svgOrigin: 240*i+80 + "px 220px"})
+        tl.to(sWBird.nativeElement, 1.2, {rotation: "+=630", svgOrigin: 240*i+80 + "px 220px"})
           .to(sWBird.nativeElement, 0.4, {x:"-=40", y: "-=20"})
       }
     })
@@ -419,7 +423,7 @@ export class AnimationComponent implements OnInit, OnChanges {
         tl.to(nWBird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+80 + "px 100px"})
           .to(nWBird.nativeElement, 0.4, {x: "+=40", y: "+=20"})
       } else if (nWBird.nativeElement.id[0] === 'R') {
-        tl.to(nWBird.nativeElement, 1.2, {rotation: 630, svgOrigin: 240*i+80 + "px 100px"})
+        tl.to(nWBird.nativeElement, 1.2, {rotation: "+=630", svgOrigin: 240*i+80 + "px 100px"})
           .to(nWBird.nativeElement, 0.4, {x: "-=40", y: "-=20"})
       }
     })
@@ -430,7 +434,7 @@ export class AnimationComponent implements OnInit, OnChanges {
         tl.to(nEBird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+80 + "px 100"})
           .to(nEBird.nativeElement, 0.4, {x: "-=40", y: "-=20"})
       } else if (nEBird.nativeElement.id[0] === 'L') {
-        tl.to(nEBird.nativeElement, 1.2, {rotation: 630, svgOrigin: 240*i+80 + "px 100"})
+        tl.to(nEBird.nativeElement, 1.2, {rotation: "+=630", svgOrigin: 240*i+80 + "px 100"})
           .to(nEBird.nativeElement, 0.4, {x: "+=40", y: "+=20"})
       }
     })
@@ -440,15 +444,15 @@ export class AnimationComponent implements OnInit, OnChanges {
     console.log("Hit MOVE dancersOnRightRightShoulderRoundOnceAndAHalf")
     startPos.sEBirds.map(function(bird, i) {
       let tl = new TimelineMax();
-      tl.to(bird.nativeElement, 1, {x: "-=80", y:"-=40"})
-        .to(bird.nativeElement, 1, {rotation: "+=450", svgOrigin: 240*i+80 + "px 160px"})
-        .to(bird.nativeElement, 1, {x: "-=40", y: "-=40"})
+      tl.to(bird.nativeElement, 0.4, {x: "-=80", y:"-=40"})
+        .to(bird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+80 + "px 160px"})
+        .to(bird.nativeElement, 0.4, {x: "-=40", y: "-=40"})
     })
     startPos.nWBirds.map(function(bird, i) {
       let tl = new TimelineMax();
-      tl.to(bird.nativeElement, 1, {x:"+=80", y:"+=40"})
-        .to(bird.nativeElement, 1, {rotation: "+=450", svgOrigin: 240*i+80 + "px 160px"})
-        .to(bird.nativeElement, 1, {x: "+=40", y: "+=40"})
+      tl.to(bird.nativeElement, 0.4, {x:"+=80", y:"+=40"})
+        .to(bird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+80 + "px 160px"})
+        .to(bird.nativeElement, 0.4, {x: "+=40", y: "+=40"})
     })
   }
 
@@ -456,15 +460,15 @@ export class AnimationComponent implements OnInit, OnChanges {
     console.log("Hit MOVE dancersOnLeftRightShoulderRoundOnceAndAHalf")
     startPos.sWBirds.map(function(bird, i) {
       let tl = new TimelineMax();
-      tl.to(bird.nativeElement, 1, {x: "+=40", y:"-=80"})
-        .to(bird.nativeElement, 1, {rotation: "+=450", svgOrigin: 240*i+80 + "px 160px"})
-        .to(bird.nativeElement, 1, {x: "+=40", y: "-=40"})
+      tl.to(bird.nativeElement, 0.4, {x: "+=40", y:"-=80"})
+        .to(bird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+80 + "px 160px"})
+        .to(bird.nativeElement, 0.4, {x: "+=40", y: "-=40"})
     })
     startPos.nEBirds.map(function(bird, i) {
       let tl = new TimelineMax();
-      tl.to(bird.nativeElement, 1, {x:"-=40", y:"+=80"})
-        .to(bird.nativeElement, 1, {rotation: "+=450", svgOrigin: 240*i+80 + "px 160px"})
-        .to(bird.nativeElement, 1, {x: "-=40", y: "+=40"})
+      tl.to(bird.nativeElement, 0.4, {x:"-=40", y:"+=80"})
+        .to(bird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+80 + "px 160px"})
+        .to(bird.nativeElement, 0.4, {x: "-=40", y: "+=40"})
     })
   }
 }
