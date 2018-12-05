@@ -29,19 +29,10 @@ export class AnimationComponent implements OnInit, OnChanges {
   constructor(private el: ElementRef, private nameConverter:SnakeToCamelPipe) { }
 
   ngOnInit() {
-    this.improperFormation();
-    let startPos = this.improper(0);
-    this.dancersOnLeftRightShoulderRoundOnceAndAHalf(startPos)
-    // this.balanceTheRing(startPos);
-    // let nextPos = this.improper(0);
-    // this.petronella(nextPos);
-    // nextPos = this.oppositeBecket(0);
-    // this.balanceTheRing(nextPos);
-    // this.petronella(nextPos);
-    // nextPos = this.improperProgressed(0);
-    // this.balanceTheRing(nextPos);
-    // nextPos = this.improperProgressed(0);
-    // this.swingOnSidesOfSet(startPos);
+    // this.becketFormation();
+    // let startPos = this.becket(0);
+    // this.swingOnSidesOfSet(startPos)
+
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -378,25 +369,24 @@ export class AnimationComponent implements OnInit, OnChanges {
     console.log("hit MOVE balanceTheRing")
     startPos.nEBirds.map(function(bird, i) {
       let tl = new TimelineMax();
-      // tl.set(bird.nativeElement, {transformOrigin: "center center"})
-      tl.to(bird.nativeElement, 1, {x: 240*i + 100, y: 140}) // x, y are absolute
-        .to(bird.nativeElement, 1, {x: 240*i + 140, y: 100})
-    }, this)
+      tl.to(bird.nativeElement, 1, {x: "-=40", y: "+=40"})
+        .to(bird.nativeElement, 1, {x: "+=40", y: "-=40"})
+    })
     startPos.sEBirds.map(function(bird, i){
       let tl = new TimelineMax();
-      tl.to(bird.nativeElement, 1, {x: 240*i + 100, y: 180})
-        .to(bird.nativeElement, 1, {x: 240*i + 140, y: 220})
-    }, this)
+      tl.to(bird.nativeElement, 1, {x: "-=40", y: "-=40"})
+        .to(bird.nativeElement, 1, {x: "+=40", y: "+=40"})
+    })
     startPos.sWBirds.map(function(bird, i) {
       let tl = new TimelineMax();
-      tl.to(bird.nativeElement, 1, {x: 240*i + 60, y: 180})
-        .to(bird.nativeElement, 1, {x: 240*i + 20, y: 220})
-    }, this)
+      tl.to(bird.nativeElement, 1, {x: "+=40", y: "-=40"})
+        .to(bird.nativeElement, 1, {x: "-=40", y: "+=40"})
+    })
     startPos.nWBirds.map(function(bird, i) {
       let tl = new TimelineMax();
-      tl.to(bird.nativeElement, 1, {x: 240*i + 60, y: 140})
-        .to(bird.nativeElement, 1, {x: 240*i + 20, y: 100})
-    }, this)
+      tl.to(bird.nativeElement, 1, {x: "+=40", y: "+=40"})
+        .to(bird.nativeElement, 1, {x: "-=40", y: "-=40"})
+    })
   }
 
   public petronella(startPos, couplesOut:boolean = false) {
@@ -404,19 +394,19 @@ export class AnimationComponent implements OnInit, OnChanges {
     startPos.nEBirds.map(function(bird, i) {
       let tl = new TimelineMax();
       // tl.set(bird.nativeElement, {transformOrigin: "center center"})
-      tl.to(bird.nativeElement, 2, {x: 240*i + 20})
+      tl.to(bird.nativeElement, 2, {x: "-=120"})
     })
     startPos.sEBirds.map(function(bird) {
       let tl = new TimelineMax();
-      tl.to(bird.nativeElement, 2, {y:100})
+      tl.to(bird.nativeElement, 2, {y: "-=120"})
     })
     startPos.sWBirds.map(function(bird, i) {
       let tl = new TimelineMax();
-      tl.to(bird.nativeElement, 2, {x: 240*i + 140})
+      tl.to(bird.nativeElement, 2, {x: "+=120"})
     })
     startPos.nWBirds.map(function(bird) {
       let tl = new TimelineMax();
-      tl.to(bird.nativeElement, 2, {y:220})
+      tl.to(bird.nativeElement, 2, {y: "+=120"})
     })
   }
 
@@ -424,46 +414,46 @@ export class AnimationComponent implements OnInit, OnChanges {
     console.log("Hit MOVE swingOnSidesOfSet")
     startPos.sEBirds.map(function(sEBird, i) {
       let tl = new TimelineMax()
-      tl.to(sEBird.nativeElement, 0.4, {x: 240*i + 100, y:240})
+      tl.to(sEBird.nativeElement, 0.4, {x: "-=40", y: "+=20"})
       if (sEBird.nativeElement.id[0] === 'L') {
-        tl.to(sEBird.nativeElement, 1.2, {rotation: 450, transformOrigin: "top left"})
-          .to(sEBird.nativeElement, 0.4, {x: 240*i + 56.5, y: 220}) // absolute(?) in current coordinate system
+        tl.to(sEBird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i + 80 + "px 220px"})
+          .to(sEBird.nativeElement, 0.4, {x: "-=40", y: "-=20"}) // absolute(?) in current coordinate system
       } else if (sEBird.nativeElement.id[0] === 'R') {
-        tl.to(sEBird.nativeElement, 1.2, {rotation: 630, transformOrigin: "top left"})
-          .to(sEBird.nativeElement, 0.4, {x: 240*i + 140, y: 260})
+        tl.to(sEBird.nativeElement, 1.2, {rotation: 630, svgOrigin: 240*i + 80 + "px 220px"})
+          .to(sEBird.nativeElement, 0.4, {x: "+=40", y: "+=20"})
       }
     })
     startPos.sWBirds.map(function(sWBird, i) {
       let tl = new TimelineMax()
-      tl.to(sWBird.nativeElement, 0.4, {x: 240*i + 60, y:200})
+      tl.to(sWBird.nativeElement, 0.4, {x: "+=40", y: "-=20"})
       if (sWBird.nativeElement.id[0] === 'R') {
-        tl.to(sWBird.nativeElement, 1.2, {rotation: 450, transformOrigin: "bottom right"})
-          .to(sWBird.nativeElement, 0.4, {x: 240*i + 96.5, y: 220})
+        tl.to(sWBird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+80 + "px 220px"})
+          .to(sWBird.nativeElement, 0.4, {x: "+=40", y: "+=20"})
       } else if (sWBird.nativeElement.id[0] === 'L') {
-        tl.to(sWBird.nativeElement, 1.2, {rotation: 630, transformOrigin: "bottom right"})
-          .to(sWBird.nativeElement, 0.4, {x: 240*i + 20, y: 180})
+        tl.to(sWBird.nativeElement, 1.2, {rotation: 630, svgOrigin: 240*i+80 + "px 220px"})
+          .to(sWBird.nativeElement, 0.4, {x:"-=40", y: "-=20"})
       }
     })
     startPos.nWBirds.map(function(nWBird, i) {
       let tl = new TimelineMax()
-      tl.to(nWBird.nativeElement, 0.4, {x: 240*i + 60, y:80})
+      tl.to(nWBird.nativeElement, 0.4, {x: "+=40", y:"-=20"})
       if (nWBird.nativeElement.id[0] === 'L') {
-        tl.to(nWBird.nativeElement, 1.2, {rotation: 450, transformOrigin: "bottom right"})
-          .to(nWBird.nativeElement, 0.4, {x: 240*i + 96.5, y: 100})
+        tl.to(nWBird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+80 + "px 100px"})
+          .to(nWBird.nativeElement, 0.4, {x: "+=40", y: "+=20"})
       } else if (nWBird.nativeElement.id[0] === 'R') {
-        tl.to(nWBird.nativeElement, 1.2, {rotation: 630, transformOrigin: "bottom right"})
-          .to(nWBird.nativeElement, 0.4, {x: 240*i + 20, y: 60})
+        tl.to(nWBird.nativeElement, 1.2, {rotation: 630, svgOrigin: 240*i+80 + "px 100px"})
+          .to(nWBird.nativeElement, 0.4, {x: "-=40", y: "-=20"})
       }
     })
     startPos.nEBirds.map(function(nEBird, i) {
       let tl = new TimelineMax()
-      tl.to(nEBird.nativeElement, 0.4, {x: 240*i + 100, y:120})
+      tl.to(nEBird.nativeElement, 0.4, {x: "-=40", y: "+=20"})
       if (nEBird.nativeElement.id[0] === 'R') {
-        tl.to(nEBird.nativeElement, 1.2, {rotation: 450, transformOrigin: "top left"})
-          .to(nEBird.nativeElement, 0.4, {x: 240*i + 56.5, y: 100})
+        tl.to(nEBird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+80 + "px 100"})
+          .to(nEBird.nativeElement, 0.4, {x: "-=40", y: "-=20"})
       } else if (nEBird.nativeElement.id[0] === 'L') {
-        tl.to(nEBird.nativeElement, 1.2, {rotation: 630, transformOrigin: "top left"})
-          .to(nEBird.nativeElement, 0.4, {x: 240*i + 140, y: 140})
+        tl.to(nEBird.nativeElement, 1.2, {rotation: 630, svgOrigin: 240*i+80 + "px 100"})
+          .to(nEBird.nativeElement, 0.4, {x: "+=40", y: "+=20"})
       }
     })
   }
