@@ -29,9 +29,9 @@ export class AnimationComponent implements OnInit, OnChanges {
   constructor(private el: ElementRef, private nameConverter:SnakeToCamelPipe) { }
 
   ngOnInit() {
-    // this.becketFormation();
-    // let startPos = this.becket(0);
-    // this.dancersOnRightRightShoulderRoundOnceAndAHalf(startPos)
+    this.becketFormation();
+    let startPos = this.becket(0);
+    this.californiaTwirlUpAndDown(startPos)
     // let nextPos = this.improperProgressed(0);
     // this.swingOnSidesOfSet(nextPos)
   }
@@ -469,6 +469,31 @@ export class AnimationComponent implements OnInit, OnChanges {
       tl.to(bird.nativeElement, 0.4, {x:"-=40", y:"+=80"})
         .to(bird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+80 + "px 160px"})
         .to(bird.nativeElement, 0.4, {x: "-=40", y: "+=40"})
+    })
+  }
+
+  public circleLeftThreeQuarters(startPos, couplesOut:boolean = false) {
+    console.log("Hit MOVE circleLeftThreeQuarters")
+    const birdsInArrayByCardinalPositioning = [startPos.nEBirds, startPos.sEBirds, startPos.sWBirds, startPos.nWBirds]
+    birdsInArrayByCardinalPositioning.map(function(birdsByCarinalPosition) {
+      birdsByCarinalPosition.map(function(bird, i) {
+        let tl = new TimelineMax();
+        tl.to(bird.nativeElement, 2, {rotation: "+=270", svgOrigin: 240*i+80 + "px 160px"})
+      })
+    })
+  }
+
+  public californiaTwirlUpAndDown(startPos, couplesOut:boolean = false) {
+    console.log("Hit MOVE californiaTwirl")
+    startPos.nWBirds.map(function(bird, i) {
+      let tl = new TimelineMax();
+      tl.to(bird.nativeElement, 0.9, {rotation: "+=90", svgOrigin: 240*i-20 + "px 140px"}, "+=1.5")
+      tl.to(bird.nativeElement, 0.6, {y: "+=40"})
+    })
+    startPos.sWBirds.map(function(bird, i) {
+      let tl = new TimelineMax();
+      tl.to(bird.nativeElement, 0.9, {rotation: "-=90", svgOrigin: 240*i-20 + "px 180px"})
+      tl.to(bird.nativeElement, 0.6, {y: "-=40"}, "+=1.5")
     })
   }
 }
