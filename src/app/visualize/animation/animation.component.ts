@@ -29,9 +29,9 @@ export class AnimationComponent implements OnInit, OnChanges {
   constructor(private el: ElementRef, private nameConverter:SnakeToCamelPipe) { }
 
   ngOnInit() {
-    this.becketFormation();
-    let startPos = this.becket(0);
-    this.californiaTwirlUpAndDown(startPos)
+    // this.becketFormation();
+    // let startPos = this.becket(0);
+    // this.californiaTwirlUpAndDown(startPos)
     // let nextPos = this.improperProgressed(0);
     // this.swingOnSidesOfSet(nextPos)
   }
