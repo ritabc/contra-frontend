@@ -50,8 +50,14 @@ export class AnimationComponent implements OnInit, OnChanges {
             moves.push(danceStep)
           }
         })
+
         // run the formation method to set up dancers at start of dance
         this[this.nameConverter.transform(positions[0].description) + "Formation"]()
+
+        // for (let progIndex = 0; progIndex < 5; progIndex++) {
+        //
+        // }
+
         let danceTimeline = new TimelineMax({})
         moves.forEach(function(move, index) {
           // // Logic for when working on uncompleted moves ONLY - remove later
@@ -65,7 +71,7 @@ export class AnimationComponent implements OnInit, OnChanges {
           let positionName = this.nameConverter.transform(rubyPositionName);
           if (typeof moveMethod === 'function' && typeof this[positionName] === 'function' ) {
             let moveStartPositionGenerator = this[positionName](0); // 0 needs updating later based on which play through the user is on (aka how far red has gotten)
-            danceTimeline.addCallback(moveMethod, index*2, [moveStartPositionGenerator, false]) // ENSURE: each move lasts 2 seconds
+            danceTimeline.add(moveMethod(moveStartPositionGenerator, false)) // ENSURE: each move lasts 2 seconds
             // TODO: Maybe adding a callback every 2 seconds isn't the best way to do this: Should each Move return a timeline we can add?
           } else {
             danceTimeline.killAll(false, true, false, true) // complete the killed things? kill tweens?  kill delayedCalls? kill timelines?
@@ -349,53 +355,77 @@ export class AnimationComponent implements OnInit, OnChanges {
 
   public balanceTheRing(startPos, couplesOut:boolean = false) {
     console.log("hit MOVE balanceTheRing")
+    let nETl = new TimelineMax();
+    let sETl = new TimelineMax();
+    let sWTl = new TimelineMax();
+    let nWTl = new TimelineMax();
+
     startPos.nEBirds.map(function(bird, i) {
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 1, {x: "-=40", y: "+=40"})
         .to(bird.nativeElement, 1, {x: "+=40", y: "-=40"})
+      nETl.add(tl, 0)
     })
     startPos.sEBirds.map(function(bird, i){
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 1, {x: "-=40", y: "-=40"})
         .to(bird.nativeElement, 1, {x: "+=40", y: "+=40"})
+        sETl.add(tl, 0)
     })
     startPos.sWBirds.map(function(bird, i) {
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 1, {x: "+=40", y: "-=40"})
         .to(bird.nativeElement, 1, {x: "-=40", y: "+=40"})
+        sWTl.add(tl, 0)
     })
     startPos.nWBirds.map(function(bird, i) {
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 1, {x: "+=40", y: "+=40"})
         .to(bird.nativeElement, 1, {x: "-=40", y: "-=40"})
+        nWTl.add(tl, 0)
     })
+    return [nETl, sETl, sWTl, nWTl]
   }
 
   public petronella(startPos, couplesOut:boolean = false) {
     console.log("hit MOVE petronella")
+    let nETl = new TimelineMax();
+    let sETl = new TimelineMax();
+    let sWTl = new TimelineMax();
+    let nWTl = new TimelineMax();
+
     startPos.nEBirds.map(function(bird, i) {
       let tl = new TimelineMax();
-      // tl.set(bird.nativeElement, {transformOrigin: "center center"})
       tl.to(bird.nativeElement, 2, {x: "-=120"})
+      nETl.add(tl, 0)
     })
     startPos.sEBirds.map(function(bird) {
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 2, {y: "-=120"})
+      sETl.add(tl, 0)
     })
     startPos.sWBirds.map(function(bird, i) {
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 2, {x: "+=120"})
+      sWTl.add(tl, 0)
     })
     startPos.nWBirds.map(function(bird) {
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 2, {y: "+=120"})
+      nWTl.add(tl, 0)
     })
+    return [nETl, sETl, sWTl, nWTl]
   }
 
   public swingOnSidesOfSet(startPos, couplesOut:boolean = false) {
     console.log("Hit MOVE swingOnSidesOfSet")
+    let nETl = new TimelineMax();
+    let sETl = new TimelineMax();
+    let sWTl = new TimelineMax();
+    let nWTl = new TimelineMax();
+
     startPos.sEBirds.map(function(sEBird, i) {
-      let tl = new TimelineMax()
+      let tl = new TimelineMax();
       tl.to(sEBird.nativeElement, 0.4, {x: "-=40", y: "+=20"})
       if (sEBird.nativeElement.id[0] === 'L') {
         tl.to(sEBird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i + 80 + "px 220px"})
@@ -404,9 +434,10 @@ export class AnimationComponent implements OnInit, OnChanges {
         tl.to(sEBird.nativeElement, 1.2, {rotation: "+=630", svgOrigin: 240*i + 80 + "px 220px"})
           .to(sEBird.nativeElement, 0.4, {x: "+=40", y: "+=20"})
       }
+      sETl.add(tl, 0)
     })
     startPos.sWBirds.map(function(sWBird, i) {
-      let tl = new TimelineMax()
+      let tl = new TimelineMax();
       tl.to(sWBird.nativeElement, 0.4, {x: "+=40", y: "-=20"})
       if (sWBird.nativeElement.id[0] === 'R') {
         tl.to(sWBird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+80 + "px 220px"})
@@ -415,9 +446,10 @@ export class AnimationComponent implements OnInit, OnChanges {
         tl.to(sWBird.nativeElement, 1.2, {rotation: "+=630", svgOrigin: 240*i+80 + "px 220px"})
           .to(sWBird.nativeElement, 0.4, {x:"-=40", y: "-=20"})
       }
+      sWTl.add(tl, 0)
     })
     startPos.nWBirds.map(function(nWBird, i) {
-      let tl = new TimelineMax()
+      let tl = new TimelineMax();
       tl.to(nWBird.nativeElement, 0.4, {x: "+=40", y:"-=20"})
       if (nWBird.nativeElement.id[0] === 'L') {
         tl.to(nWBird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+80 + "px 100px"})
@@ -426,9 +458,10 @@ export class AnimationComponent implements OnInit, OnChanges {
         tl.to(nWBird.nativeElement, 1.2, {rotation: "+=630", svgOrigin: 240*i+80 + "px 100px"})
           .to(nWBird.nativeElement, 0.4, {x: "-=40", y: "-=20"})
       }
+      nWTl.add(tl, 0)
     })
     startPos.nEBirds.map(function(nEBird, i) {
-      let tl = new TimelineMax()
+      let tl = new TimelineMax();
       tl.to(nEBird.nativeElement, 0.4, {x: "-=40", y: "+=20"})
       if (nEBird.nativeElement.id[0] === 'R') {
         tl.to(nEBird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+80 + "px 100"})
@@ -437,97 +470,123 @@ export class AnimationComponent implements OnInit, OnChanges {
         tl.to(nEBird.nativeElement, 1.2, {rotation: "+=630", svgOrigin: 240*i+80 + "px 100"})
           .to(nEBird.nativeElement, 0.4, {x: "+=40", y: "+=20"})
       }
+      nETl.add(tl, 0)
     })
+    return [nETl, sETl, sWTl, nWTl]
   }
 
   public dancersOnRightRightShoulderRoundOnceAndAHalf(startPos, couplesOut:boolean = false) {
     console.log("Hit MOVE dancersOnRightRightShoulderRoundOnceAndAHalf")
+    let sETl = new TimelineMax();
+    let nWTl = new TimelineMax();
+
     startPos.sEBirds.map(function(bird, i) {
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 0.4, {x: "-=80", y:"-=40"})
         .to(bird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+80 + "px 160px"})
         .to(bird.nativeElement, 0.4, {x: "-=40", y: "-=40"})
+      sETl.add(tl, 0)
     })
     startPos.nWBirds.map(function(bird, i) {
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 0.4, {x:"+=80", y:"+=40"})
         .to(bird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+80 + "px 160px"})
         .to(bird.nativeElement, 0.4, {x: "+=40", y: "+=40"})
+      nWTl.add(tl, 0)
     })
+    return [sETl, nWTl]
   }
 
   public dancersOnLeftRightShoulderRoundOnceAndAHalf(startPos, couplesOut:boolean = false) {
     console.log("Hit MOVE dancersOnLeftRightShoulderRoundOnceAndAHalf")
+    let sWTl = new TimelineMax();
+    let nETl = new TimelineMax();
+
     startPos.sWBirds.map(function(bird, i) {
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 0.4, {x: "+=40", y:"-=80"})
         .to(bird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+80 + "px 160px"})
         .to(bird.nativeElement, 0.4, {x: "+=40", y: "-=40"})
+      sWTl.add(tl, 0)
     })
     startPos.nEBirds.map(function(bird, i) {
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 0.4, {x:"-=40", y:"+=80"})
         .to(bird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+80 + "px 160px"})
         .to(bird.nativeElement, 0.4, {x: "-=40", y: "+=40"})
+      nETl.add(tl, 0)
     })
+    return [nETl, sWTl]
   }
 
   public circleLeftThreeQuarters(startPos, couplesOut:boolean = false) {
     console.log("Hit MOVE circleLeftThreeQuarters")
+    let moveTl = new TimelineMax();
     const birdsInArrayByCardinalPositioning = [startPos.nEBirds, startPos.sEBirds, startPos.sWBirds, startPos.nWBirds]
     birdsInArrayByCardinalPositioning.map(function(birdsByCarinalPosition) {
       birdsByCarinalPosition.map(function(bird, i) {
         let tl = new TimelineMax();
         tl.to(bird.nativeElement, 2, {rotation: "+=270", svgOrigin: 240*i+80 + "px 160px"})
+        moveTl.add(tl, 0)
       })
     })
+    return moveTl
   }
 
-  public californiaTwirlUpAndDown(startPos, couplesOut:boolean = false) { // TODO: this one needs to check to see who's a raven and who's a lark. For now, assume improper: Larks are NW and SE
+  public californiaTwirlUpAndDown(startPos, couplesOut:boolean = false) {
     console.log("Hit MOVE californiaTwirl")
+    let nETl = new TimelineMax();
+    let sETl = new TimelineMax();
+    let sWTl = new TimelineMax();
+    let nWTl = new TimelineMax();
+
     startPos.nWBirds.map(function(bird, i) {
       let tl = new TimelineMax();
       if (bird.nativeElement.id[0] === "L") {
         tl.to(bird.nativeElement, 0.6, {rotation: "+=90", svgOrigin: 240*i-20 + "px 140px"}, "+=0.6")
-        tl.to(bird.nativeElement, 0.8, {y: "+=40"})
+          .to(bird.nativeElement, 0.8, {y: "+=40"})
       } else if (bird.nativeElement.id[0] === "R") {
         tl.to(bird.nativeElement, 0.6, {rotation: "+=90", svgOrigin: 240*i-20 + "px 140px"})
-        tl.to(bird.nativeElement, 0.8, {y: "+=40"}, "+=0.6")
+          .to(bird.nativeElement, 0.8, {y: "+=40"}, "+=0.6")
       }
+      nWTl.add(tl, 0)
     })
     startPos.sWBirds.map(function(bird, i) {
       let tl = new TimelineMax();
       if (bird.nativeElement.id[0] === "R") {
         tl.to(bird.nativeElement, 0.6, {rotation: "-=90", svgOrigin: 240*i-20 + "px 180px"})
-        tl.to(bird.nativeElement, 0.8, {y: "-=40"}, "+=0.6")
+          .to(bird.nativeElement, 0.8, {y: "-=40"}, "+=0.6")
       } else if (bird.nativeElement.id[0] === "L") {
         tl.to(bird.nativeElement, 0.6, {rotation: "-=90", svgOrigin: 240*i-20 + "px 180px"}, "+=0.6")
-        tl.to(bird.nativeElement, 0.8, {y: "-=40"})
+          .to(bird.nativeElement, 0.8, {y: "-=40"})
       }
+      sWTl.add(tl, 0)
     })
     startPos.nEBirds.map(function(bird,i) {
       let tl = new TimelineMax();
       if (bird.nativeElement.id[0] === "R") {
         tl.to(bird.nativeElement, 0.6, {rotation: "+=90", svgOrigin: 240*i+100 + "px 140px"})
-        tl.to(bird.nativeElement, 0.8, {y: "+=40"}, "+=0.6")
+          .to(bird.nativeElement, 0.8, {y: "+=40"}, "+=0.6")
       } else if (bird.nativeElement.id[0] === "L") {
         tl.to(bird.nativeElement, 0.6, {rotation: "+=90", svgOrigin: 240*i+100 + "px 140px"}, "+=0.6")
-        tl.to(bird.nativeElement, 0.8, {y: "+=40"})
+          .to(bird.nativeElement, 0.8, {y: "+=40"})
       }
+      nETl.add(tl, 0)
     })
     startPos.sEBirds.map(function(bird, i) {
       let tl = new TimelineMax();
       if (bird.nativeElement.id[0] === "L") {
         tl.to(bird.nativeElement, 0.6, {rotation: "-=90", svgOrigin: 240*i+100 + "px 180px"}, "+=0.6")
-        tl.to(bird.nativeElement, 0.8, {y: "-=40"})
+          .to(bird.nativeElement, 0.8, {y: "-=40"})
       } else if (bird.nativeElement.id[0] === "R") {
         tl.to(bird.nativeElement, 0.6, {rotation: "-=90", svgOrigin: 240*i+100 + "px 180px"})
-        tl.to(bird.nativeElement, 0.8, {y: "-=40"}, "+=0.6")
+          .to(bird.nativeElement, 0.8, {y: "-=40"}, "+=0.6")
       }
+      sETl.add(tl, 0)
     })
+    return [nETl, sETl, sWTl, nWTl]
   }
 }
-
 
 // // !!!!DON'T DELETE!!!!
 // console.log(bird.nativeElement.getBoundingClientRect().x) // origin?
