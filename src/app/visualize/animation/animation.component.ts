@@ -60,12 +60,21 @@ export class AnimationComponent implements OnInit, OnChanges {
         // }
         moves.forEach(function(move, index) {
           console.log("beginning of loop, index is: ", index)
+
+          // Is move the last move? IE is it the progression?
+          let isProgression:boolean
+          if (index === moves.length - 1) {
+            isProgression = true
+          } else {
+            isProgression = false
+          }
+
           let moveMethod = this[this.nameConverter.transform(move.name)]
           let rubyPositionName = positions[index].description.toString()
           let positionName = this.nameConverter.transform(rubyPositionName);
           if (typeof moveMethod === 'function' && typeof this[positionName] === 'function' ) {
             let moveStartPositionGenerator = this[positionName](0); // 0 needs updating later based on which play through the user is on (aka how far red has gotten)
-            danceTimeline.add(moveMethod(moveStartPositionGenerator, false))
+            danceTimeline.add(moveMethod(moveStartPositionGenerator, isProgression))
           } else {
             danceTimeline.killAll(false, true, false, true) // complete the killed things? kill tweens?  kill delayedCalls? kill timelines?
             console.log("reached")
@@ -130,14 +139,12 @@ export class AnimationComponent implements OnInit, OnChanges {
   }
 
 // POSITIONS =================================================
-  // Set Positions Locations (which bird is at what cardinal direction?)
-  // Needs to know whether couples are out?, prior birdsLocation.
-  /// Re prior birdsLocation, can the move return that?
-  // Positions progression number (aka where red is: 0 means start of dance, 12 is upper limit where everyone's back where they started). With this, couplesOut is calculated
+  // Takes the progression number (aka where red is: 0 means start of dance, 12 is upper limit where everyone's back where they started), returns where each bird is in order (at prog # = 0, purple birds first, red birds last).
+  // Also returns the value of outCouplesWaitingPosition, which has different values: improper, proper, becket, oppositeBecket, or none (for no couples out)
+  // Down the line, if there are more than one positions out couples should be in (at first they should be proper for a move with a shadow, then wait improper to go back in), add outCouplesWaitingPosition2 variable
 
   public improper(progressionNumber:number) {
     console.log("hit POSITION improper")
-    let couplesOut:boolean;
     let birdsLocation:any = { nEBirds: [this.R5, this.R3, this.R1],
                               sEBirds: [this.L5, this.L3, this.L1],
                               sWBirds: [this.R6, this.R4, this.R2],
@@ -147,9 +154,9 @@ export class AnimationComponent implements OnInit, OnChanges {
         return null
       }
       else if (prog === 0) {
-        couplesOut = false
+        birdsLocation.outCouplesWaitingPosition = "none"
       } else if (prog % 2 === 1) {
-        couplesOut = true
+        birdsLocation.outCouplesWaitingPosition = "improper"
         let newNE = birdsLocation.sEBirds.shift();
         let newSE = birdsLocation.nEBirds.shift();
         birdsLocation.nEBirds.unshift(newNE);
@@ -159,7 +166,7 @@ export class AnimationComponent implements OnInit, OnChanges {
         birdsLocation.sWBirds.push(newSW);
         birdsLocation.nWBirds.push(newNW);
       } else if (prog % 2 === 0) {
-        couplesOut = false
+        birdsLocation.outCouplesWaitingPosition = "none"
         let newNE = birdsLocation.nWBirds.pop();
         birdsLocation.nEBirds.push(newNE);
         let newSE = birdsLocation.sWBirds.pop();
@@ -175,7 +182,6 @@ export class AnimationComponent implements OnInit, OnChanges {
 
   public oppositeBecket(progressionNumber:number) {
     console.log("hit POSITION oppositeBecket")
-    let couplesOut:boolean;
     let birdsLocation:any = { nEBirds: [this.L5, this.L3, this.L1],
                               sEBirds: [this.R6, this.R4, this.R2],
                               sWBirds: [this.L6, this.L4, this.L2],
@@ -185,9 +191,9 @@ export class AnimationComponent implements OnInit, OnChanges {
         return null
       }
       else if (prog === 0) {
-        couplesOut = false
+        birdsLocation.outCouplesWaitingPosition = "none"
       } else if (prog % 2 === 1) {
-        couplesOut = true
+        birdsLocation.outCouplesWaitingPosition = "oppositeBecket"
         let newNE = birdsLocation.sWBirds.pop();
         let newSE = birdsLocation.nWBirds.shift();
         let newSW = birdsLocation.nEBirds.shift();
@@ -197,7 +203,7 @@ export class AnimationComponent implements OnInit, OnChanges {
         birdsLocation.sWBirds.unshift(newSW)
         birdsLocation.nWBirds.push(newNW)
       } else if (prog % 2 === 0) {
-        couplesOut = false
+        birdsLocation.outCouplesWaitingPosition = "none"
       } else { return null }
     }
     return birdsLocation
@@ -205,7 +211,6 @@ export class AnimationComponent implements OnInit, OnChanges {
 
   public improperProgressed(progressionNumber:number) {
     console.log("hit POSITION improperProgressed")
-    let couplesOut:boolean;
     let birdsLocation:any = { nEBirds: [this.R6, this.R4, this.R2],
                               sEBirds: [this.L6, this.L4, this.L2],
                               sWBirds: [this.R5, this.R3, this.R1],
@@ -215,9 +220,9 @@ export class AnimationComponent implements OnInit, OnChanges {
         return null
       }
       else if (prog === 0) {
-        couplesOut = false
+        birdsLocation.outCouplesWaitingPosition = "none"
       } else if (prog % 2 === 1) {
-        couplesOut = true
+        birdsLocation.outCouplesWaitingPosition = "improper"
         let newNE = birdsLocation.nWBirds.shift();
         let newSE = birdsLocation.sWBirds.shift();
         let newSW = birdsLocation.sEBirds.pop();
@@ -227,7 +232,7 @@ export class AnimationComponent implements OnInit, OnChanges {
         birdsLocation.sWBirds.push(newSW)
         birdsLocation.nWBirds.push(newNW)
       } else if (prog % 2 === 0) {
-        couplesOut = false
+        birdsLocation.outCouplesWaitingPosition = "none"
         let newNE = birdsLocation.sEBirds.shift();
         let newSE = birdsLocation.nEBirds.shift();
         let newSW = birdsLocation.nWBirds.pop();
@@ -243,7 +248,6 @@ export class AnimationComponent implements OnInit, OnChanges {
 
   public becket(progressionNumber:number) {
     console.log("hit POSITION becket")
-    let couplesOut:boolean;
     let birdsLocation:any = { nEBirds: [this.L6, this.L4, this.L2],
                               sEBirds: [this.R5, this.R3, this.R1],
                               sWBirds: [this.L5, this.L3, this.L1],
@@ -253,9 +257,9 @@ export class AnimationComponent implements OnInit, OnChanges {
         return null
       }
       else if (prog === 0) {
-        couplesOut = false
+        birdsLocation.outCouplesWaitingPosition = "none"
       } else if (prog % 2 === 1) {
-        couplesOut = true
+        birdsLocation.outCouplesWaitingPosition = "becket"
         let newNE = birdsLocation.sWBirds.shift();
         let newSE = birdsLocation.nWBirds.pop();
         let newSW = birdsLocation.nEBirds.pop();
@@ -265,7 +269,7 @@ export class AnimationComponent implements OnInit, OnChanges {
         birdsLocation.sWBirds.push(newSW)
         birdsLocation.nWBirds.unshift(newNW)
       } else if (prog % 2 === 0) {
-        couplesOut = false
+        birdsLocation.outCouplesWaitingPosition = "none"
       } else { return null }
     }
     return birdsLocation
@@ -274,7 +278,6 @@ export class AnimationComponent implements OnInit, OnChanges {
   public sideOfSetWithNeighborOnesFacingDown(progressionNumber: number) {
     // note that if and when out couples exist, they must wait proper
     console.log("hit POSITION sideOfSetWithNeighborOnesFacingDown")
-    let couplesOut:boolean;
     let birdsLocation:any = { nEBirds: [this.L5, this.L3, this.L1],
                               sEBirds: [this.R5, this.R3, this.R1],
                               sWBirds: [this.L6, this.L4, this.L2],
@@ -284,7 +287,7 @@ export class AnimationComponent implements OnInit, OnChanges {
         return null
       }
       else if (prog === 0) {
-        couplesOut = false;
+        birdsLocation.outCouplesWaitingPosition = "none";
         // for (let i = 0; i <= 2; ++i) {
         //   console.log(prog, "nE", birdsLocation.nEBirds[i])
         // }
@@ -298,7 +301,7 @@ export class AnimationComponent implements OnInit, OnChanges {
         //   console.log(prog, "nW", birdsLocation.nWBirds[i])
         // }
       } else if (prog % 2 === 1) {
-        couplesOut = true
+        birdsLocation.outCouplesWaitingPosition = "proper"
         let newNE = birdsLocation.sWBirds.pop();
         let newSE = birdsLocation.nWBirds.pop();
         let newSW = birdsLocation.nEBirds.shift();
@@ -320,7 +323,7 @@ export class AnimationComponent implements OnInit, OnChanges {
         //   console.log(prog, "nW", birdsLocation.nWBirds[i])
         // }
       } else if (prog % 2 === 0) {
-        couplesOut = false
+        birdsLocation.outCouplesWaitingPosition = "none"
         // for (let i = 0; i <= 2; ++i) {
         //   console.log(prog, "nE", birdsLocation.nEBirds[i])
         // }
@@ -341,12 +344,11 @@ export class AnimationComponent implements OnInit, OnChanges {
 // MOVES =================================================
 // Define Moves
 /// Moves need to know:
-// - whether couples are out?
+// - whether couples are out, and if so, what position they should wait in?
 // - is the move a progression?
 // Instead of the animating move updating the birdsLocation varible, it will just animate
-// Note on animations: Remember that x and y changes in a .to addition to a timeline change the x and y relative to where they were before. Instead, use the absolute (where origin is 0,0) cx and cy positioning?
 
-  public balanceTheRing(startPos, couplesOut:boolean = false) {
+  public balanceTheRing(startPos, isProgression:boolean) {
     console.log("hit MOVE balanceTheRing")
     let nETl = new TimelineMax();
     let sETl = new TimelineMax();
@@ -380,7 +382,7 @@ export class AnimationComponent implements OnInit, OnChanges {
     return [nETl, sETl, sWTl, nWTl]
   }
 
-  public petronella(startPos, couplesOut:boolean = false) {
+  public petronella(startPos, isProgression:boolean) {
     console.log("hit MOVE petronella")
     let nETl = new TimelineMax();
     let sETl = new TimelineMax();
@@ -410,7 +412,7 @@ export class AnimationComponent implements OnInit, OnChanges {
     return [nETl, sETl, sWTl, nWTl]
   }
 
-  public swingOnSidesOfSet(startPos, couplesOut:boolean = false) {
+  public swingOnSidesOfSet(startPos, isProgression:boolean) {
     console.log("Hit MOVE swingOnSidesOfSet")
     let nETl = new TimelineMax();
     let sETl = new TimelineMax();
@@ -468,7 +470,7 @@ export class AnimationComponent implements OnInit, OnChanges {
     return [nETl, sETl, sWTl, nWTl]
   }
 
-  public dancersOnRightRightShoulderRoundOnceAndAHalf(startPos, couplesOut:boolean = false) {
+  public dancersOnRightRightShoulderRoundOnceAndAHalf(startPos, isProgression:boolean) {
     console.log("Hit MOVE dancersOnRightRightShoulderRoundOnceAndAHalf")
     let sETl = new TimelineMax();
     let nWTl = new TimelineMax();
@@ -490,7 +492,7 @@ export class AnimationComponent implements OnInit, OnChanges {
     return [sETl, nWTl]
   }
 
-  public dancersOnLeftRightShoulderRoundOnceAndAHalf(startPos, couplesOut:boolean = false) {
+  public dancersOnLeftRightShoulderRoundOnceAndAHalf(startPos, isProgression:boolean) {
     console.log("Hit MOVE dancersOnLeftRightShoulderRoundOnceAndAHalf")
     let sWTl = new TimelineMax();
     let nETl = new TimelineMax();
@@ -512,7 +514,7 @@ export class AnimationComponent implements OnInit, OnChanges {
     return [nETl, sWTl]
   }
 
-  public circleLeftThreeQuarters(startPos, couplesOut:boolean = false) {
+  public circleLeftThreeQuarters(startPos, isProgression:boolean) {
     console.log("Hit MOVE circleLeftThreeQuarters")
     let moveTl = new TimelineMax();
     const birdsInArrayByCardinalPositioning = [startPos.nEBirds, startPos.sEBirds, startPos.sWBirds, startPos.nWBirds]
@@ -526,7 +528,7 @@ export class AnimationComponent implements OnInit, OnChanges {
     return moveTl
   }
 
-  public californiaTwirlUpAndDown(startPos, couplesOut:boolean = false) {
+  public californiaTwirlUpAndDown(startPos, isProgression:boolean) {
     console.log("Hit MOVE californiaTwirl")
     let nETl = new TimelineMax();
     let sETl = new TimelineMax();
