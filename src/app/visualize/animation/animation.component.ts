@@ -29,8 +29,8 @@ export class AnimationComponent implements OnInit, OnChanges {
   constructor(private el: ElementRef, private nameConverter:SnakeToCamelPipe) { }
 
   ngOnInit() {
-    this.becketFormation();
-    let startPos = this.becket(0);
+    this.improperFormation();
+    let startPos = this.improper(0);
     this.californiaTwirlUpAndDown(startPos)
     // let nextPos = this.improperProgressed(0);
     // this.swingOnSidesOfSet(nextPos)
@@ -483,7 +483,7 @@ export class AnimationComponent implements OnInit, OnChanges {
     })
   }
 
-  public californiaTwirlUpAndDown(startPos, couplesOut:boolean = false) {
+  public californiaTwirlUpAndDown(startPos, couplesOut:boolean = false) { // TODO: this one needs to check to see who's a raven and who's a lark. For now, assume improper: Larks are NW and SE
     console.log("Hit MOVE californiaTwirl")
     startPos.nWBirds.map(function(bird, i) {
       let tl = new TimelineMax();
@@ -494,6 +494,16 @@ export class AnimationComponent implements OnInit, OnChanges {
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 0.9, {rotation: "-=90", svgOrigin: 240*i-20 + "px 180px"})
       tl.to(bird.nativeElement, 0.6, {y: "-=40"}, "+=1.5")
+    })
+    startPos.nEBirds.map(function(bird,i) {
+      let tl = new TimelineMax();
+      tl.to(bird.nativeElement, 0.9, {rotation: "+=90", svgOrigin: 240*i+100 + "px 140px"})
+      tl.to(bird.nativeElement, 0.6, {y: "+=40"}, "+=1.5")
+    })
+    startPos.sEBirds.map(function(bird, i) {
+      let tl = new TimelineMax();
+      tl.to(bird.nativeElement, 0.9, {rotation: "-=90", svgOrigin: 240*i+100 + "px 180px"}, "+=1.5")
+      tl.to(bird.nativeElement, 0.6, {y: "-=40"})
     })
   }
 }
