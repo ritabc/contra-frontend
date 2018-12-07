@@ -29,8 +29,8 @@ export class AnimationComponent implements OnInit, OnChanges {
   constructor(private el: ElementRef, private nameConverter:SnakeToCamelPipe) { }
 
   ngOnInit() {
-    this.improperFormation();
-    let startPos = this.improper(0);
+    this.becketFormation();
+    let startPos = this.becket(0);
     this.californiaTwirlUpAndDown(startPos)
     // let nextPos = this.improperProgressed(0);
     // this.swingOnSidesOfSet(nextPos)
@@ -487,23 +487,43 @@ export class AnimationComponent implements OnInit, OnChanges {
     console.log("Hit MOVE californiaTwirl")
     startPos.nWBirds.map(function(bird, i) {
       let tl = new TimelineMax();
-      tl.to(bird.nativeElement, 0.9, {rotation: "+=90", svgOrigin: 240*i-20 + "px 140px"}, "+=1.5")
-      tl.to(bird.nativeElement, 0.6, {y: "+=40"})
+      if (bird.nativeElement.id[0] === "L") {
+        tl.to(bird.nativeElement, 0.6, {rotation: "+=90", svgOrigin: 240*i-20 + "px 140px"}, "+=0.6")
+        tl.to(bird.nativeElement, 0.8, {y: "+=40"})
+      } else if (bird.nativeElement.id[0] === "R") {
+        tl.to(bird.nativeElement, 0.6, {rotation: "+=90", svgOrigin: 240*i-20 + "px 140px"})
+        tl.to(bird.nativeElement, 0.8, {y: "+=40"}, "+=0.6")
+      }
     })
     startPos.sWBirds.map(function(bird, i) {
       let tl = new TimelineMax();
-      tl.to(bird.nativeElement, 0.9, {rotation: "-=90", svgOrigin: 240*i-20 + "px 180px"})
-      tl.to(bird.nativeElement, 0.6, {y: "-=40"}, "+=1.5")
+      if (bird.nativeElement.id[0] === "R") {
+        tl.to(bird.nativeElement, 0.6, {rotation: "-=90", svgOrigin: 240*i-20 + "px 180px"})
+        tl.to(bird.nativeElement, 0.8, {y: "-=40"}, "+=0.6")
+      } else if (bird.nativeElement.id[0] === "L") {
+        tl.to(bird.nativeElement, 0.6, {rotation: "-=90", svgOrigin: 240*i-20 + "px 180px"}, "+=0.6")
+        tl.to(bird.nativeElement, 0.8, {y: "-=40"})
+      }
     })
     startPos.nEBirds.map(function(bird,i) {
       let tl = new TimelineMax();
-      tl.to(bird.nativeElement, 0.9, {rotation: "+=90", svgOrigin: 240*i+100 + "px 140px"})
-      tl.to(bird.nativeElement, 0.6, {y: "+=40"}, "+=1.5")
+      if (bird.nativeElement.id[0] === "R") {
+        tl.to(bird.nativeElement, 0.6, {rotation: "+=90", svgOrigin: 240*i+100 + "px 140px"})
+        tl.to(bird.nativeElement, 0.8, {y: "+=40"}, "+=0.6")
+      } else if (bird.nativeElement.id[0] === "L") {
+        tl.to(bird.nativeElement, 0.6, {rotation: "+=90", svgOrigin: 240*i+100 + "px 140px"}, "+=0.6")
+        tl.to(bird.nativeElement, 0.8, {y: "+=40"})
+      }
     })
     startPos.sEBirds.map(function(bird, i) {
       let tl = new TimelineMax();
-      tl.to(bird.nativeElement, 0.9, {rotation: "-=90", svgOrigin: 240*i+100 + "px 180px"}, "+=1.5")
-      tl.to(bird.nativeElement, 0.6, {y: "-=40"})
+      if (bird.nativeElement.id[0] === "L") {
+        tl.to(bird.nativeElement, 0.6, {rotation: "-=90", svgOrigin: 240*i+100 + "px 180px"}, "+=0.6")
+        tl.to(bird.nativeElement, 0.8, {y: "-=40"})
+      } else if (bird.nativeElement.id[0] === "R") {
+        tl.to(bird.nativeElement, 0.6, {rotation: "-=90", svgOrigin: 240*i+100 + "px 180px"})
+        tl.to(bird.nativeElement, 0.8, {y: "-=40"}, "+=0.6")
+      }
     })
   }
 }
