@@ -54,25 +54,18 @@ export class AnimationComponent implements OnInit, OnChanges {
         // run the formation method to set up dancers at start of dance
         this[this.nameConverter.transform(positions[0].description) + "Formation"]()
 
+        let danceTimeline = new TimelineMax({})
         // for (let progIndex = 0; progIndex < 5; progIndex++) {
         //
         // }
-
-        let danceTimeline = new TimelineMax({})
         moves.forEach(function(move, index) {
-          // // Logic for when working on uncompleted moves ONLY - remove later
-          // if (index > 6) {
-          //   danceTimeline.killAll(false, true, false, true)
-          //   return
-          // }
           console.log("beginning of loop, index is: ", index)
           let moveMethod = this[this.nameConverter.transform(move.name)]
           let rubyPositionName = positions[index].description.toString()
           let positionName = this.nameConverter.transform(rubyPositionName);
           if (typeof moveMethod === 'function' && typeof this[positionName] === 'function' ) {
             let moveStartPositionGenerator = this[positionName](0); // 0 needs updating later based on which play through the user is on (aka how far red has gotten)
-            danceTimeline.add(moveMethod(moveStartPositionGenerator, false)) // ENSURE: each move lasts 2 seconds
-            // TODO: Maybe adding a callback every 2 seconds isn't the best way to do this: Should each Move return a timeline we can add?
+            danceTimeline.add(moveMethod(moveStartPositionGenerator, false))
           } else {
             danceTimeline.killAll(false, true, false, true) // complete the killed things? kill tweens?  kill delayedCalls? kill timelines?
             console.log("reached")
