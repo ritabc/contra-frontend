@@ -37,6 +37,7 @@ export class AnimationComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    let that = this
     for (const propName of Object.keys(changes)) {
       const change = changes[propName];
       if (!change.firstChange) {
@@ -55,33 +56,34 @@ export class AnimationComponent implements OnInit, OnChanges {
         this[this.nameConverter.transform(positions[0].description) + "Formation"]()
 
         let danceTimeline = new TimelineMax({})
-        // for (let progIndex = 0; progIndex < 5; progIndex++) {
-        //
-        // }
-        moves.forEach(function(move, index) {
-          console.log("beginning of loop, index is: ", index)
 
-          // Is move the last move? IE is it the progression?
-          let isProgression:boolean
-          if (index === moves.length - 1) {
-            isProgression = true
-          } else {
-            isProgression = false
-          }
+        for (let progIndex = 0; progIndex < 2; ++progIndex) {
+          console.log(progIndex)
+          moves.forEach(function(move, index) {
+            console.log("beginning of loop, index is: ", index)
 
-          let moveMethod = this[this.nameConverter.transform(move.name)]
-          let rubyPositionName = positions[index].description.toString()
-          let positionName = this.nameConverter.transform(rubyPositionName);
-          if (typeof moveMethod === 'function' && typeof this[positionName] === 'function' ) {
-            let moveStartPositionGenerator = this[positionName](0); // 0 needs updating later based on which play through the user is on (aka how far red has gotten)
-            danceTimeline.add(moveMethod(moveStartPositionGenerator, isProgression))
-          } else {
-            danceTimeline.killAll(false, true, false, true) // complete the killed things? kill tweens?  kill delayedCalls? kill timelines?
-            console.log("reached")
-            return null
-          }
-          console.log("end of loop, index is: ", index)
-        }, this)
+            // // Is move the last move? IE is it the progression?
+            let isProgression:boolean
+            if (index === moves.length - 1) {
+              isProgression = true
+            } else {
+              isProgression = false
+            }
+
+            let moveMethod = this[this.nameConverter.transform(move.name)]
+            let rubyPositionName = positions[index].description.toString()
+            let positionName = this.nameConverter.transform(rubyPositionName);
+            if (typeof moveMethod === 'function' && typeof this[positionName] === 'function' ) {
+              let moveStartPositionGenerator = this[positionName](progIndex); // 0 needs updating later based on which play through the user is on (aka how far red has gotten)
+              danceTimeline.add(moveMethod(moveStartPositionGenerator, isProgression))
+            } else {
+              danceTimeline.killAll(false, true, false, true) // complete the killed things? kill tweens?  kill delayedCalls? kill timelines?
+              console.log("reached")
+              return null
+            }
+            console.log("end of loop, index is: ", index)
+          }, this)
+        }
       }
     }
   }
@@ -348,12 +350,15 @@ export class AnimationComponent implements OnInit, OnChanges {
 // - is the move a progression?
 // Instead of the animating move updating the birdsLocation varible, it will just animate
 
-  public balanceTheRing(startPos, isProgression:boolean) {
+  public balanceTheRing = (startPos, isProgression:boolean) => {
     console.log("hit MOVE balanceTheRing")
+
     let nETl = new TimelineMax();
     let sETl = new TimelineMax();
     let sWTl = new TimelineMax();
     let nWTl = new TimelineMax();
+    // out couples need animating too!
+    let eeTl = new TimelineMax();
 
     startPos.nEBirds.map(function(bird, i) {
       let tl = new TimelineMax();
@@ -379,7 +384,16 @@ export class AnimationComponent implements OnInit, OnChanges {
         .to(bird.nativeElement, 1, {x: "-=40", y: "-=40"})
         nWTl.add(tl, 0)
     })
-    return [nETl, sETl, sWTl, nWTl]
+
+    if (this.checkForOutCouples(startPos)) {
+      let outNE = startPos.nEBirds.shift()
+      let outSE = startPos.sEBirds.shift()
+      let outSW = startPos.sWBirds.pop()
+      let outNW = startPos.nWBirds.pop()
+      eeTl.add(this.improperEE(outNE, outSE, outSW, outNW), 0)
+    }
+
+    return [nETl, sETl, sWTl, nWTl, eeTl]
   }
 
   public petronella(startPos, isProgression:boolean) {
@@ -580,6 +594,31 @@ export class AnimationComponent implements OnInit, OnChanges {
       sETl.add(tl, 0)
     })
     return [nETl, sETl, sWTl, nWTl]
+  }
+
+// END EFFECTS ANIMATIONS ===================================
+// Methods which will be called in the moves
+// Will return a timeline that each move will add at 0 seconds
+// Arbitrary decision: these animations last 2 seconds.
+// Will take which bird is nE, which is sE, sW, nW (this will be the position each bird will wait in (at the end of the animation))
+
+  public improperEE(nE, sE, sW, nW) {
+    let tl = new TimelineMax();
+    tl.to(nW.nativeElement, 2, {rotation: "-=90", svgOrigin: "560px 160px"}, 0)
+      .to(sW.nativeElement, 2, {rotation: "+=90", svgOrigin: "560px 160px"}, 0)
+      .to(nE.nativeElement, 2, {rotation: "+=90", svgOrigin: "80px 160px"}, 0)
+      .to(sE.nativeElement, 2, {rotation: "-=90", svgOrigin: "80px 160px"}, 0)
+    return tl
+  }
+
+
+// Miscellaneous Methods ==================================
+  public checkForOutCouples(startPos) {
+    if (startPos.outCouplesWaitingPosition === "none") {
+       return false;
+    } else {
+      return true;
+    }
   }
 }
 
