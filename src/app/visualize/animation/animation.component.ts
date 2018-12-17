@@ -44,7 +44,9 @@ export class AnimationComponent implements OnInit, OnChanges {
         // console.log(change.currentValue) // Array of Steps in dance
         let positions:Array<Position> = [];
         let moves:Array<Move> = [];
-        change.currentValue.forEach(function(danceStep, index) { // iterate over danceSteps, compose positions and moves arrays
+
+        // iterate over danceSteps, compose positions and moves arrays
+        change.currentValue.forEach(function(danceStep, index) {
           if (index % 2 === 0) {
             positions.push(danceStep)
           } else if (index % 2 === 1) {
@@ -57,23 +59,26 @@ export class AnimationComponent implements OnInit, OnChanges {
 
         let danceTimeline = new TimelineMax({})
 
-        for (let progIndex = 0; progIndex < 2; ++progIndex) {
+        for (let progIndex = 0; progIndex < 3; ++progIndex) {
           console.log(progIndex)
-          moves.forEach(function(move, index) {
-            console.log("beginning of loop, index is: ", index)
+          moves.forEach(function(move, moveIndex) {
+            console.log("beginning of loop, moveIndex is: ", moveIndex)
 
             // obtain moveMethod name and position Method name, check whether they both exist as functions
             let moveMethod = this[this.nameConverter.transform(move.name)]
-            let rubyPositionName = positions[index].description.toString()
+            let rubyPositionName = positions[moveIndex].description.toString()
             let positionName = this.nameConverter.transform(rubyPositionName);
             if (typeof moveMethod === 'function' && typeof this[positionName] === 'function' ) {
               let moveStartPositionGenerator = this[positionName](progIndex); // progIndex meaning how far red has gotten away from home position (how many times the dance has progressed)
 
               // // Is move the last move? IE is it the progression?
-              if (index === moves.length - 1) {
+              if (moveIndex === moves.length - 1) {
                 console.log("hit place in code where move is a progression")
                 this.toggleCouplesOut()
-                if (this.couplesOut) { // strip startPos arrays of out birds (depending on value of outCouplesWaitingPosition: improper, becket, etc )
+
+                // strip startPos arrays of out birds (depending on value of outCouplesWaitingPosition:
+                // improper, becket, etc )
+                if (this.couplesOut) {
                   let strippedData: any =
                   {
                   "birdsLocation": {"nEBirds" : [ElementRef],
@@ -84,27 +89,19 @@ export class AnimationComponent implements OnInit, OnChanges {
                   "newlyOutBirds" : { "nE" : ElementRef, "sE" : ElementRef, "sW" : ElementRef, "nW" : ElementRef}
                   }
                   if (moveStartPositionGenerator.outCouplesWaitingPosition === "improper") {
-                    let strippedNE = moveStartPositionGenerator.nEBirds.shift()
-                    let strippedSE = moveStartPositionGenerator.sEBirds.shift()
-                    let strippedSW = moveStartPositionGenerator.sWBirds.pop()
-                    let strippedNW = moveStartPositionGenerator.nWBirds.pop()
-                    strippedData.newlyOutBirds.nE = strippedNE
-                    strippedData.newlyOutBirds.sE = strippedSE
-                    strippedData.newlyOutBirds.sW = strippedSW
-                    strippedData.newlyOutBirds.nW = strippedNW
+                    strippedData.newlyOutBirds.nE = moveStartPositionGenerator.nEBirds.shift()
+                    strippedData.newlyOutBirds.sE = moveStartPositionGenerator.sEBirds.shift()
+                    strippedData.newlyOutBirds.sW = moveStartPositionGenerator.sWBirds.pop()
+                    strippedData.newlyOutBirds.nW = moveStartPositionGenerator.nWBirds.pop()
                     strippedData.birdsLocation.nEBirds = moveStartPositionGenerator.nEBirds
                     strippedData.birdsLocation.sEBirds = moveStartPositionGenerator.sEBirds
                     strippedData.birdsLocation.sWBirds = moveStartPositionGenerator.sWBirds
                     strippedData.birdsLocation.nWBirds = moveStartPositionGenerator.nWBirds
                   } else if (moveStartPositionGenerator.outCouplesWaitingPosition === "becket") {
-                    let strippedNE = moveStartPositionGenerator.nEBirds.pop()
-                    let strippedSE = moveStartPositionGenerator.sEBirds.shift()
-                    let strippedSW = moveStartPositionGenerator.sWBirds.shift()
-                    let strippedNW = moveStartPositionGenerator.nWBirds.pop()
-                    strippedData.newlyOutBirds.nE = strippedNE
-                    strippedData.newlyOutBirds.sE = strippedSE
-                    strippedData.newlyOutBirds.sW = strippedSW
-                    strippedData.newlyOutBirds.nW = strippedNW
+                    strippedData.newlyOutBirds.nE = moveStartPositionGenerator.nEBirds.pop()
+                    strippedData.newlyOutBirds.sE = moveStartPositionGenerator.sEBirds.shift()
+                    strippedData.newlyOutBirds.sW = moveStartPositionGenerator.sWBirds.shift()
+                    strippedData.newlyOutBirds.nW = moveStartPositionGenerator.nWBirds.pop()
                     strippedData.birdsLocation.nEBirds = moveStartPositionGenerator.nEBirds
                     strippedData.birdsLocation.sEBirds = moveStartPositionGenerator.sEBirds
                     strippedData.birdsLocation.sWBirds = moveStartPositionGenerator.sWBirds
@@ -133,12 +130,13 @@ export class AnimationComponent implements OnInit, OnChanges {
               } else { // if move is NOT a progression
                 danceTimeline.add(moveMethod(moveStartPositionGenerator, false))
               }
+              console.log(danceTimeline)
             } else {
               danceTimeline.killAll(false, true, false, true) // complete the killed things? kill tweens?  kill delayedCalls? kill timelines?
               console.log("reached")
               return null
             }
-            console.log("end of loop, index is: ", index)
+            console.log("end of loop, moveIndex is: ", moveIndex)
           }, this)
         }
       }
@@ -391,6 +389,8 @@ export class AnimationComponent implements OnInit, OnChanges {
 // MOVES =================================================
 // Define Moves
 /// Moves need to know:
+// - birdsLocation (startPos), which is comprised of: a) h4Birds:{[nEBirds], [sEBirds], [sWBirds], [nWBirds]}, b) outBirds: null OR {neOutBird, sEOutBird, sWOutBird, nWOutBird}, c) outCoupl
+// - shouldOutCouplesAnimate (true iff moveIndex = 1)
 // - whether couples are out, and if so, what position they should wait in?
 // - is the move a progression?
 // New: just startPos and couplesOut:boolean
@@ -664,7 +664,6 @@ export class AnimationComponent implements OnInit, OnChanges {
 // END EFFECTS ANIMATIONS ===================================
 // Methods which will be called in the moves
 // Will return a timeline that each move will add at 0 seconds
-// Arbitrary decision: these animations last 2 seconds.
 // Will take which bird is nE, which is sE, sW, nW (this will be the position each bird will wait in (at the end of the animation))
 
   public improperEE(nE, sE, sW, nW) {
@@ -680,7 +679,7 @@ export class AnimationComponent implements OnInit, OnChanges {
 // Miscellaneous Methods ==================================
 
   public strippedBirdsLocations(startPos) {
-
+    // should eventually be it's own method
   }
 
   public toggleCouplesOut() {
@@ -691,14 +690,35 @@ export class AnimationComponent implements OnInit, OnChanges {
     }
   }
 
-  public checkForOutCouples(startPos) {
-    if (startPos.outCouplesWaitingPosition === "none") {
-       return false;
-    } else {
-      return true;
+  public endEffects(type:string, originalPositiosOfNewlyOutBirds) {
+    // must return timeline
+    console.log("Hit method endEffects()")
+    let tl = new TimelineMax();
+    if (type === "improper") {
+      console.log(originalPositiosOfNewlyOutBirds.nE.nativeElement, originalPositiosOfNewlyOutBirds.sW.nativeElement)
+      tl.to(originalPositiosOfNewlyOutBirds.nE.nativeElement, 2, {rotation: "-=90", svgOrigin: "80px 160px"}, 0)
+        .to(originalPositiosOfNewlyOutBirds.sE.nativeElement, 2, {rotation: "+=90", svgOrigin: "80px 160px"}, 0)
+        .to(originalPositiosOfNewlyOutBirds.sW.nativeElement, 2, {rotation: "-=90", svgOrigin: "560px 160px"}, 0)
+        .to(originalPositiosOfNewlyOutBirds.nW.nativeElement, 2, {rotation: "+=90", svgOrigin: "560px 160px"}, 0)
+      return tl
+    } else if (type === "becket") { // TODO: svgOrigin needs updating after viewport/viewbox? is increased (not svg size but area to view it in)
+      tl.to(originalPositiosOfNewlyOutBirds.nE.nativeElement, 2, {rotation: "+=90", svgOrigin: "580px 160px"}, 0)
+        .to(originalPositiosOfNewlyOutBirds.sE.nativeElement, 2, {rotation: "+=90", svgOrigin: "60px 160px"})
+        .to(originalPositiosOfNewlyOutBirds.sW.nativeElement, 2, {rotation: "+=90", svgOrigin: "60px 160px"})
+        .to(originalPositiosOfNewlyOutBirds.nW.nativeElement, 2, {rotation: "+=90", svgOrigin: "580px 160px"})
+      return tl
     }
   }
 }
+
+  // public checkForOutCouples(startPos) {
+  //   if (startPos.outCouplesWaitingPosition === "none") {
+  //      return false;
+  //   } else {
+  //     return true;
+  //   }
+  // }
+
 
 // // !!!!DON'T DELETE!!!!
 // console.log(bird.nativeElement.getBoundingClientRect().x) // origin?
