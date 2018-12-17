@@ -42,12 +42,11 @@ export class ApiService {
   public getSteps(path:string, danceId:number) {
     var endpoint = this.API_URL + path + '/?dance_id=' + danceId.toString();
     return this.http.get<(Move|Position)[]>(endpoint)
+  }
 
-
-    // let steps = (params:string) => {
-    //   return this.http.get(params)
-    // }
-    // return steps(endpoint)
+  public getDanceInformation(danceId:number) {
+    var endpoint = this.API_URL + "dances?id=" + danceId.toString();
+    return this.http.get<(Move)>(endpoint)
   }
 
   public getAnimationInfo(path:string, danceId:number) {
