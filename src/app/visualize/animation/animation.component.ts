@@ -3,7 +3,9 @@ import { TweenLite, TweenMax, TimelineMax, CSSPlugin } from 'gsap/TweenMax';
 
 import { Move } from '../../move';
 import { Position } from '../../position';
+import { Dance } from '../../dance';
 import { SnakeToCamelPipe } from '../../snakeToCamel.pipe';
+import { ApiService } from '../../api.service';
 
 @Component({
   selector: 'app-animation',
@@ -12,7 +14,10 @@ import { SnakeToCamelPipe } from '../../snakeToCamel.pipe';
 })
 
 export class AnimationComponent implements OnInit, OnChanges {
-  @Input() steps:Array<Move|Position>
+  @Input() steps:Array<Move|Position>;
+  @Input() moves:Array<Move>;
+  @Input() positions:Array<Position>;
+
   @ViewChild('R1') private R1:ElementRef;
   @ViewChild('L1') private L1:ElementRef;
   @ViewChild('R2') private R2:ElementRef;
@@ -26,8 +31,11 @@ export class AnimationComponent implements OnInit, OnChanges {
   @ViewChild('R6') private R6:ElementRef;
   @ViewChild('L6') private L6:ElementRef;
   couplesOut:boolean = true
+  // @Input() danceId:number;
+  danceData:Dance
+  @Input() currentDance:Dance
 
-  constructor(private el: ElementRef, private nameConverter:SnakeToCamelPipe) { }
+  constructor(private el: ElementRef, private nameConverter:SnakeToCamelPipe, private apiService:ApiService) { }
 
   ngOnInit() {
     // this.improperFormation();
@@ -38,106 +46,117 @@ export class AnimationComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    for (const propName of Object.keys(changes)) {
-      const change = changes[propName];
-      if (!change.firstChange) {
-        // console.log(change.currentValue) // Array of Steps in dance
-        let positions:Array<Position> = [];
-        let moves:Array<Move> = [];
+    for (const propName of Object.keys(changes)) { // change to for the changes.steps
+      if (propName === "this.steps") {
+        const change = changes[propName];
+        console.log(change)
+        if (!change.firstChange) {
+          console.log(change.currentValue)
 
-        // iterate over danceSteps, compose positions and moves arrays
-        change.currentValue.forEach(function(danceStep, index) {
-          if (index % 2 === 0) {
-            positions.push(danceStep)
-          } else if (index % 2 === 1) {
-            moves.push(danceStep)
-          }
-        })
+          console.log(change.currentValue) // Was list of steps, then was Id of dance, then was danceData
 
-        // run the formation method to set up dancers at start of dance
-        this[this.nameConverter.transform(positions[0].description) + "Formation"]()
+          // Get steps (dance_moves) for dance, convert into positions and moves
+          let positions:Array<Position> = [];
+          let moves:Array<Move> = [];
+          // this.apiService.getSteps(this.danceId).subscribe((stepsData) => {
+          //   console.log(stepsData) // array of objects
+          //   stepsData.forEach(function(danceStep, index) {
+          //     if (index === 0) {
+          //       positions.push(new Position(danceStep.id, true, danceStep['description']))
+          //     } else if (index % 2 === 1) {
+          //       moves.push(new Move(danceStep.id, danceStep['name']))
+          //     } else if (index % 2 === 0) {
+          //       positions.push(new Position(danceStep.id, false, danceStep['description']))
+          //     }
+          //   })
+          // })
 
-        let danceTimeline = new TimelineMax({})
+          console.log(positions[0])
+          // run the formation method to set up dancers at start of dance
+          this[this.nameConverter.transform(positions[0].description) + "Formation"]()
 
-        for (let progIndex = 0; progIndex < 3; ++progIndex) {
-          console.log(progIndex)
-          moves.forEach(function(move, moveIndex) {
-            console.log("beginning of loop, moveIndex is: ", moveIndex)
+          let danceTimeline = new TimelineMax({})
 
-            // obtain moveMethod name and position Method name, check whether they both exist as functions
-            let moveMethod = this[this.nameConverter.transform(move.name)]
-            let rubyPositionName = positions[moveIndex].description.toString()
-            let positionName = this.nameConverter.transform(rubyPositionName);
-            if (typeof moveMethod === 'function' && typeof this[positionName] === 'function' ) {
-              let moveStartPositionGenerator = this[positionName](progIndex); // progIndex meaning how far red has gotten away from home position (how many times the dance has progressed)
+          for (let progIndex = 0; progIndex < 3; ++progIndex) {
+            console.log(progIndex)
+            moves.forEach(function(move, moveIndex) {
+              console.log("beginning of loop, moveIndex is: ", moveIndex)
 
-              // // Is move the last move? IE is it the progression?
-              if (moveIndex === moves.length - 1) {
-                console.log("hit place in code where move is a progression")
-                this.toggleCouplesOut()
+              // obtain moveMethod name and position Method name, check whether they both exist as functions
+              let moveMethod = this[this.nameConverter.transform(move.name)]
+              let rubyPositionName = positions[moveIndex].description.toString()
+              let positionName = this.nameConverter.transform(rubyPositionName);
+              if (typeof moveMethod === 'function' && typeof this[positionName] === 'function' ) {
+                let moveStartPositionGenerator = this[positionName](progIndex); // progIndex meaning how far red has gotten away from home position (how many times the dance has progressed)
 
-                // strip startPos arrays of out birds (depending on value of outCouplesWaitingPosition:
-                // improper, becket, etc )
-                if (this.couplesOut) {
-                  let strippedData: any =
-                  {
-                  "birdsLocation": {"nEBirds" : [ElementRef],
-                                    "sEBirds" : [ElementRef],
-                                    "sWBirds" : [ElementRef],
-                                    "nWBirds" : [ElementRef]
-                                   },
-                  "newlyOutBirds" : { "nE" : ElementRef, "sE" : ElementRef, "sW" : ElementRef, "nW" : ElementRef}
+                // // Is move the last move? IE is it the progression?
+                if (moveIndex === moves.length - 1) {
+                  console.log("hit place in code where move is a progression")
+                  this.toggleCouplesOut()
+
+                  // strip startPos arrays of out birds (depending on value of outCouplesWaitingPosition:
+                  // improper, becket, etc )
+                  if (this.couplesOut) {
+                    let strippedData: any =
+                    {
+                    "birdsLocation": {"nEBirds" : [ElementRef],
+                                      "sEBirds" : [ElementRef],
+                                      "sWBirds" : [ElementRef],
+                                      "nWBirds" : [ElementRef]
+                                     },
+                    "newlyOutBirds" : { "nE" : ElementRef, "sE" : ElementRef, "sW" : ElementRef, "nW" : ElementRef}
+                    }
+                    if (moveStartPositionGenerator.outCouplesWaitingPosition === "improper") {
+                      strippedData.newlyOutBirds.nE = moveStartPositionGenerator.nEBirds.shift()
+                      strippedData.newlyOutBirds.sE = moveStartPositionGenerator.sEBirds.shift()
+                      strippedData.newlyOutBirds.sW = moveStartPositionGenerator.sWBirds.pop()
+                      strippedData.newlyOutBirds.nW = moveStartPositionGenerator.nWBirds.pop()
+                      strippedData.birdsLocation.nEBirds = moveStartPositionGenerator.nEBirds
+                      strippedData.birdsLocation.sEBirds = moveStartPositionGenerator.sEBirds
+                      strippedData.birdsLocation.sWBirds = moveStartPositionGenerator.sWBirds
+                      strippedData.birdsLocation.nWBirds = moveStartPositionGenerator.nWBirds
+                    } else if (moveStartPositionGenerator.outCouplesWaitingPosition === "becket") {
+                      strippedData.newlyOutBirds.nE = moveStartPositionGenerator.nEBirds.pop()
+                      strippedData.newlyOutBirds.sE = moveStartPositionGenerator.sEBirds.shift()
+                      strippedData.newlyOutBirds.sW = moveStartPositionGenerator.sWBirds.shift()
+                      strippedData.newlyOutBirds.nW = moveStartPositionGenerator.nWBirds.pop()
+                      strippedData.birdsLocation.nEBirds = moveStartPositionGenerator.nEBirds
+                      strippedData.birdsLocation.sEBirds = moveStartPositionGenerator.sEBirds
+                      strippedData.birdsLocation.sWBirds = moveStartPositionGenerator.sWBirds
+                      strippedData.birdsLocation.nWBirds = moveStartPositionGenerator.nWBirds
+                    }
+                    // strippedData would look like:
+                    // {
+                    //    birdsLocation: { nEBirds: [ this.R3, this.R1 ]
+                    //                     sEBirds: [ this.L3, this.L1 ]
+                    //                     sWBirds: [ this.R6, this.R4 ]
+                    //                     nWBirds: [ this.L6, this.L4 ]
+                    //                   },
+                    //    newlyOutBirds: { nE: this.R5, // Where they are when they first get pushed out
+                    //                     sE: this.L5,
+                    //                     sW: this.R2,
+                    //                     nW: this.L2
+                    //                   }
+                    // } (but must be generated dynamically)
+                    danceTimeline.add(moveMethod(strippedData.birdsLocation, true), "Progression" + progIndex.toString())
+                    danceTimeline.add(this.endEffects("improper", strippedData.newlyOutBirds), "Progression" + progIndex.toString()) // TODO: this.endEffects still must be written
+                  } else if (!this.couplesOut) { // no couples out
+                    danceTimeline.add(moveMethod(moveStartPositionGenerator, true))
+                  } else {
+                    return null
                   }
-                  if (moveStartPositionGenerator.outCouplesWaitingPosition === "improper") {
-                    strippedData.newlyOutBirds.nE = moveStartPositionGenerator.nEBirds.shift()
-                    strippedData.newlyOutBirds.sE = moveStartPositionGenerator.sEBirds.shift()
-                    strippedData.newlyOutBirds.sW = moveStartPositionGenerator.sWBirds.pop()
-                    strippedData.newlyOutBirds.nW = moveStartPositionGenerator.nWBirds.pop()
-                    strippedData.birdsLocation.nEBirds = moveStartPositionGenerator.nEBirds
-                    strippedData.birdsLocation.sEBirds = moveStartPositionGenerator.sEBirds
-                    strippedData.birdsLocation.sWBirds = moveStartPositionGenerator.sWBirds
-                    strippedData.birdsLocation.nWBirds = moveStartPositionGenerator.nWBirds
-                  } else if (moveStartPositionGenerator.outCouplesWaitingPosition === "becket") {
-                    strippedData.newlyOutBirds.nE = moveStartPositionGenerator.nEBirds.pop()
-                    strippedData.newlyOutBirds.sE = moveStartPositionGenerator.sEBirds.shift()
-                    strippedData.newlyOutBirds.sW = moveStartPositionGenerator.sWBirds.shift()
-                    strippedData.newlyOutBirds.nW = moveStartPositionGenerator.nWBirds.pop()
-                    strippedData.birdsLocation.nEBirds = moveStartPositionGenerator.nEBirds
-                    strippedData.birdsLocation.sEBirds = moveStartPositionGenerator.sEBirds
-                    strippedData.birdsLocation.sWBirds = moveStartPositionGenerator.sWBirds
-                    strippedData.birdsLocation.nWBirds = moveStartPositionGenerator.nWBirds
-                  }
-                  // strippedData would look like:
-                  // {
-                  //    birdsLocation: { nEBirds: [ this.R3, this.R1 ]
-                  //                     sEBirds: [ this.L3, this.L1 ]
-                  //                     sWBirds: [ this.R6, this.R4 ]
-                  //                     nWBirds: [ this.L6, this.L4 ]
-                  //                   },
-                  //    newlyOutBirds: { nE: this.R5, // Where they are when they first get pushed out
-                  //                     sE: this.L5,
-                  //                     sW: this.R2,
-                  //                     nW: this.L2
-                  //                   }
-                  // } (but must be generated dynamically)
-                  danceTimeline.add(moveMethod(strippedData.birdsLocation, true), "Progression" + progIndex.toString())
-                  danceTimeline.add(this.endEffects("improper", strippedData.newlyOutBirds), "Progression" + progIndex.toString()) // TODO: this.endEffects still must be written
-                } else if (!this.couplesOut) { // no couples out
-                  danceTimeline.add(moveMethod(moveStartPositionGenerator, true))
-                } else {
-                  return null
+                } else { // if move is NOT a progression
+                  danceTimeline.add(moveMethod(moveStartPositionGenerator, false))
                 }
-              } else { // if move is NOT a progression
-                danceTimeline.add(moveMethod(moveStartPositionGenerator, false))
+                console.log(danceTimeline)
+              } else {
+                danceTimeline.killAll(false, true, false, true) // complete the killed things? kill tweens?  kill delayedCalls? kill timelines?
+                console.log("reached")
+                return null
               }
-              console.log(danceTimeline)
-            } else {
-              danceTimeline.killAll(false, true, false, true) // complete the killed things? kill tweens?  kill delayedCalls? kill timelines?
-              console.log("reached")
-              return null
-            }
-            console.log("end of loop, moveIndex is: ", moveIndex)
-          }, this)
+              console.log("end of loop, moveIndex is: ", moveIndex)
+            }, this)
+          }
         }
       }
     }

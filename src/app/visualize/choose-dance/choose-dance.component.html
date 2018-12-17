@@ -1,5 +1,5 @@
 <h2>Choose A Dance</h2>
 
 <div *ngFor="let dance of allDances">
-  <button (click)="chooseDanceAndGetSteps($event)" type="button" class="btn btn-primary btn-sm" id="{{dance.id}}">{{dance.name}}</button>
+  <button (click)="emitDanceIdFromChosenDance($event)" type="button" class="btn btn-primary btn-sm" id="{{dance.id}}">{{dance.name}}</button>
 </div>

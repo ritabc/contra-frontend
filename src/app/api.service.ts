@@ -39,14 +39,14 @@ export class ApiService {
     return this.http.get<Dance[]>(endpoint)
   }
 
-  public getSteps(path:string, danceId:number) {
-    var endpoint = this.API_URL + path + '/?dance_id=' + danceId.toString();
+  public getSteps(danceId:number) {
+    var endpoint = this.API_URL + 'dance-composition/?dance_id=' + danceId.toString();
     return this.http.get<(Move|Position)[]>(endpoint)
   }
 
   public getDanceInformation(danceId:number) {
-    var endpoint = this.API_URL + "dances?id=" + danceId.toString();
-    return this.http.get<(Move)>(endpoint)
+    var endpoint = this.API_URL + 'dances?id=' + danceId.toString();
+    return this.http.get<(Dance)>(endpoint)
   }
 
   public getAnimationInfo(path:string, danceId:number) {

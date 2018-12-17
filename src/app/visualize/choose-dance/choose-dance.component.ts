@@ -13,8 +13,9 @@ import { Position } from '../../position'
 })
 export class ChooseDanceComponent implements OnInit {
   public allDances:Dance[]=[];
-
-  @Output() steps: EventEmitter<any> = new EventEmitter()
+  private internalDanceId
+  @Output() danceStepsFromChooseDance: EventEmitter<any> = new EventEmitter();
+  @Output() danceIdFromChooseDance: EventEmitter<any> = new EventEmitter();
 
   // @Output() chooseDanceToOutput: EventEmitter<number> = new EventEmitter();
 
@@ -23,28 +24,33 @@ export class ChooseDanceComponent implements OnInit {
   ngOnInit() {
     this.apiService.getAllDances("dances").subscribe((danceData) => {
       danceData.forEach(function(dance) {
-        this.allDances.push(new Dance(dance.id, dance.name, dance.writer, dance.description, dance.isBecket))
+        this.allDances.push(new Dance(dance.id, dance.name, dance.writer, dance.description, dance.isBecket, dance.outCouplesWaitingPosition))
       }, this)
     })
   }
 
-  public chooseDanceAndGetSteps(event) {
-    this.apiService.getSteps('dance-composition', event.path[0].id).subscribe((stepsData) => {
-      let steps:Array<Move|Position> = []
+  public emitDanceIdFromChosenDance(event) {
+    this.internalDanceId = event.path[0].id
+    this.danceIdFromChooseDance.emit(this.internalDanceId)
+  }
+
+  public emitStepsFromChosenDance(event) {
+    let steps:Array<Move|Position>;
+    this.apiService.getSteps(this.internalDanceId).subscribe((stepsData) => {
       stepsData.forEach(function(step, i) {
         if (step.hasOwnProperty('description')) {
           let position = new Position(step.id, false, step['description'])
           if (i === 0) {
             position.isFormation = true
           }
-          steps.push(position)
+          this.danceStepsFromChooseDance.push(position)
         }
         else if (step.hasOwnProperty('name')) {
-          steps.push(new Move(step.id, step['name']))
+          this.danceStepsFromChooseDance.push(new Move(step.id, step['name']))
         }
-      })
-      this.steps.emit(steps)
+      }, this)
     })
+    this.danceStepsFromChooseDance.emit(steps)
   }
 
 }
