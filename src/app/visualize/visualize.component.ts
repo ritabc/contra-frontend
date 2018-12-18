@@ -48,6 +48,7 @@ export class VisualizeComponent implements OnInit {
   }
 
   public handleSteps(emittedSteps) {
+    console.log(emittedSteps)
     this.visualizeSteps = emittedSteps;
     emittedSteps.forEach(function(step, i) {
       if (i % 2 === 0) {

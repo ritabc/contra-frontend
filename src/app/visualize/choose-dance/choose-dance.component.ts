@@ -14,6 +14,7 @@ import { Position } from '../../position'
 export class ChooseDanceComponent implements OnInit {
   public allDances:Dance[]=[];
   private internalDanceId
+  private steps:Array<Move|Position> = [];
   @Output() danceStepsFromChooseDance: EventEmitter<any> = new EventEmitter();
   @Output() danceIdFromChooseDance: EventEmitter<any> = new EventEmitter();
 
@@ -35,7 +36,6 @@ export class ChooseDanceComponent implements OnInit {
   }
 
   public emitStepsFromChosenDance(event) {
-    let steps:Array<Move|Position>;
     this.apiService.getSteps(this.internalDanceId).subscribe((stepsData) => {
       stepsData.forEach(function(step, i) {
         if (step.hasOwnProperty('description')) {
@@ -43,14 +43,18 @@ export class ChooseDanceComponent implements OnInit {
           if (i === 0) {
             position.isFormation = true
           }
-          this.danceStepsFromChooseDance.push(position)
+          console.log(position)
+          console.log(this.steps)
+          this.steps.push(position)
+          console.log(this.steps)
         }
         else if (step.hasOwnProperty('name')) {
-          this.danceStepsFromChooseDance.push(new Move(step.id, step['name']))
+          this.steps.push(new Move(step.id, step['name']))
+          console.log(this.steps)
         }
+        this.danceStepsFromChooseDance.emit(this.steps)
       }, this)
     })
-    this.danceStepsFromChooseDance.emit(steps)
   }
 
 }

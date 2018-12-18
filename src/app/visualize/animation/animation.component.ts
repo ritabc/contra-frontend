@@ -47,12 +47,9 @@ export class AnimationComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     for (const propName of Object.keys(changes)) { // change to for the changes.steps
-      if (propName === "this.steps") {
+      if (propName === "steps") {
         const change = changes[propName];
-        console.log(change)
         if (!change.firstChange) {
-          console.log(change.currentValue)
-
           console.log(change.currentValue) // Was list of steps, then was Id of dance, then was danceData
 
           // Get steps (dance_moves) for dance, convert into positions and moves
