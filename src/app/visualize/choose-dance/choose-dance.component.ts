@@ -43,14 +43,10 @@ export class ChooseDanceComponent implements OnInit {
           if (i === 0) {
             position.isFormation = true
           }
-          console.log(position)
-          console.log(this.steps)
           this.steps.push(position)
-          console.log(this.steps)
         }
         else if (step.hasOwnProperty('name')) {
           this.steps.push(new Move(step.id, step['name']))
-          console.log(this.steps)
         }
         this.danceStepsFromChooseDance.emit(this.steps)
       }, this)

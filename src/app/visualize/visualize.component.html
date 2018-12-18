@@ -1,4 +1,4 @@
-<app-animation [currentDance]="danceData" [moves]="visualizeMoves" [positions]="visualizePositions" [steps]="visualizeSteps"></app-animation>
+<app-animation [currentDance]="danceData" [steps]="visualizeSteps"></app-animation>
 <p *ngIf="danceData"> Current Dance: {{danceData.name}}</p>
 <app-steps [danceId]="danceIdFromChooseDance" (nextEvent)="eventFromSteps($event)" [steps]="steps"></app-steps>
 <app-choose-dance (danceIdFromChooseDance)="handleDance($event)" (danceStepsFromChooseDance)="handleSteps($event)"></app-choose-dance>
