@@ -82,7 +82,7 @@ export class AnimationComponent implements OnInit, OnChanges {
 
               // if move is the progression (aka the last move)
               if (moveIndex === moves.length - 1) {
-                updatedMoveStartBirdsLocation = this.sendCouplesOut(moveStartBirdsLocation)
+                updatedMoveStartBirdsLocation = this.crossBirdsOverToUpdateBirdsLocation(moveStartBirdsLocation)
                 danceTimeline.add(crossoverAndWaitOutPerpendicularToDirectionOfTravel(updatedMoveStartBirdsLocation), "Progression" + progIndex.toString())
                 danceTimeline.add(moveMethod(updatedMoveStartBirdsLocation), "Progression" + progIndex.toString()) // add move TL to same place as couples crossing over
 
@@ -227,25 +227,25 @@ export class AnimationComponent implements OnInit, OnChanges {
                                         sEBirds: [this.L5, this.L3, this.L1],
                                         sWBirds: [this.R6, this.R4, this.R2],
                                         nWBirds: [this.L6, this.L4, this.L2]},
-                              ougBirds: {}
+                              outBirds: {}
                              }
     for (let prog = 0; prog <= progressionNumber; ++prog) {
       if (prog > 12) {
         return null
-      }
-      // else if (prog % 2 === 0) {
-      //   birdsLocation.outCouplesWaitingPosition = "none"
-      // } else if (prog % 2 === 1) {
-      //   birdsLocation.outCouplesWaitingPosition = "improper"
-      //   let newNE = birdsLocation.sWBirds.pop();
-      //   let newSE = birdsLocation.nWBirds.pop();
-      //   birdsLocation.nEBirds.push(newNE);
-      //   birdsLocation.sEBirds.push(newSE);
-      //   let newSW = birdsLocation.nEBirds.shift();
-      //   let newNW = birdsLocation.sEBirds.shift();
-      //   birdsLocation.sWBirds.unshift(newSW);
-      //   birdsLocation.nWBirds.unshift(newNW);
-      // } else { return null }
+      } else if (prog === 0) {
+      } else if (prog % 2 === 1) {
+        birdsLocation.outBirds.nEBird = birdsLocation.h4Birds.nWBirds.pop();
+        birdsLocation.outBirds.sEBird = birdsLocation.h4Birds.sWBirds.pop();
+        birdsLocation.outBirds.sWBird = birdsLocation.h4Birds.sEBirds.shift();
+        birdsLocation.outBirds.nWBird = birdsLocation.h4Birds.nEBirds.shift();
+      } else if (prog % 2 === 0) {
+        // Currently, I am pushing and unshifting the values from position(progIndex before this), not from the crossedover Values. (I think this is correct)
+        birdsLocation.outBirds = {}
+        birdsLocation.h4Birds.nEBirds.push(birdsLocation.outBirds.sEBird)
+        birdsLocation.h4Birds.sEBirds.push(birdsLocation.outBirds.nEBird)
+        birdsLocation.h4Birds.sWBirds.unshift(birdsLocation.outBirds.nWBird)
+        birdsLocation.h4Birds.nWBirds.unshift(birdsLocation.outBirds.sWBird)
+      } else { return null }
     }
     return birdsLocation;
   }
@@ -419,7 +419,7 @@ export class AnimationComponent implements OnInit, OnChanges {
 // New: just startPos and couplesOut:boolean
 // Instead of the animating move updating the birdsLocation varible, it will just animate
 
-  public balanceTheRing = (startPos, isProgression:boolean) => {
+  public balanceTheRing = (startPos) => {
     console.log("hit MOVE balanceTheRing")
 
     let nETl = new TimelineMax();
@@ -429,25 +429,26 @@ export class AnimationComponent implements OnInit, OnChanges {
     // // out couples need animating too!
     // let eeTl = new TimelineMax();
 
-    startPos.nEBirds.map(function(bird, i) {
+    startPos.h4Birds.nEBirds.map(function(bird, i) {
+      console.log(startPos)
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 1, {x: "-=40", y: "+=40"})
         .to(bird.nativeElement, 1, {x: "+=40", y: "-=40"})
       nETl.add(tl, 0)
     })
-    startPos.sEBirds.map(function(bird, i){
+    startPos.h4Birds.sEBirds.map(function(bird, i){
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 1, {x: "-=40", y: "-=40"})
         .to(bird.nativeElement, 1, {x: "+=40", y: "+=40"})
         sETl.add(tl, 0)
     })
-    startPos.sWBirds.map(function(bird, i) {
+    startPos.h4Birds.sWBirds.map(function(bird, i) {
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 1, {x: "+=40", y: "-=40"})
         .to(bird.nativeElement, 1, {x: "-=40", y: "+=40"})
         sWTl.add(tl, 0)
     })
-    startPos.nWBirds.map(function(bird, i) {
+    startPos.h4Birds.nWBirds.map(function(bird, i) {
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 1, {x: "+=40", y: "+=40"})
         .to(bird.nativeElement, 1, {x: "-=40", y: "-=40"})
@@ -701,12 +702,17 @@ export class AnimationComponent implements OnInit, OnChanges {
 
 // Miscellaneous Methods ==================================
 
-  public sendCouplesOut(birdsLoc) {
+  public crossBirdsOverToUpdateBirdsLocation(birdsLoc) {
     // (For Now) Assumption: For all dances where out couples are sent out perpendicular to direction of travel (improper, etc), this should be correct
-    birdsLoc.outBirds.nEBird = birdsLoc.h4Birds.nWBirds.pop()
-    birdsLoc.outBirds.sEBird = birdsLoc.h4Birds.sWBirds.pop()
-    birdsLoc.outBirds.sWBird = birdsLoc.h4Birds.sEBirds.shift()
-    birdsLoc.outBirds.nWBird = birdsLoc.h4Birds.nEBirds.shift()
+    let newNE = birdsLoc.outBirds.sEBird
+    let newSE = birdsLoc.outBirds.nEBird
+    let newSW = birdsLoc.outBirds.nWBird
+    let newNW = birdsLoc.outBirds.sWBird
+    birdsLoc.outBirds = { nEBird = newNE,
+                          sEBird = newSE,
+                          sWBird = newSW,
+                          nWBird = newNW
+                        }
     return birdsLoc
   }
 
