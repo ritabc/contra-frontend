@@ -28,7 +28,7 @@ export class AnimationComponent implements OnInit, OnChanges {
   @ViewChild('L5') private L5:ElementRef;
   @ViewChild('R6') private R6:ElementRef;
   @ViewChild('L6') private L6:ElementRef;
-  couplesOut:boolean = true
+  // couplesOut:boolean = true // calculate this instead in ngOnChanges by even or oddness of progNumber
   // @Input() danceId:number;
   @Input() currentDance:Dance
 
@@ -54,28 +54,21 @@ export class AnimationComponent implements OnInit, OnChanges {
         let moves:Array<Move> = [];
         change.currentValue.forEach(function(step, i) {
           if (i === 0) {
-            positions.push(new Position(step.id, true, step['description']))
+            positions.push(step)
           } else if (i % 2 === 1) {
-            moves.push(new Move(step.id, step['name']))
+            moves.push(step)
           } else if (i % 2 === 0) {
-            positions.push(new Position(step.id, false, step['description']))
+            positions.push(step)
           }
         })
-        console.log(moves)
-        // this.apiService.getSteps(this.danceId).subscribe((stepsData) => {
-        //   console.log(stepsData) // array of objects
-        //   stepsData.forEach(function(danceStep, index) {
-        //
-        //   })
-        // })
+        console.log(positions, moves)
 
-        console.log(positions[0])
         // run the formation method to set up dancers at start of dance
         this[this.nameConverter.transform(positions[0].description) + "Formation"]()
 
         let danceTimeline = new TimelineMax({})
 
-        for (let progIndex = 0; progIndex < 3; ++progIndex) {
+        for (let progIndex = 0; progIndex < 1; ++progIndex) {
           console.log(progIndex)
           moves.forEach(function(move, moveIndex) {
             console.log("beginning of loop, moveIndex is: ", moveIndex)
@@ -85,44 +78,56 @@ export class AnimationComponent implements OnInit, OnChanges {
             let rubyPositionName = positions[moveIndex].description.toString()
             let positionName = this.nameConverter.transform(rubyPositionName);
             if (typeof moveMethod === 'function' && typeof this[positionName] === 'function' ) {
-              let moveStartPositionGenerator = this[positionName](progIndex); // progIndex meaning how far red has gotten away from home position (how many times the dance has progressed)
+              let moveStartBirdsLocation = this[positionName](progIndex); // progIndex meaning how far red has gotten away from home position (how many times the dance has progressed)
+
+              // if move is the progression (aka the last move)
+              if (moveIndex === moves.length - 1) {
+                updatedMoveStartBirdsLocation = this.sendCouplesOut(moveStartBirdsLocation)
+                danceTimeline.add(crossoverAndWaitOutPerpendicularToDirectionOfTravel(updatedMoveStartBirdsLocation), "Progression" + progIndex.toString())
+                danceTimeline.add(moveMethod(updatedMoveStartBirdsLocation), "Progression" + progIndex.toString()) // add move TL to same place as couples crossing over
+
+              // else if the move is a regular move
+              } else {
+                danceTimeline.add(moveMethod(moveStartBirdsLocation))
+              }
 
               // // Is move the last move? IE is it the progression?
-              if (moveIndex === moves.length - 1) {
-                console.log("hit place in code where move is a progression")
-                this.toggleCouplesOut()
+              // if (moveIndex === moves.length - 1) {
+              //   console.log("hit place in code where move is a progression")
+              //   this.toggleCouplesOut()
 
                 // strip startPos arrays of out birds (depending on value of outCouplesWaitingPosition:
                 // improper, becket, etc )
-                if (this.couplesOut) {
-                  let strippedData: any =
-                  {
-                  "birdsLocation": {"nEBirds" : [ElementRef],
-                                    "sEBirds" : [ElementRef],
-                                    "sWBirds" : [ElementRef],
-                                    "nWBirds" : [ElementRef]
-                                   },
-                  "newlyOutBirds" : { "nE" : ElementRef, "sE" : ElementRef, "sW" : ElementRef, "nW" : ElementRef}
-                  }
-                  if (moveStartPositionGenerator.outCouplesWaitingPosition === "improper") {
-                    strippedData.newlyOutBirds.nE = moveStartPositionGenerator.nEBirds.shift()
-                    strippedData.newlyOutBirds.sE = moveStartPositionGenerator.sEBirds.shift()
-                    strippedData.newlyOutBirds.sW = moveStartPositionGenerator.sWBirds.pop()
-                    strippedData.newlyOutBirds.nW = moveStartPositionGenerator.nWBirds.pop()
-                    strippedData.birdsLocation.nEBirds = moveStartPositionGenerator.nEBirds
-                    strippedData.birdsLocation.sEBirds = moveStartPositionGenerator.sEBirds
-                    strippedData.birdsLocation.sWBirds = moveStartPositionGenerator.sWBirds
-                    strippedData.birdsLocation.nWBirds = moveStartPositionGenerator.nWBirds
-                  } else if (moveStartPositionGenerator.outCouplesWaitingPosition === "becket") {
-                    strippedData.newlyOutBirds.nE = moveStartPositionGenerator.nEBirds.pop()
-                    strippedData.newlyOutBirds.sE = moveStartPositionGenerator.sEBirds.shift()
-                    strippedData.newlyOutBirds.sW = moveStartPositionGenerator.sWBirds.shift()
-                    strippedData.newlyOutBirds.nW = moveStartPositionGenerator.nWBirds.pop()
-                    strippedData.birdsLocation.nEBirds = moveStartPositionGenerator.nEBirds
-                    strippedData.birdsLocation.sEBirds = moveStartPositionGenerator.sEBirds
-                    strippedData.birdsLocation.sWBirds = moveStartPositionGenerator.sWBirds
-                    strippedData.birdsLocation.nWBirds = moveStartPositionGenerator.nWBirds
-                  }
+                // TODO: do this in each position instead
+                // if (this.couplesOut) {
+                //   let strippedData: any =
+                //   {
+                //   "birdsLocation": {"nEBirds" : [ElementRef],
+                //                     "sEBirds" : [ElementRef],
+                //                     "sWBirds" : [ElementRef],
+                //                     "nWBirds" : [ElementRef]
+                //                    },
+                //   "newlyOutBirds" : { "nE" : ElementRef, "sE" : ElementRef, "sW" : ElementRef, "nW" : ElementRef}
+                //   }
+                  // if (moveStartBirdsLocation.outCouplesWaitingPosition === "improper") {
+                  //   strippedData.newlyOutBirds.nE = moveStartBirdsLocation.nEBirds.shift()
+                  //   strippedData.newlyOutBirds.sE = moveStartBirdsLocation.sEBirds.shift()
+                  //   strippedData.newlyOutBirds.sW = moveStartBirdsLocation.sWBirds.pop()
+                  //   strippedData.newlyOutBirds.nW = moveStartBirdsLocation.nWBirds.pop()
+                  //   strippedData.birdsLocation.nEBirds = moveStartBirdsLocation.nEBirds
+                  //   strippedData.birdsLocation.sEBirds = moveStartBirdsLocation.sEBirds
+                  //   strippedData.birdsLocation.sWBirds = moveStartBirdsLocation.sWBirds
+                  //   strippedData.birdsLocation.nWBirds = moveStartBirdsLocation.nWBirds
+                  // } else if (moveStartBirdsLocation.outCouplesWaitingPosition === "becket") {
+                  //   strippedData.newlyOutBirds.nE = moveStartBirdsLocation.nEBirds.pop()
+                  //   strippedData.newlyOutBirds.sE = moveStartBirdsLocation.sEBirds.shift()
+                  //   strippedData.newlyOutBirds.sW = moveStartBirdsLocation.sWBirds.shift()
+                  //   strippedData.newlyOutBirds.nW = moveStartBirdsLocation.nWBirds.pop()
+                  //   strippedData.birdsLocation.nEBirds = moveStartBirdsLocation.nEBirds
+                  //   strippedData.birdsLocation.sEBirds = moveStartBirdsLocation.sEBirds
+                  //   strippedData.birdsLocation.sWBirds = moveStartBirdsLocation.sWBirds
+                  //   strippedData.birdsLocation.nWBirds = moveStartBirdsLocation.nWBirds
+                  // }
                   // strippedData would look like:
                   // {
                   //    birdsLocation: { nEBirds: [ this.R3, this.R1 ]
@@ -136,17 +141,16 @@ export class AnimationComponent implements OnInit, OnChanges {
                   //                     nW: this.L2
                   //                   }
                   // } (but must be generated dynamically)
-                  danceTimeline.add(moveMethod(strippedData.birdsLocation, true), "Progression" + progIndex.toString())
-                  danceTimeline.add(this.endEffects("improper", strippedData.newlyOutBirds), "Progression" + progIndex.toString()) // TODO: this.endEffects still must be written
-                } else if (!this.couplesOut) { // no couples out
-                  danceTimeline.add(moveMethod(moveStartPositionGenerator, true))
-                } else {
-                  return null
-                }
-              } else { // if move is NOT a progression
-                danceTimeline.add(moveMethod(moveStartPositionGenerator, false))
-              }
-              console.log(danceTimeline)
+              // danceTimeline.add(moveMethod(moveStartBirdsLocation, false)
+                  // danceTimeline.add(this.endEffects("improper", strippedData.newlyOutBirds), "Progression" + progIndex.toString()) // TODO: this.endEffects still must be written
+                // } else if (!this.couplesOut) { // no couples out
+                //   danceTimeline.add(moveMethod(moveStartBirdsLocation, true))
+                // } else {
+                //   return null
+                // }
+              // } else { // if move is NOT a progression
+              //   danceTimeline.add(moveMethod(moveStartBirdsLocation, false))
+              // }
             } else {
               danceTimeline.killAll(false, true, false, true) // complete the killed things? kill tweens?  kill delayedCalls? kill timelines?
               console.log("reached")
@@ -219,27 +223,29 @@ export class AnimationComponent implements OnInit, OnChanges {
 
   public improper(progressionNumber:number) {
     console.log("hit POSITION improper")
-    let birdsLocation:any = { nEBirds: [this.R5, this.R3, this.R1],
-                              sEBirds: [this.L5, this.L3, this.L1],
-                              sWBirds: [this.R6, this.R4, this.R2],
-                              nWBirds: [this.L6, this.L4, this.L2] }
+    let birdsLocation:any = { h4Birds: {nEBirds: [this.R5, this.R3, this.R1],
+                                        sEBirds: [this.L5, this.L3, this.L1],
+                                        sWBirds: [this.R6, this.R4, this.R2],
+                                        nWBirds: [this.L6, this.L4, this.L2]},
+                              ougBirds: {}
+                             }
     for (let prog = 0; prog <= progressionNumber; ++prog) {
       if (prog > 12) {
         return null
       }
-      else if (prog % 2 === 0) {
-        birdsLocation.outCouplesWaitingPosition = "none"
-      } else if (prog % 2 === 1) {
-        birdsLocation.outCouplesWaitingPosition = "improper"
-        let newNE = birdsLocation.sWBirds.pop();
-        let newSE = birdsLocation.nWBirds.pop();
-        birdsLocation.nEBirds.push(newNE);
-        birdsLocation.sEBirds.push(newSE);
-        let newSW = birdsLocation.nEBirds.shift();
-        let newNW = birdsLocation.sEBirds.shift();
-        birdsLocation.sWBirds.unshift(newSW);
-        birdsLocation.nWBirds.unshift(newNW);
-      } else { return null }
+      // else if (prog % 2 === 0) {
+      //   birdsLocation.outCouplesWaitingPosition = "none"
+      // } else if (prog % 2 === 1) {
+      //   birdsLocation.outCouplesWaitingPosition = "improper"
+      //   let newNE = birdsLocation.sWBirds.pop();
+      //   let newSE = birdsLocation.nWBirds.pop();
+      //   birdsLocation.nEBirds.push(newNE);
+      //   birdsLocation.sEBirds.push(newSE);
+      //   let newSW = birdsLocation.nEBirds.shift();
+      //   let newNW = birdsLocation.sEBirds.shift();
+      //   birdsLocation.sWBirds.unshift(newSW);
+      //   birdsLocation.nWBirds.unshift(newNW);
+      // } else { return null }
     }
     return birdsLocation;
   }
@@ -695,46 +701,24 @@ export class AnimationComponent implements OnInit, OnChanges {
 
 // Miscellaneous Methods ==================================
 
-  public strippedBirdsLocations(startPos) {
-    // should eventually be it's own method
+  public sendCouplesOut(birdsLoc) {
+    // (For Now) Assumption: For all dances where out couples are sent out perpendicular to direction of travel (improper, etc), this should be correct
+    birdsLoc.outBirds.nEBird = birdsLoc.h4Birds.nWBirds.pop()
+    birdsLoc.outBirds.sEBird = birdsLoc.h4Birds.sWBirds.pop()
+    birdsLoc.outBirds.sWBird = birdsLoc.h4Birds.sEBirds.shift()
+    birdsLoc.outBirds.nWBird = birdsLoc.h4Birds.nEBirds.shift()
+    return birdsLoc
   }
 
-  public toggleCouplesOut() {
-    if (this.couplesOut === true) {
-      this.couplesOut = false;
-    } else if (this.couplesOut === false) {
-      this.couplesOut = true;
-    }
-  }
-
-  public endEffects(type:string, originalPositiosOfNewlyOutBirds) {
-    // must return timeline
-    console.log("Hit method endEffects()")
+  public crossoverAndWaitOutPerpendicularToDirectionOfTravel(updatedBirdsLoc) {
     let tl = new TimelineMax();
-    if (type === "improper") {
-      console.log(originalPositiosOfNewlyOutBirds.nE.nativeElement, originalPositiosOfNewlyOutBirds.sW.nativeElement)
-      tl.to(originalPositiosOfNewlyOutBirds.nE.nativeElement, 2, {rotation: "-=90", svgOrigin: "80px 160px"}, 0)
-        .to(originalPositiosOfNewlyOutBirds.sE.nativeElement, 2, {rotation: "+=90", svgOrigin: "80px 160px"}, 0)
-        .to(originalPositiosOfNewlyOutBirds.sW.nativeElement, 2, {rotation: "-=90", svgOrigin: "560px 160px"}, 0)
-        .to(originalPositiosOfNewlyOutBirds.nW.nativeElement, 2, {rotation: "+=90", svgOrigin: "560px 160px"}, 0)
-      return tl
-    } else if (type === "becket") { // TODO: svgOrigin needs updating after viewport/viewbox? is increased (not svg size but area to view it in)
-      tl.to(originalPositiosOfNewlyOutBirds.nE.nativeElement, 2, {rotation: "+=90", svgOrigin: "580px 160px"}, 0)
-        .to(originalPositiosOfNewlyOutBirds.sE.nativeElement, 2, {rotation: "+=90", svgOrigin: "60px 160px"})
-        .to(originalPositiosOfNewlyOutBirds.sW.nativeElement, 2, {rotation: "+=90", svgOrigin: "60px 160px"})
-        .to(originalPositiosOfNewlyOutBirds.nW.nativeElement, 2, {rotation: "+=90", svgOrigin: "580px 160px"})
-      return tl
-    }
+    tl.to(updatedBirdsLoc.outBirds.nEBird.nativeElement, 2, {rotation: "+=90", svgOrigin: "80px 160px"}, 0)
+      .to(updatedBirdsLoc.outBirds.sEBird.nativeElement, 2, {rotation: "-=90", svgOrigin: "80px 160px"}, 0)
+      .to(updatedBirdsLoc.outBirds.sWBird.nativeElement, 2, {rotation: "+=90", svgOrigin: "560px 160px"}, 0)
+      .to(updatedBirdsLoc.outBirds.nWBird.nativeElement, 2, {rotation: "-=90", svgOrigin: "560px 160px"}, 0)
+    return tl
   }
 }
-
-  // public checkForOutCouples(startPos) {
-  //   if (startPos.outCouplesWaitingPosition === "none") {
-  //      return false;
-  //   } else {
-  //     return true;
-  //   }
-  // }
 
 
 // // !!!!DON'T DELETE!!!!
