@@ -82,8 +82,13 @@ export class AnimationComponent implements OnInit, OnChanges {
 
               // if move is the progression (aka the last move)
               if (moveIndex === moves.length - 1) {
-                updatedMoveStartBirdsLocation = this.crossBirdsOverToUpdateBirdsLocation(moveStartBirdsLocation)
-                danceTimeline.add(crossoverAndWaitOutPerpendicularToDirectionOfTravel(updatedMoveStartBirdsLocation), "Progression" + progIndex.toString())
+
+                if (progIndex % 2 === 0) { // if there are NO couples out, send couples out and cross them over
+                  updatedMoveStartBirdsLocation = this.crossBirdsOverToUpdateBirdsLocation(moveStartBirdsLocation)
+                  danceTimeline.add(crossoverAndWaitOutPerpendicularToDirectionOfTravel(updatedMoveStartBirdsLocation), "Progression" + progIndex.toString())
+                } else if (progIndex % 2 === 1) { // if there are ALREADY couples out, incorporate them
+
+                }
                 danceTimeline.add(moveMethod(updatedMoveStartBirdsLocation), "Progression" + progIndex.toString()) // add move TL to same place as couples crossing over
 
               // else if the move is a regular move
@@ -419,6 +424,8 @@ export class AnimationComponent implements OnInit, OnChanges {
 // New: just startPos and couplesOut:boolean
 // Instead of the animating move updating the birdsLocation varible, it will just animate
 
+// Regular Moves ==========
+
   public balanceTheRing = (startPos) => {
     console.log("hit MOVE balanceTheRing")
 
@@ -454,24 +461,10 @@ export class AnimationComponent implements OnInit, OnChanges {
         .to(bird.nativeElement, 1, {x: "-=40", y: "-=40"})
         nWTl.add(tl, 0)
     })
-
-    // if (this.checkForOutCouples(startPos)) {
-    //   let outNE, outSE, outSW, outNW
-    //   if (startPos.outCouplesWaitingPosition === "improper") {
-    //     outNE = startPos.nEBirds.shift()
-    //     outSE = startPos.sEBirds.shift()
-    //     outSW = startPos.sWBirds.pop()
-    //     outNW = startPos.nWBirds.pop()
-    //     eeTl.add(this.improperEE(outNE, outSE, outSW, outNW), 0)
-    //   } else if (startPos.outCouplesWaitingPosition === "proper") {
-    //     outNE = startPos.
-    //   }
-    // }
-
     return [nETl, sETl, sWTl, nWTl]
   }
 
-  public petronella(startPos, isProgression:boolean) {
+  public petronella(startPos) {
     console.log("hit MOVE petronella")
     let nETl = new TimelineMax();
     let sETl = new TimelineMax();
@@ -479,50 +472,37 @@ export class AnimationComponent implements OnInit, OnChanges {
     let nWTl = new TimelineMax();
     let eeTl = new TimelineMax();
 
-    startPos.nEBirds.map(function(bird, i) {
+    startPos.h4Birds.nEBirds.map(function(bird, i) {
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 2, {x: "-=120"})
       nETl.add(tl, 0)
     })
-    startPos.sEBirds.map(function(bird) {
+    startPos.h4Birds.sEBirds.map(function(bird) {
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 2, {y: "-=120"})
       sETl.add(tl, 0)
     })
-    startPos.sWBirds.map(function(bird, i) {
+    startPos.h4Birds.sWBirds.map(function(bird, i) {
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 2, {x: "+=120"})
       sWTl.add(tl, 0)
     })
-    startPos.nWBirds.map(function(bird) {
+    startPos.h4Birds.nWBirds.map(function(bird) {
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 2, {y: "+=120"})
       nWTl.add(tl, 0)
     })
-    // if (this.checkForOutCouples(startPos)) {
-    //   let outNE, outSE, outSW, outNW
-    //   if (startPos.outCouplesWaitingPosition === "improper") {
-    //     outNE = startPos.nEBirds.shift()
-    //     outSE = startPos.sEBirds.shift()
-    //     outSW = startPos.sWBirds.pop()
-    //     outNW = startPos.nWBirds.pop()
-    //     eeTl.add(this.improperEE(outNE, outSE, outSW, outNW), 0)
-    //   } else if (startPos.outCouplesWaitingPosition === "proper") {
-    //
-    //   }
-    //
-    // }
     return [nETl, sETl, sWTl, nWTl]
   }
 
-  public swingOnSidesOfSet(startPos, isProgression:boolean) {
+  public swingOnSidesOfSet(startPos) {
     console.log("Hit MOVE swingOnSidesOfSet")
     let nETl = new TimelineMax();
     let sETl = new TimelineMax();
     let sWTl = new TimelineMax();
     let nWTl = new TimelineMax();
 
-    startPos.sEBirds.map(function(sEBird, i) {
+    startPos.h4Birds.sEBirds.map(function(sEBird, i) {
       let tl = new TimelineMax();
       tl.to(sEBird.nativeElement, 0.4, {x: "-=40", y: "+=20"})
       if (sEBird.nativeElement.id[0] === 'L') {
@@ -534,7 +514,7 @@ export class AnimationComponent implements OnInit, OnChanges {
       }
       sETl.add(tl, 0)
     })
-    startPos.sWBirds.map(function(sWBird, i) {
+    startPos.h4Birds.sWBirds.map(function(sWBird, i) {
       let tl = new TimelineMax();
       tl.to(sWBird.nativeElement, 0.4, {x: "+=40", y: "-=20"})
       if (sWBird.nativeElement.id[0] === 'R') {
@@ -546,7 +526,7 @@ export class AnimationComponent implements OnInit, OnChanges {
       }
       sWTl.add(tl, 0)
     })
-    startPos.nWBirds.map(function(nWBird, i) {
+    startPos.h4Birds.nWBirds.map(function(nWBird, i) {
       let tl = new TimelineMax();
       tl.to(nWBird.nativeElement, 0.4, {x: "+=40", y:"-=20"})
       if (nWBird.nativeElement.id[0] === 'L') {
@@ -558,7 +538,7 @@ export class AnimationComponent implements OnInit, OnChanges {
       }
       nWTl.add(tl, 0)
     })
-    startPos.nEBirds.map(function(nEBird, i) {
+    startPos.h4Birds.nEBirds.map(function(nEBird, i) {
       let tl = new TimelineMax();
       tl.to(nEBird.nativeElement, 0.4, {x: "-=40", y: "+=20"})
       if (nEBird.nativeElement.id[0] === 'R') {
@@ -573,19 +553,19 @@ export class AnimationComponent implements OnInit, OnChanges {
     return [nETl, sETl, sWTl, nWTl]
   }
 
-  public dancersOnRightRightShoulderRoundOnceAndAHalf(startPos, isProgression:boolean) {
+  public dancersOnRightRightShoulderRoundOnceAndAHalf(startPos) {
     console.log("Hit MOVE dancersOnRightRightShoulderRoundOnceAndAHalf")
     let sETl = new TimelineMax();
     let nWTl = new TimelineMax();
 
-    startPos.sEBirds.map(function(bird, i) {
+    startPos.h4Birds.sEBirds.map(function(bird, i) {
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 0.4, {x: "-=80", y:"-=40"})
         .to(bird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+80 + "px 160px"})
         .to(bird.nativeElement, 0.4, {x: "-=40", y: "-=40"})
       sETl.add(tl, 0)
     })
-    startPos.nWBirds.map(function(bird, i) {
+    startPos.h4Birds.nWBirds.map(function(bird, i) {
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 0.4, {x:"+=80", y:"+=40"})
         .to(bird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+80 + "px 160px"})
@@ -595,19 +575,19 @@ export class AnimationComponent implements OnInit, OnChanges {
     return [sETl, nWTl]
   }
 
-  public dancersOnLeftRightShoulderRoundOnceAndAHalf(startPos, isProgression:boolean) {
+  public dancersOnLeftRightShoulderRoundOnceAndAHalf(startPos) {
     console.log("Hit MOVE dancersOnLeftRightShoulderRoundOnceAndAHalf")
     let sWTl = new TimelineMax();
     let nETl = new TimelineMax();
 
-    startPos.sWBirds.map(function(bird, i) {
+    startPos.h4Birds.sWBirds.map(function(bird, i) {
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 0.4, {x: "+=40", y:"-=80"})
         .to(bird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+80 + "px 160px"})
         .to(bird.nativeElement, 0.4, {x: "+=40", y: "-=40"})
       sWTl.add(tl, 0)
     })
-    startPos.nEBirds.map(function(bird, i) {
+    startPos.h4Birds.nEBirds.map(function(bird, i) {
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 0.4, {x:"-=40", y:"+=80"})
         .to(bird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+80 + "px 160px"})
@@ -617,10 +597,10 @@ export class AnimationComponent implements OnInit, OnChanges {
     return [nETl, sWTl]
   }
 
-  public circleLeftThreeQuarters(startPos, isProgression:boolean) {
+  public circleLeftThreeQuarters(startPos) {
     console.log("Hit MOVE circleLeftThreeQuarters")
     let moveTl = new TimelineMax();
-    const birdsInArrayByCardinalPositioning = [startPos.nEBirds, startPos.sEBirds, startPos.sWBirds, startPos.nWBirds]
+    const birdsInArrayByCardinalPositioning = [startPos.h4Birds.nEBirds, startPos.h4Birds.sEBirds, startPos.h4Birds.sWBirds, startPos.h4Birds.nWBirds]
     birdsInArrayByCardinalPositioning.map(function(birdsByCarinalPosition) {
       birdsByCarinalPosition.map(function(bird, i) {
         let tl = new TimelineMax();
@@ -631,14 +611,16 @@ export class AnimationComponent implements OnInit, OnChanges {
     return moveTl
   }
 
-  public californiaTwirlUpAndDown(startPos, isProgression:boolean) {
+// Progression Moves ==========
+
+  public californiaTwirlUpAndDown(startPos) {
     console.log("Hit MOVE californiaTwirl")
     let nETl = new TimelineMax();
     let sETl = new TimelineMax();
     let sWTl = new TimelineMax();
     let nWTl = new TimelineMax();
 
-    startPos.nWBirds.map(function(bird, i) {
+    startPos.h4Birds.nWBirds.map(function(bird, i) {
       let tl = new TimelineMax();
       if (bird.nativeElement.id[0] === "L") {
         tl.to(bird.nativeElement, 0.6, {rotation: "+=90", svgOrigin: 240*i-20 + "px 140px"}, "+=0.6")
@@ -649,7 +631,7 @@ export class AnimationComponent implements OnInit, OnChanges {
       }
       nWTl.add(tl, 0)
     })
-    startPos.sWBirds.map(function(bird, i) {
+    startPos.h4Birds.sWBirds.map(function(bird, i) {
       let tl = new TimelineMax();
       if (bird.nativeElement.id[0] === "R") {
         tl.to(bird.nativeElement, 0.6, {rotation: "-=90", svgOrigin: 240*i-20 + "px 180px"})
@@ -660,7 +642,7 @@ export class AnimationComponent implements OnInit, OnChanges {
       }
       sWTl.add(tl, 0)
     })
-    startPos.nEBirds.map(function(bird,i) {
+    startPos.h4Birds.nEBirds.map(function(bird,i) {
       let tl = new TimelineMax();
       if (bird.nativeElement.id[0] === "R") {
         tl.to(bird.nativeElement, 0.6, {rotation: "+=90", svgOrigin: 240*i+100 + "px 140px"})
@@ -671,7 +653,7 @@ export class AnimationComponent implements OnInit, OnChanges {
       }
       nETl.add(tl, 0)
     })
-    startPos.sEBirds.map(function(bird, i) {
+    startPos.h4Birds.sEBirds.map(function(bird, i) {
       let tl = new TimelineMax();
       if (bird.nativeElement.id[0] === "L") {
         tl.to(bird.nativeElement, 0.6, {rotation: "-=90", svgOrigin: 240*i+100 + "px 180px"}, "+=0.6")
@@ -685,25 +667,26 @@ export class AnimationComponent implements OnInit, OnChanges {
     return [nETl, sETl, sWTl, nWTl]
   }
 
-// END EFFECTS ANIMATIONS ===================================
-// Methods which will be called in the moves
-// Will return a timeline that each move will add at 0 seconds
-// Will take which bird is nE, which is sE, sW, nW (this will be the position each bird will wait in (at the end of the animation))
+// // END EFFECTS ANIMATIONS ===================================
+// // Methods which will be called in the moves
+// // Will return a timeline that each move will add at 0 seconds
+// // Will take which bird is nE, which is sE, sW, nW (this will be the position each bird will wait in (at the end of the animation))
+//
+//   public improperEE(nE, sE, sW, nW) {
+//     let tl = new TimelineMax();
+//     tl.to(nW.nativeElement, 2, {rotation: "-=90", svgOrigin: "560px 160px"}, 0)
+//       .to(sW.nativeElement, 2, {rotation: "+=90", svgOrigin: "560px 160px"}, 0)
+//       .to(nE.nativeElement, 2, {rotation: "+=90", svgOrigin: "80px 160px"}, 0)
+//       .to(sE.nativeElement, 2, {rotation: "-=90", svgOrigin: "80px 160px"}, 0)
+//     return tl
+//   }
 
-  public improperEE(nE, sE, sW, nW) {
-    let tl = new TimelineMax();
-    tl.to(nW.nativeElement, 2, {rotation: "-=90", svgOrigin: "560px 160px"}, 0)
-      .to(sW.nativeElement, 2, {rotation: "+=90", svgOrigin: "560px 160px"}, 0)
-      .to(nE.nativeElement, 2, {rotation: "+=90", svgOrigin: "80px 160px"}, 0)
-      .to(sE.nativeElement, 2, {rotation: "-=90", svgOrigin: "80px 160px"}, 0)
-    return tl
-  }
 
-
-// Miscellaneous Methods ==================================
+// Miscellaneous Methods To Update Birds Location ==================================
 
   public crossBirdsOverToUpdateBirdsLocation(birdsLoc) {
     // (For Now) Assumption: For all dances where out couples are sent out perpendicular to direction of travel (improper, etc), this should be correct
+    // update out birds (cross them over)
     let newNE = birdsLoc.outBirds.sEBird
     let newSE = birdsLoc.outBirds.nEBird
     let newSW = birdsLoc.outBirds.nWBird
@@ -716,7 +699,15 @@ export class AnimationComponent implements OnInit, OnChanges {
     return birdsLoc
   }
 
+  public incorporatePerpendicularOutCouples(birdsLoc) {
+
+    return birdsLoc
+  }
+
+// Miscellaneous Methods To Add Animations ==================================
+
   public crossoverAndWaitOutPerpendicularToDirectionOfTravel(updatedBirdsLoc) {
+    // animation for out couples who wait out in Improper or Proper Formation (perpendicular to direction of travel)
     let tl = new TimelineMax();
     tl.to(updatedBirdsLoc.outBirds.nEBird.nativeElement, 2, {rotation: "+=90", svgOrigin: "80px 160px"}, 0)
       .to(updatedBirdsLoc.outBirds.sEBird.nativeElement, 2, {rotation: "-=90", svgOrigin: "80px 160px"}, 0)
