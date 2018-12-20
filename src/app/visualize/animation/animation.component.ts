@@ -95,67 +95,6 @@ export class AnimationComponent implements OnInit, OnChanges {
               } else {
                 danceTimeline.add(moveMethod(moveStartBirdsLocation))
               }
-
-              // // Is move the last move? IE is it the progression?
-              // if (moveIndex === moves.length - 1) {
-              //   console.log("hit place in code where move is a progression")
-              //   this.toggleCouplesOut()
-
-                // strip startPos arrays of out birds (depending on value of outCouplesWaitingPosition:
-                // improper, becket, etc )
-                // TODO: do this in each position instead
-                // if (this.couplesOut) {
-                //   let strippedData: any =
-                //   {
-                //   "birdsLocation": {"nEBirds" : [ElementRef],
-                //                     "sEBirds" : [ElementRef],
-                //                     "sWBirds" : [ElementRef],
-                //                     "nWBirds" : [ElementRef]
-                //                    },
-                //   "newlyOutBirds" : { "nE" : ElementRef, "sE" : ElementRef, "sW" : ElementRef, "nW" : ElementRef}
-                //   }
-                  // if (moveStartBirdsLocation.outCouplesWaitingPosition === "improper") {
-                  //   strippedData.newlyOutBirds.nE = moveStartBirdsLocation.nEBirds.shift()
-                  //   strippedData.newlyOutBirds.sE = moveStartBirdsLocation.sEBirds.shift()
-                  //   strippedData.newlyOutBirds.sW = moveStartBirdsLocation.sWBirds.pop()
-                  //   strippedData.newlyOutBirds.nW = moveStartBirdsLocation.nWBirds.pop()
-                  //   strippedData.birdsLocation.nEBirds = moveStartBirdsLocation.nEBirds
-                  //   strippedData.birdsLocation.sEBirds = moveStartBirdsLocation.sEBirds
-                  //   strippedData.birdsLocation.sWBirds = moveStartBirdsLocation.sWBirds
-                  //   strippedData.birdsLocation.nWBirds = moveStartBirdsLocation.nWBirds
-                  // } else if (moveStartBirdsLocation.outCouplesWaitingPosition === "becket") {
-                  //   strippedData.newlyOutBirds.nE = moveStartBirdsLocation.nEBirds.pop()
-                  //   strippedData.newlyOutBirds.sE = moveStartBirdsLocation.sEBirds.shift()
-                  //   strippedData.newlyOutBirds.sW = moveStartBirdsLocation.sWBirds.shift()
-                  //   strippedData.newlyOutBirds.nW = moveStartBirdsLocation.nWBirds.pop()
-                  //   strippedData.birdsLocation.nEBirds = moveStartBirdsLocation.nEBirds
-                  //   strippedData.birdsLocation.sEBirds = moveStartBirdsLocation.sEBirds
-                  //   strippedData.birdsLocation.sWBirds = moveStartBirdsLocation.sWBirds
-                  //   strippedData.birdsLocation.nWBirds = moveStartBirdsLocation.nWBirds
-                  // }
-                  // strippedData would look like:
-                  // {
-                  //    birdsLocation: { nEBirds: [ this.R3, this.R1 ]
-                  //                     sEBirds: [ this.L3, this.L1 ]
-                  //                     sWBirds: [ this.R6, this.R4 ]
-                  //                     nWBirds: [ this.L6, this.L4 ]
-                  //                   },
-                  //    newlyOutBirds: { nE: this.R5, // Where they are when they first get pushed out
-                  //                     sE: this.L5,
-                  //                     sW: this.R2,
-                  //                     nW: this.L2
-                  //                   }
-                  // } (but must be generated dynamically)
-              // danceTimeline.add(moveMethod(moveStartBirdsLocation, false)
-                  // danceTimeline.add(this.endEffects("improper", strippedData.newlyOutBirds), "Progression" + progIndex.toString()) // TODO: this.endEffects still must be written
-                // } else if (!this.couplesOut) { // no couples out
-                //   danceTimeline.add(moveMethod(moveStartBirdsLocation, true))
-                // } else {
-                //   return null
-                // }
-              // } else { // if move is NOT a progression
-              //   danceTimeline.add(moveMethod(moveStartBirdsLocation, false))
-              // }
             } else {
               danceTimeline.killAll(false, true, false, true) // complete the killed things? kill tweens?  kill delayedCalls? kill timelines?
               console.log("reached")
@@ -273,27 +212,27 @@ export class AnimationComponent implements OnInit, OnChanges {
   }
 
   public becket(progressionNumber:number) {
-    console.log("hit POSITION becket")
-    let birdsLocation:any = { nEBirds: [this.L6, this.L4, this.L2],
-                              sEBirds: [this.R5, this.R3, this.R1],
-                              sWBirds: [this.L5, this.L3, this.L1],
-                              nWBirds: [this.R6, this.R4, this.R2] }
+    console.log("hit POSITION becket");
+    let birdsLocation:any = { h4Birds: {nEBirds: [this.L6, this.L4, this.L2],
+                                        sEBirds: [this.R5, this.R3, this.R1],
+                                        sWBirds: [this.L5, this.L3, this.L1],
+                                        nWBirds: [this.R6, this.R4, this.R2]},
+                              outBirds: {}
+                            }
     for (let prog = 0; prog <= progressionNumber; prog++) {
       if (prog > 12) {
         return null
-      }
-      else if (prog % 2 === 0) {
-        birdsLocation.outCouplesWaitingPosition = "none"
+      } else if (prog === 0) {
       } else if (prog % 2 === 1) {
-        birdsLocation.outCouplesWaitingPosition = "becket"
-        let newNE = birdsLocation.sWBirds.shift();
-        let newSE = birdsLocation.nWBirds.pop();
-        let newSW = birdsLocation.nEBirds.pop();
-        let newNW = birdsLocation.sEBirds.shift();
-        birdsLocation.nEBirds.unshift(newNE)
-        birdsLocation.sEBirds.push(newSE)
-        birdsLocation.sWBirds.push(newSW)
-        birdsLocation.nWBirds.unshift(newNW)
+        birdsLocation.outBirds.nEBird = birdsLocation.h4Birds.nEBirds.pop();
+        birdsLocation.outBirds.sEBird = birdsLocation.h4Birds.sEBirds.shift();
+        birdsLocation.outBirds.sWBird = birdsLocation.h4Birds.nWBirds.shift();
+        birdsLocation.outBirds.nWBird = birdsLocation.h4Birds.nWBirds.pop();
+      } else if (prog % 2 === 0) {
+        birdsLocation.h4Birds.nEBirds.unshift(birdsLocation.outBirds.sWBird)
+        birdsLocation.h4Birds.sEBirds.push(birdsLocation.outBirds.nWBird)
+        birdsLocation.h4Birds.sWBirds.push(birdsLocation.outBirds.nEBird)
+        birdsLocation.h4Birds.nWBirds.unshift(birdsLocation.outBirds.sEBird)
       } else { return null }
     }
     return birdsLocation
