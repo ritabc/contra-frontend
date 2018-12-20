@@ -201,11 +201,11 @@ export class AnimationComponent implements OnInit, OnChanges {
         birdsLocation.outBirds.nWBird = birdsLocation.h4Birds.nEBirds.shift();
       } else if (prog % 2 === 0) {
         // Currently, I am pushing and unshifting the values from position(progIndex before this), not from the crossedover Values. (I think this is correct)
-        birdsLocation.outBirds = {}
         birdsLocation.h4Birds.nEBirds.push(birdsLocation.outBirds.sEBird)
         birdsLocation.h4Birds.sEBirds.push(birdsLocation.outBirds.nEBird)
         birdsLocation.h4Birds.sWBirds.unshift(birdsLocation.outBirds.nWBird)
         birdsLocation.h4Birds.nWBirds.unshift(birdsLocation.outBirds.sWBird)
+        birdsLocation.outBirds = {}
       } else { return null }
     }
     return birdsLocation;
@@ -233,35 +233,35 @@ export class AnimationComponent implements OnInit, OnChanges {
         birdsLocation.h4Birds.sEBirds.push(birdsLocation.outBirds.nWBird)
         birdsLocation.h4Birds.sWBirds.push(birdsLocation.outBirds.nEBird)
         birdsLocation.h4Birds.nWBirds.unshift(birdsLocation.outBirds.sEBird)
+        birdsLocation.outBirds = {}
       } else { return null }
     }
     return birdsLocation
   }
 
   public oppositeBecket(progressionNumber:number) {
-    console.log("hit POSITION oppositeBecket")
-    let birdsLocation:any = { nEBirds: [this.L5, this.L3, this.L1],
-                              sEBirds: [this.R6, this.R4, this.R2],
-                              sWBirds: [this.L6, this.L4, this.L2],
-                              nWBirds: [this.R5, this.R3, this.R1] }
+    console.log("hit POSITION oppositeBecket");
+    let birdsLocation:any = { h4Birds: {nEBirds: [this.L5, this.L3, this.L1],
+                                        sEBirds: [this.R6, this.R4, this.R2],
+                                        sWBirds: [this.L6, this.L4, this.L2],
+                                        nWBirds: [this.R5, this.R3, this.R1]},
+                              outBirds: {}
+                            }
     for (let prog = 0; prog <= progressionNumber; prog++) {
       if (prog > 12) {
         return null
-      }
-      else if (prog === 0) {
-        birdsLocation.outCouplesWaitingPosition = "none"
+      } else if (prog === 0) {
       } else if (prog % 2 === 1) {
-        birdsLocation.outCouplesWaitingPosition = "oppositeBecket"
-        let newNE = birdsLocation.sWBirds.pop();
-        let newSE = birdsLocation.nWBirds.shift();
-        let newSW = birdsLocation.nEBirds.shift();
-        let newNW = birdsLocation.sEBirds.pop();
-        birdsLocation.nEBirds.push(newNE)
-        birdsLocation.sEBirds.unshift(newSE)
-        birdsLocation.sWBirds.unshift(newSW)
-        birdsLocation.nWBirds.push(newNW)
+        birdsLocation.outBirds.nEBird = birdsLocation.h4Birds.nEBirds.shift()
+        birdsLocation.outBirds.sEBird = birdsLocation.h4Birds.sEBirds.pop()
+        birdsLocation.outBirds.sWBird = birdsLocation.h4Birds.sWBirds.pop()
+        birdsLocation.outBirds.nWBird = birdsLocation.h4Birds.nWBirds.shift()
       } else if (prog % 2 === 0) {
-        birdsLocation.outCouplesWaitingPosition = "none"
+        birdsLocation.h4Birds.nEBirds.push(birdsLocation.outBirds.sWBird)
+        birdsLocation.h4Birds.sEBirds.unshift(birdsLocation.outBirds.nWBird)
+        birdsLocation.h4Birds.sWBirds.unshift(birdsLocation.outBirds.nEBird)
+        birdsLocation.h4Birds.nWBirds.push(birdsLocation.outBirds.sEBird)
+        birdsLocation.outBirds = {}
       } else { return null }
     }
     return birdsLocation
