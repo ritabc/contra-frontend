@@ -268,37 +268,29 @@ export class AnimationComponent implements OnInit, OnChanges {
   }
 
   public improperProgressed(progressionNumber:number) {
-    console.log("hit POSITION improperProgressed")
-    let birdsLocation:any = { nEBirds: [this.R6, this.R4, this.R2],
-                              sEBirds: [this.L6, this.L4, this.L2],
-                              sWBirds: [this.R5, this.R3, this.R1],
-                              nWBirds: [this.L5, this.L3, this.L1] }
+    console.log("hit POSITION improperProgressed");
+    let birdsLocation:any = { h4Birds: {nEBirds: [this.R6, this.R4, this.R2],
+                                        sEBirds: [this.L6, this.L4, this.L2],
+                                        sWBirds: [this.R5, this.R3, this.R1],
+                                        nWBirds: [this.L5, this.L3, this.L1]},
+                              outBirds: {}
+                            }
     for (let prog = 0; prog <= progressionNumber; prog++) {
       if (prog > 12) {
         return null
       }
       else if (prog === 0) {
-        birdsLocation.outCouplesWaitingPosition = "none"
       } else if (prog % 2 === 1) {
-        birdsLocation.outCouplesWaitingPosition = "improper"
-        let newNE = birdsLocation.nWBirds.shift();
-        let newSE = birdsLocation.sWBirds.shift();
-        let newSW = birdsLocation.sEBirds.pop();
-        let newNW = birdsLocation.nEBirds.pop();
-        birdsLocation.nEBirds.unshift(newNE)
-        birdsLocation.sEBirds.unshift(newSE)
-        birdsLocation.sWBirds.push(newSW)
-        birdsLocation.nWBirds.push(newNW)
+        birdsLocation.outBirds.nEBird = birdsLocation.h4Birds.nEBirds.pop()
+        birdsLocation.outBirds.sEBird = birdsLocation.h4Birds.sEBirds.pop()
+        birdsLocation.outBirds.sWBird = birdsLocation.h4Birds.sWBirds.shift()
+        birdsLocation.outBirds.nWBird = birdsLocation.h4Birds.nWBirds.shift()
       } else if (prog % 2 === 0) {
-        birdsLocation.outCouplesWaitingPosition = "none"
-        let newNE = birdsLocation.sEBirds.shift();
-        let newSE = birdsLocation.nEBirds.shift();
-        let newSW = birdsLocation.nWBirds.pop();
-        let newNW = birdsLocation.sWBirds.pop();
-        birdsLocation.nEBirds.unshift(newNE)
-        birdsLocation.sEBirds.unshift(newSE)
-        birdsLocation.sWBirds.push(newSW)
-        birdsLocation.nWBirds.push(newNW)
+        birdsLocation.h4Birds.nEBirds.unshift(birdsLocation.outBirds.sWBird)
+        birdsLocation.h4Birds.sEBirds.unshift(birdsLocation.outBirds.nWBird)
+        birdsLocation.h4Birds.sWBirds.push(birdsLocation.outBirds.nEBird)
+        birdsLocation.h4Birds.nWBirds.push(birdsLocation.outBirds.sEBird)
+        birdsLocation.outBirds = {}
       }
     }
     return birdsLocation
@@ -307,64 +299,27 @@ export class AnimationComponent implements OnInit, OnChanges {
   public sideOfSetWithNeighborOnesFacingDown(progressionNumber: number) {
     // note that if and when out couples exist, they must wait proper
     console.log("hit POSITION sideOfSetWithNeighborOnesFacingDown")
-    let birdsLocation:any = { nEBirds: [this.L5, this.L3, this.L1],
-                              sEBirds: [this.R5, this.R3, this.R1],
-                              sWBirds: [this.L6, this.L4, this.L2],
-                              nWBirds: [this.R6, this.R4, this.R2] }
+    let birdsLocation:any = { h4Birds: {nEBirds: [this.L5, this.L3, this.L1],
+                                        sEBirds: [this.R5, this.R3, this.R1],
+                                        sWBirds: [this.L6, this.L4, this.L2],
+                                        nWBirds: [this.R6, this.R4, this.R2]},
+                              outBirds: {}
+                            }
     for (let prog = 0; prog <= progressionNumber; prog++) {
       if (prog > 12) {
         return null
-      }
-      else if (prog === 0) {
-        birdsLocation.outCouplesWaitingPosition = "none";
-        // for (let i = 0; i <= 2; ++i) {
-        //   console.log(prog, "nE", birdsLocation.nEBirds[i])
-        // }
-        // for (let i = 0; i <= 2; ++i) {
-        //   console.log(prog, "sE", birdsLocation.sEBirds[i])
-        // }
-        // for (let i = 0; i <= 2; ++i) {
-        //   console.log(prog, "sW", birdsLocation.sWBirds[i])
-        // }
-        // for (let i = 0; i <= 2; ++i) {
-        //   console.log(prog, "nW", birdsLocation.nWBirds[i])
-        // }
+      } else if (prog === 0) {
       } else if (prog % 2 === 1) {
-        birdsLocation.outCouplesWaitingPosition = "proper"
-        let newNE = birdsLocation.sWBirds.pop();
-        let newSE = birdsLocation.nWBirds.pop();
-        let newSW = birdsLocation.nEBirds.shift();
-        let newNW = birdsLocation.sEBirds.shift();
-        birdsLocation.nEBirds.push(newNE)
-        birdsLocation.sEBirds.push(newSE)
-        birdsLocation.sWBirds.unshift(newSW)
-        birdsLocation.nWBirds.unshift(newNW)
-        // for (let i = 0; i <= 2; ++i) {
-        //   console.log(prog, "nE", birdsLocation.nEBirds[i])
-        // }
-        // for (let i = 0; i <= 2; ++i) {
-        //   console.log(prog, "sE", birdsLocation.sEBirds[i])
-        // }
-        // for (let i = 0; i <= 2; ++i) {
-        //   console.log(prog, "sW", birdsLocation.sWBirds[i])
-        // }
-        // for (let i = 0; i <= 2; ++i) {
-        //   console.log(prog, "nW", birdsLocation.nWBirds[i])
-        // }
+        birdsLocation.outBirds.nEBird = birdsLocation.h4Birds.nWBirds.pop()
+        birdsLocation.outBirds.sEBird = birdsLocation.h4Birds.sWBirds.pop()
+        birdsLocation.outBirds.sWBird = birdsLocation.h4Birds.sEBirds.shift()
+        birdsLocation.outBirds.nWBird = birdsLocation.h4Birds.nEBirds.shift()
       } else if (prog % 2 === 0) {
-        birdsLocation.outCouplesWaitingPosition = "none"
-        // for (let i = 0; i <= 2; ++i) {
-        //   console.log(prog, "nE", birdsLocation.nEBirds[i])
-        // }
-        // for (let i = 0; i <= 2; ++i) {
-        //   console.log(prog, "sE", birdsLocation.sEBirds[i])
-        // }
-        // for (let i = 0; i <= 2; ++i) {
-        //   console.log(prog, "sW", birdsLocation.sWBirds[i])
-        // }
-        // for (let i = 0; i <= 2; ++i) {
-        //   console.log(prog, "nW", birdsLocation.nWBirds[i])
-        // }
+        birdsLocation.h4Birds.nEBirds.push(birdsLocation.outBirds.sEBird)
+        birdsLocation.h4Birds.sEBirds.push(birdsLocation.outBirds.nEBird)
+        birdsLocation.h4Birds.sWBirds.unshift(birdsLocation.outBirds.nWBird)
+        birdsLocation.h4Birds.nWBirds.unshift(birdsLocation.outBirds.sWBird)
+        birdsLocation.outBirds = {}
       } else { return null }
     }
     return birdsLocation
