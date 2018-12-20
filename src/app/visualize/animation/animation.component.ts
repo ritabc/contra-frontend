@@ -173,6 +173,13 @@ export class AnimationComponent implements OnInit, OnChanges {
 
   public improperFormation() {
     console.log("hit formation setup");
+    let birdsLocation:any = { h4Birds: {nEBirds: [this.R5, this.R3, this.R1],
+                                        sEBirds: [this.L5, this.L3, this.L1],
+                                        sWBirds: [this.R6, this.R4, this.R2],
+                                        nWBirds: [this.L6, this.L4, this.L2]},
+                              outBirds: {}
+                             }
+    // The following needs refactoring to use birdsLocation instead
     let dottedLarks = [this.L5, this.L3, this.L1];
     let solidLarks = [this.L6, this.L4, this.L2];
     let dottedRavens = [this.R5, this.R3, this.R1];
@@ -194,10 +201,19 @@ export class AnimationComponent implements OnInit, OnChanges {
       let dx = (240*index + 20)
       bird.nativeElement.setAttribute("transform", "translate(" + dx.toString() + " 220)");
     })
+    return birdsLocation
   }
 
   public becketFormation() {
     console.log("hit becket setup");
+    let birdsLocation:any = { h4Birds: {nEBirds: [this.L6, this.L4, this.L2],
+                                        sEBirds: [this.R5, this.R3, this.R1],
+                                        sWBirds: [this.L5, this.L3, this.L1],
+                                        nWBirds: [this.R6, this.R4, this.R2]},
+                              outBirds: {}
+                            }
+    // The following needs refactoring to use birdsLocation instead
+
     let dottedLarks = [this.L5, this.L3, this.L1];
     let solidLarks = [this.L6, this.L4, this.L2];
     let dottedRavens = [this.R5, this.R3, this.R1];
@@ -219,6 +235,7 @@ export class AnimationComponent implements OnInit, OnChanges {
       let dx = (240*index + 20);
       bird.nativeElement.setAttribute("transform", "translate(" + dx.toString() + " 100)");
     })
+    return birdsLocation
   }
 
 // POSITIONS =================================================
@@ -728,7 +745,7 @@ export class AnimationComponent implements OnInit, OnChanges {
   }
 
   public incorporateOutCouplesPerpendicularAnimation(birdsLoc) {
-    // does this need an animation?
+    // does this even need an animation?
   }
 }
 
