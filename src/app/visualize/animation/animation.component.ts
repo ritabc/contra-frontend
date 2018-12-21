@@ -63,47 +63,61 @@ export class AnimationComponent implements OnInit, OnChanges {
         })
         console.log(positions, moves)
 
-        // run the formation method to set up dancers at start of dance
-        this[this.nameConverter.transform(positions[0].description) + "Formation"]()
+        // run the formation method to set up dancers at start of dance, get birdsLoc for the first time
 
         let danceTimeline = new TimelineMax({})
+        var birdsLoc
 
-        for (let progIndex = 0; progIndex < 1; ++progIndex) {
-          console.log(progIndex)
+        for (let progIndex = 0; progIndex < 12; ++progIndex) {
           moves.forEach(function(move, moveIndex) {
-            console.log("beginning of loop, moveIndex is: ", moveIndex)
 
             // obtain moveMethod name and position Method name, check whether they both exist as functions
             let moveMethod = this[this.nameConverter.transform(move.name)]
             let rubyPositionName = positions[moveIndex].description.toString()
             let positionName = this.nameConverter.transform(rubyPositionName);
             if (typeof moveMethod === 'function' && typeof this[positionName] === 'function' ) {
-              let moveStartBirdsLocation = this[positionName](progIndex); // progIndex meaning how far red has gotten away from home position (how many times the dance has progressed)
 
-              // if move is the progression (aka the last move)
-              if (moveIndex === moves.length - 1) {
+              // if this is the very first move, set up the formation
+              if (progIndex === 0 && moveIndex === 0) {
+                birdsLoc = this[this.nameConverter.transform(positions[0].description) + "Formation"]();
+                danceTimeline.add(moveMethod(birdsLoc));
 
-                if (progIndex % 2 === 0) { // if there are NO couples out, send couples out and cross them over
-                  updatedMoveStartBirdsLocation = this.crossoverPerpendicular(moveStartBirdsLocation)
-                  danceTimeline.add(crossoverPerpendicularAnimation(updatedMoveStartBirdsLocation), "Progression" + progIndex.toString())
-                } else if (progIndex % 2 === 1) { // if there are ALREADY couples out, incorporate them
+              // if the move is a progression
+              } else if (moveIndex === moves.length - 1) {
 
+                // For every progression: get last move's beginning position, animate last move, and get the final (or first) position
+                birdsLoc = this[positionName](progIndex);
+                danceTimeline.add(moveMethod(birdsLoc), "Progression" + progIndex.toString());
+                birdsLoc = this[this.nameConverter.transform(positions[moveIndex + 1].description)](0);
+
+                // If statement based on whether birds are out
+                /// if NO couples are out, couples need to be sent out
+                if (progIndex % 2 === 0) {
+                  // update birdsLoc
+                  birdsLoc = this.sendCouplesOutPerpendicular(birdsLoc) // will need to later be dynamic depending on how couples wait out
+                  birdsLoc = this.crossoverPerpendicular(birdsLoc)
+                  // add end effects animation to timeline
+                  danceTimeline.add(this.crossoverPerpendicularAnimation(birdsLoc), "Progression" + progIndex.toString())
+
+                /// if couples ARE out, they need to come back in
+                } else if (progIndex % 2 === 1) {
+                  birdsLoc = this.incorporateOutCouplesPerpendicular(birdsLoc)
                 }
-                danceTimeline.add(moveMethod(updatedMoveStartBirdsLocation), "Progression" + progIndex.toString()) // add move TL to same place as couples crossing over
 
-              // else if the move is a regular move
+              // if the move is NOT a progression, NOT the formation
               } else {
-                danceTimeline.add(moveMethod(moveStartBirdsLocation))
+                birdsLoc = this[positionName](progIndex);
+                danceTimeline.add(moveMethod(birdsLoc));
               }
+
+            // if either the move or position hasn't been coded yet
             } else {
               danceTimeline.killAll(false, true, false, true) // complete the killed things? kill tweens?  kill delayedCalls? kill timelines?
               console.log("reached")
               return null
             }
-            console.log("end of loop, moveIndex is: ", moveIndex)
           }, this)
         }
-
       }
     }
   }
@@ -348,7 +362,6 @@ export class AnimationComponent implements OnInit, OnChanges {
     // let eeTl = new TimelineMax();
 
     startPos.h4Birds.nEBirds.map(function(bird, i) {
-      console.log(startPos)
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 1, {x: "-=40", y: "+=40"})
         .to(bird.nativeElement, 1, {x: "+=40", y: "-=40"})
@@ -581,43 +594,42 @@ export class AnimationComponent implements OnInit, OnChanges {
 // Accessory Methods for Updating BirdsLocation =======================
   /// Waiting Out and Going in Perpendicular to Direction of Travel =======================
 
-  public sendCouplesOutPerpendicular(birdsLoc) {
-    birdsLoc.outBirds.nEBird = birdsLoc.h4Birds.nWBirds.pop();
-    birdsLoc.outBirds.sEBird = birdsLoc.h4Birds.sWBirds.pop();
-    birdsLoc.outBirds.sWBird = birdsLoc.h4Birds.sEBirds.shift();
-    birdsLoc.outBirds.nWBird = birdsLoc.h4Birds.nEBirds.shift();
-    return birdsLoc
+  public sendCouplesOutPerpendicular(birdsLocation) {
+    birdsLocation.outBirds.nEBird = birdsLocation.h4Birds.nWBirds.pop();
+    birdsLocation.outBirds.sEBird = birdsLocation.h4Birds.sWBirds.pop();
+    birdsLocation.outBirds.sWBird = birdsLocation.h4Birds.sEBirds.shift();
+    birdsLocation.outBirds.nWBird = birdsLocation.h4Birds.nEBirds.shift();
+    return birdsLocation
   }
 
-  public crossoverPerpendicular(birdsLoc) {
+  public crossoverPerpendicular(birdsLocation) {
     // update out birds (cross them over) who are waiting out perpendicular to direction of travel
-    let newNE = birdsLoc.outBirds.sEBird
-    let newSE = birdsLoc.outBirds.nEBird
-    let newSW = birdsLoc.outBirds.nWBird
-    let newNW = birdsLoc.outBirds.sWBird
-    birdsLoc.outBirds = { nEBird = newNE,
-                          sEBird = newSE,
-                          sWBird = newSW,
-                          nWBird = newNW
-                        }
-    return birdsLoc
+    let newNE = birdsLocation.outBirds.sEBird
+    let newSE = birdsLocation.outBirds.nEBird
+    let newSW = birdsLocation.outBirds.nWBird
+    let newNW = birdsLocation.outBirds.sWBird
+    birdsLocation.outBirds.nEBird = newNE;
+    birdsLocation.outBirds.sEBird = newSE;
+    birdsLocation.outBirds.sWBird = newSW;
+    birdsLocation.outBirds.nWBird = newNW;
+    return birdsLocation
   }
 
-  public incorporateOutCouplesPerpendicular(birdsLoc) {
-    birdsLoc.h4Birds.nEBirds.push(birdsLoc.outBirds.nEBird)
-    birdsLoc.h4Birds.sEBirds.push(birdsLoc.outBirds.sEBird)
-    birdsLoc.h4Birds.sWBirds.unshift(birdsLoc.outBirds.sWBird)
-    birdsLoc.h4Birds.nWBirds.unshift(birdsLoc.outBirds.nWBird)
-    return birdsLoc
+  public incorporateOutCouplesPerpendicular(birdsLocation) {
+    birdsLocation.h4Birds.nEBirds.push(birdsLocation.outBirds.nEBird)
+    birdsLocation.h4Birds.sEBirds.push(birdsLocation.outBirds.sEBird)
+    birdsLocation.h4Birds.sWBirds.unshift(birdsLocation.outBirds.sWBird)
+    birdsLocation.h4Birds.nWBirds.unshift(birdsLocation.outBirds.nWBird)
+    return birdsLocation
   }
 
   /// Waiting Out and Going in Parallel, with a Slide Left =========
 
-  public sendCouplesOutParallelSlideLeft(birdsLoc) {
+  public sendCouplesOutParallelSlideLeft(birdsLocation) {
 
   }
 
-  public crossoverParallelSlideLeft(birdsLoc) {
+  public crossoverParallelSlideLeft(birdsLocation) {
 
   }
 
@@ -628,17 +640,17 @@ export class AnimationComponent implements OnInit, OnChanges {
 
 // Methods for Animating End Effects =======================
 
-  public crossoverPerpendicularAnimation(birdsLoc) {
+  public crossoverPerpendicularAnimation(birdsLocation) {
     // animation for out couples who wait out in Improper or Proper Formation (perpendicular to direction of travel)
     let tl = new TimelineMax();
-    tl.to(birdsLoc.outBirds.nEBird.nativeElement, 2, {rotation: "+=90", svgOrigin: "80px 160px"}, 0)
-      .to(birdsLoc.outBirds.sEBird.nativeElement, 2, {rotation: "-=90", svgOrigin: "80px 160px"}, 0)
-      .to(birdsLoc.outBirds.sWBird.nativeElement, 2, {rotation: "+=90", svgOrigin: "560px 160px"}, 0)
-      .to(birdsLoc.outBirds.nWBird.nativeElement, 2, {rotation: "-=90", svgOrigin: "560px 160px"}, 0)
+    tl.to(birdsLocation.outBirds.nEBird.nativeElement, 2, {rotation: "+=90", svgOrigin: "80px 160px"}, 0)
+      .to(birdsLocation.outBirds.sEBird.nativeElement, 2, {rotation: "-=90", svgOrigin: "80px 160px"}, 0)
+      .to(birdsLocation.outBirds.sWBird.nativeElement, 2, {rotation: "+=90", svgOrigin: "560px 160px"}, 0)
+      .to(birdsLocation.outBirds.nWBird.nativeElement, 2, {rotation: "-=90", svgOrigin: "560px 160px"}, 0)
     return tl
   }
 
-  public incorporateOutCouplesPerpendicularAnimation(birdsLoc) {
+  public incorporateOutCouplesPerpendicularAnimation(birdsLocation) {
     // does this even need an animation?
   }
 }
