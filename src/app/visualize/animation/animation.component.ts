@@ -35,11 +35,6 @@ export class AnimationComponent implements OnInit, OnChanges {
   constructor(private el: ElementRef, private nameConverter:SnakeToCamelPipe, private apiService:ApiService) { }
 
   ngOnInit() {
-    // this.improperFormation();
-    // let startPos = this.becket(3);
-    // this.californiaTwirlUpAndDown(startPos)
-    // let nextPos = this.improperProgressed(0);
-    // this.swingOnSidesOfSet(nextPos)
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -139,20 +134,24 @@ export class AnimationComponent implements OnInit, OnChanges {
     let solidRavens = [this.R6, this.R4, this.R2];
 
     dottedLarks.forEach(function(bird, index) {
-      let dx = (240*index + 140)
-      bird.nativeElement.setAttribute("transform", "translate(" + dx.toString() + " 220)");
+      let dx = (240*index + 140).toString() + 'px'
+      bird.nativeElement.style.cx = dx;
+      bird.nativeElement.style.cy = '220px';
     })
     solidLarks.forEach(function(bird, index) {
-      let dx = (240*index + 20)
-      bird.nativeElement.setAttribute("transform", "translate(" + dx.toString() + " 100)");
+      let dx = (240*index + 20).toString() + 'px'
+      bird.nativeElement.style.cx = dx;
+      bird.nativeElement.style.cy = '100px';
     })
     dottedRavens.forEach(function(bird, index) {
-      let dx = (240*index + 140)
-      bird.nativeElement.setAttribute("transform", "translate(" + dx.toString() + " 100)");
+      let dx = (240*index + 140).toString() + 'px'
+      bird.nativeElement.style.cx = dx;
+      bird.nativeElement.style.cy = '100px';
     })
     solidRavens.forEach(function(bird, index) {
-      let dx = (240*index + 20)
-      bird.nativeElement.setAttribute("transform", "translate(" + dx.toString() + " 220)");
+      let dx = (240*index + 20).toString() + 'px'
+      bird.nativeElement.style.cx = dx;
+      bird.nativeElement.style.cy = '220px';
     })
     return birdsLocation
   }
@@ -642,11 +641,21 @@ export class AnimationComponent implements OnInit, OnChanges {
 
   public crossoverPerpendicularAnimation(birdsLocation) {
     // animation for out couples who wait out in Improper or Proper Formation (perpendicular to direction of travel)
+    console.log(getComputedStyle(birdsLocation.outBirds.nEBird.nativeElement))
+    console.log(birdsLocation)
+    console.log(birdsLocation.outBirds.nEBird.nativeElement.getClientRects()[0].x)
+    console.log(birdsLocation.outBirds.nEBird.nativeElement.getBoundingClientRect().left) // top corner x axis value
+    console.log(birdsLocation.outBirds.nEBird.nativeElement.getClientRects()[0].left)
+
+    console.log(birdsLocation.outBirds.nEBird.nativeElement.getBoundingClientRect().y) // origin?
+    console.log(birdsLocation.outBirds.nEBird.nativeElement.getClientRects()[0].y)
+    console.log(birdsLocation.outBirds.nEBird.nativeElement.getBoundingClientRect().top) // left corner y axis value
+    console.log(birdsLocation.outBirds.nEBird.nativeElement.getClientRects()[0].top)
     let tl = new TimelineMax();
-    tl.to(birdsLocation.outBirds.nEBird.nativeElement, 2, {rotation: "+=90", svgOrigin: "80px 160px"}, 0)
-      .to(birdsLocation.outBirds.sEBird.nativeElement, 2, {rotation: "-=90", svgOrigin: "80px 160px"}, 0)
-      .to(birdsLocation.outBirds.sWBird.nativeElement, 2, {rotation: "+=90", svgOrigin: "560px 160px"}, 0)
-      .to(birdsLocation.outBirds.nWBird.nativeElement, 2, {rotation: "-=90", svgOrigin: "560px 160px"}, 0)
+    tl.to(birdsLocation.outBirds.nEBird.nativeElement, 2, {rotation: "+=180", svgOrigin: "620px 160px"}, 0)
+      .to(birdsLocation.outBirds.sEBird.nativeElement, 2, {rotation: "-=180", svgOrigin: "620px 160px"}, 0)
+      .to(birdsLocation.outBirds.sWBird.nativeElement, 2, {rotation: "+=180", svgOrigin: "20px 160px"}, 0)
+      .to(birdsLocation.outBirds.nWBird.nativeElement, 2, {rotation: "-=180", svgOrigin: "20px 160px"}, 0)
     return tl
   }
 

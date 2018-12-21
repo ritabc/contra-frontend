@@ -31,7 +31,9 @@ export class ChooseDanceComponent implements OnInit {
   }
 
   public emitDanceIdFromChosenDance(event) {
-    this.internalDanceId = event.path[0].id
+    console.log(event)
+    // this.internalDanceId = event.path[0].id // doesn't work on Firefox
+    this.internalDanceId = event.detail
     this.danceIdFromChooseDance.emit(this.internalDanceId)
   }
 
