@@ -424,14 +424,23 @@ export class AnimationComponent implements OnInit, OnChanges {
     let sWTl = new TimelineMax();
     let nWTl = new TimelineMax();
 
+    // Set up formula for determining x-value offset (depends on whether couples are out)
+    let xOffset
+    // if there are couples out
+    if ('nEBird' in startPos.outBirds) {
+      xOffset = 200;
+    } else {// if all couples are in
+      xOffset = 80;
+    }
+
     startPos.h4Birds.sEBirds.map(function(sEBird, i) {
       let tl = new TimelineMax();
       tl.to(sEBird.nativeElement, 0.4, {x: "-=40", y: "+=20"})
       if (sEBird.nativeElement.id[0] === 'L') {
-        tl.to(sEBird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i + 80 + "px 220px"})
+        tl.to(sEBird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i + xOffset + "px 220px"})
           .to(sEBird.nativeElement, 0.4, {x: "-=40", y: "-=20"})
       } else if (sEBird.nativeElement.id[0] === 'R') {
-        tl.to(sEBird.nativeElement, 1.2, {rotation: "+=630", svgOrigin: 240*i + 80 + "px 220px"})
+        tl.to(sEBird.nativeElement, 1.2, {rotation: "+=630", svgOrigin: 240*i + xOffset + "px 220px"})
           .to(sEBird.nativeElement, 0.4, {x: "+=40", y: "+=20"})
       }
       sETl.add(tl, 0)
@@ -440,10 +449,10 @@ export class AnimationComponent implements OnInit, OnChanges {
       let tl = new TimelineMax();
       tl.to(sWBird.nativeElement, 0.4, {x: "+=40", y: "-=20"})
       if (sWBird.nativeElement.id[0] === 'R') {
-        tl.to(sWBird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+80 + "px 220px"})
+        tl.to(sWBird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+xOffset + "px 220px"})
           .to(sWBird.nativeElement, 0.4, {x: "+=40", y: "+=20"})
       } else if (sWBird.nativeElement.id[0] === 'L') {
-        tl.to(sWBird.nativeElement, 1.2, {rotation: "+=630", svgOrigin: 240*i+80 + "px 220px"})
+        tl.to(sWBird.nativeElement, 1.2, {rotation: "+=630", svgOrigin: 240*i+xOffset + "px 220px"})
           .to(sWBird.nativeElement, 0.4, {x:"-=40", y: "-=20"})
       }
       sWTl.add(tl, 0)
@@ -452,10 +461,10 @@ export class AnimationComponent implements OnInit, OnChanges {
       let tl = new TimelineMax();
       tl.to(nWBird.nativeElement, 0.4, {x: "+=40", y:"-=20"})
       if (nWBird.nativeElement.id[0] === 'L') {
-        tl.to(nWBird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+80 + "px 100px"})
+        tl.to(nWBird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+xOffset + "px 100px"})
           .to(nWBird.nativeElement, 0.4, {x: "+=40", y: "+=20"})
       } else if (nWBird.nativeElement.id[0] === 'R') {
-        tl.to(nWBird.nativeElement, 1.2, {rotation: "+=630", svgOrigin: 240*i+80 + "px 100px"})
+        tl.to(nWBird.nativeElement, 1.2, {rotation: "+=630", svgOrigin: 240*i+xOffset + "px 100px"})
           .to(nWBird.nativeElement, 0.4, {x: "-=40", y: "-=20"})
       }
       nWTl.add(tl, 0)
@@ -464,10 +473,10 @@ export class AnimationComponent implements OnInit, OnChanges {
       let tl = new TimelineMax();
       tl.to(nEBird.nativeElement, 0.4, {x: "-=40", y: "+=20"})
       if (nEBird.nativeElement.id[0] === 'R') {
-        tl.to(nEBird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+80 + "px 100"})
+        tl.to(nEBird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+xOffset + "px 100"})
           .to(nEBird.nativeElement, 0.4, {x: "-=40", y: "-=20"})
       } else if (nEBird.nativeElement.id[0] === 'L') {
-        tl.to(nEBird.nativeElement, 1.2, {rotation: "+=630", svgOrigin: 240*i+80 + "px 100"})
+        tl.to(nEBird.nativeElement, 1.2, {rotation: "+=630", svgOrigin: 240*i+xOffset + "px 100"})
           .to(nEBird.nativeElement, 0.4, {x: "+=40", y: "+=20"})
       }
       nETl.add(tl, 0)
