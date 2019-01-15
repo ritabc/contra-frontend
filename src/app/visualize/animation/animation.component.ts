@@ -90,8 +90,8 @@ export class AnimationComponent implements OnInit, OnChanges {
                   // update birdsLoc
                   birdsLoc = this.sendCouplesOutPerpendicular(birdsLoc) // will need to later be dynamic depending on how couples wait out
                   birdsLoc = this.crossoverPerpendicular(birdsLoc)
-                  // add end effects animation to timeline
-                  danceTimeline.add(this.crossoverPerpendicularAnimation(birdsLoc), "Progression" + progIndex.toString())
+                  // add end effects animation to timeline after the Progression Happens
+                  danceTimeline.add(this.crossoverPerpendicularAnimation(birdsLoc), "Progression" + progIndex.toString() + "+=2")
 
                 /// if couples ARE out, they need to come back in
                 } else if (progIndex % 2 === 1) {
