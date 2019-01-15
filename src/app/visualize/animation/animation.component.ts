@@ -489,17 +489,26 @@ export class AnimationComponent implements OnInit, OnChanges {
     let sETl = new TimelineMax();
     let nWTl = new TimelineMax();
 
+    // Set up formula for determining x-value offset (depends on whether couples are out)
+    let xOffset
+    // if there are couples out
+    if ('nEBird' in startPos.outBirds) {
+      xOffset = 200;
+    } else {// if all couples are in
+      xOffset = 80;
+    }
+
     startPos.h4Birds.sEBirds.map(function(bird, i) {
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 0.4, {x: "-=80", y:"-=40"})
-        .to(bird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+80 + "px 160px"})
+        .to(bird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+xOffset + "px 160px"})
         .to(bird.nativeElement, 0.4, {x: "-=40", y: "-=40"})
       sETl.add(tl, 0)
     })
     startPos.h4Birds.nWBirds.map(function(bird, i) {
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 0.4, {x:"+=80", y:"+=40"})
-        .to(bird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+80 + "px 160px"})
+        .to(bird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+xOffset + "px 160px"})
         .to(bird.nativeElement, 0.4, {x: "+=40", y: "+=40"})
       nWTl.add(tl, 0)
     })
@@ -511,17 +520,26 @@ export class AnimationComponent implements OnInit, OnChanges {
     let sWTl = new TimelineMax();
     let nETl = new TimelineMax();
 
+    // Set up formula for determining x-value offset (depends on whether couples are out)
+    let xOffset
+    // if there are couples out
+    if ('nEBird' in startPos.outBirds) {
+      xOffset = 200;
+    } else {// if all couples are in
+      xOffset = 80;
+    }
+
     startPos.h4Birds.sWBirds.map(function(bird, i) {
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 0.4, {x: "+=40", y:"-=80"})
-        .to(bird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+80 + "px 160px"})
+        .to(bird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+xOffset + "px 160px"})
         .to(bird.nativeElement, 0.4, {x: "+=40", y: "-=40"})
       sWTl.add(tl, 0)
     })
     startPos.h4Birds.nEBirds.map(function(bird, i) {
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 0.4, {x:"-=40", y:"+=80"})
-        .to(bird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+80 + "px 160px"})
+        .to(bird.nativeElement, 1.2, {rotation: "+=450", svgOrigin: 240*i+xOffset + "px 160px"})
         .to(bird.nativeElement, 0.4, {x: "-=40", y: "+=40"})
       nETl.add(tl, 0)
     })
@@ -531,33 +549,55 @@ export class AnimationComponent implements OnInit, OnChanges {
   public circleLeftThreeQuarters(startPos) {
     console.log("Hit MOVE circleLeftThreeQuarters")
     let moveTl = new TimelineMax();
+
+    // Set up formula for determining x-value offset (depends on whether couples are out)
+    let xOffset
+    // if there are couples out
+    if ('nEBird' in startPos.outBirds) {
+      xOffset = 200;
+    } else {// if all couples are in
+      xOffset = 80;
+    }
+
     const birdsInArrayByCardinalPositioning = [startPos.h4Birds.nEBirds, startPos.h4Birds.sEBirds, startPos.h4Birds.sWBirds, startPos.h4Birds.nWBirds]
     birdsInArrayByCardinalPositioning.map(function(birdsByCarinalPosition) {
       birdsByCarinalPosition.map(function(bird, i) {
         let tl = new TimelineMax();
-        tl.to(bird.nativeElement, 2, {rotation: "+=270", svgOrigin: 240*i+80 + "px 160px"})
+        tl.to(bird.nativeElement, 2, {rotation: "+=270", svgOrigin: 240*i+xOffset + "px 160px"})
         moveTl.add(tl, 0)
       })
     })
     return moveTl
   }
 
-// Progression Moves ==========
+// Progression Moves ============================
 
   public californiaTwirlUpAndDown(startPos) {
     console.log("Hit MOVE californiaTwirl")
+    console.log(startPos)
     let nETl = new TimelineMax();
     let sETl = new TimelineMax();
     let sWTl = new TimelineMax();
     let nWTl = new TimelineMax();
 
+    // Set up formula for determining x-value offset (depends on whether couples are out)
+    let xOffsetForWestBirds, xOffsetForEastBirds
+    // if there are couples out
+    if ('nEBird' in startPos.outBirds) {
+      xOffsetForWestBirds = 100;
+      xOffsetForEastBirds = 220;
+    } else {// if all couples are in
+      xOffsetForWestBirds = -20;
+      xOffsetForEastBirds = 100
+    }
+
     startPos.h4Birds.nWBirds.map(function(bird, i) {
       let tl = new TimelineMax();
       if (bird.nativeElement.id[0] === "L") {
-        tl.to(bird.nativeElement, 0.6, {rotation: "+=90", svgOrigin: 240*i-20 + "px 140px"}, "+=0.6")
+        tl.to(bird.nativeElement, 0.6, {rotation: "+=90", svgOrigin: 240*i+xOffsetForWestBirds + "px 140px"}, "+=0.6")
           .to(bird.nativeElement, 0.8, {y: "+=40"})
       } else if (bird.nativeElement.id[0] === "R") {
-        tl.to(bird.nativeElement, 0.6, {rotation: "+=90", svgOrigin: 240*i-20 + "px 140px"})
+        tl.to(bird.nativeElement, 0.6, {rotation: "+=90", svgOrigin: 240*i+xOffsetForWestBirds + "px 140px"})
           .to(bird.nativeElement, 0.8, {y: "+=40"}, "+=0.6")
       }
       nWTl.add(tl, 0)
@@ -565,10 +605,10 @@ export class AnimationComponent implements OnInit, OnChanges {
     startPos.h4Birds.sWBirds.map(function(bird, i) {
       let tl = new TimelineMax();
       if (bird.nativeElement.id[0] === "R") {
-        tl.to(bird.nativeElement, 0.6, {rotation: "-=90", svgOrigin: 240*i-20 + "px 180px"})
+        tl.to(bird.nativeElement, 0.6, {rotation: "-=90", svgOrigin: 240*i+xOffsetForWestBirds + "px 180px"})
           .to(bird.nativeElement, 0.8, {y: "-=40"}, "+=0.6")
       } else if (bird.nativeElement.id[0] === "L") {
-        tl.to(bird.nativeElement, 0.6, {rotation: "-=90", svgOrigin: 240*i-20 + "px 180px"}, "+=0.6")
+        tl.to(bird.nativeElement, 0.6, {rotation: "-=90", svgOrigin: 240*i+xOffsetForWestBirds + "px 180px"}, "+=0.6")
           .to(bird.nativeElement, 0.8, {y: "-=40"})
       }
       sWTl.add(tl, 0)
@@ -576,10 +616,10 @@ export class AnimationComponent implements OnInit, OnChanges {
     startPos.h4Birds.nEBirds.map(function(bird,i) {
       let tl = new TimelineMax();
       if (bird.nativeElement.id[0] === "R") {
-        tl.to(bird.nativeElement, 0.6, {rotation: "+=90", svgOrigin: 240*i+100 + "px 140px"})
+        tl.to(bird.nativeElement, 0.6, {rotation: "+=90", svgOrigin: 240*i+xOffsetForEastBirds + "px 140px"})
           .to(bird.nativeElement, 0.8, {y: "+=40"}, "+=0.6")
       } else if (bird.nativeElement.id[0] === "L") {
-        tl.to(bird.nativeElement, 0.6, {rotation: "+=90", svgOrigin: 240*i+100 + "px 140px"}, "+=0.6")
+        tl.to(bird.nativeElement, 0.6, {rotation: "+=90", svgOrigin: 240*i+xOffsetForEastBirds + "px 140px"}, "+=0.6")
           .to(bird.nativeElement, 0.8, {y: "+=40"})
       }
       nETl.add(tl, 0)
@@ -587,10 +627,10 @@ export class AnimationComponent implements OnInit, OnChanges {
     startPos.h4Birds.sEBirds.map(function(bird, i) {
       let tl = new TimelineMax();
       if (bird.nativeElement.id[0] === "L") {
-        tl.to(bird.nativeElement, 0.6, {rotation: "-=90", svgOrigin: 240*i+100 + "px 180px"}, "+=0.6")
+        tl.to(bird.nativeElement, 0.6, {rotation: "-=90", svgOrigin: 240*i+xOffsetForEastBirds + "px 180px"}, "+=0.6")
           .to(bird.nativeElement, 0.8, {y: "-=40"})
       } else if (bird.nativeElement.id[0] === "R") {
-        tl.to(bird.nativeElement, 0.6, {rotation: "-=90", svgOrigin: 240*i+100 + "px 180px"})
+        tl.to(bird.nativeElement, 0.6, {rotation: "-=90", svgOrigin: 240*i+xOffsetForEastBirds + "px 180px"})
           .to(bird.nativeElement, 0.8, {y: "-=40"}, "+=0.6")
       }
       sETl.add(tl, 0)
