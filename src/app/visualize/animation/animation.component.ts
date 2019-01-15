@@ -80,8 +80,7 @@ export class AnimationComponent implements OnInit, OnChanges {
               // if the move is a progression
               } else if (moveIndex === moves.length - 1) {
 
-                // For every progression: get last move's beginning position, animate last move, and get the final (or first) position
-                birdsLoc = this[positionName](progIndex);
+                // For every progression: animate the progression move, and get the final (or first) position
                 danceTimeline.add(moveMethod(birdsLoc), "Progression" + progIndex.toString());
                 birdsLoc = this[this.nameConverter.transform(positions[moveIndex + 1].description)](0);
 
