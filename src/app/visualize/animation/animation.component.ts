@@ -651,10 +651,10 @@ export class AnimationComponent implements OnInit, OnChanges {
     console.log(birdsLocation.outBirds.nEBird.nativeElement.getBoundingClientRect().top) // left corner y axis value
     console.log(birdsLocation.outBirds.nEBird.nativeElement.getClientRects()[0].top)
     let tl = new TimelineMax();
-    tl.to(birdsLocation.outBirds.nEBird.nativeElement, 2, {rotation: "+=180", svgOrigin: "620px 160px"}, 0)
-      .to(birdsLocation.outBirds.sEBird.nativeElement, 2, {rotation: "-=180", svgOrigin: "620px 160px"}, 0)
-      .to(birdsLocation.outBirds.sWBird.nativeElement, 2, {rotation: "+=180", svgOrigin: "20px 160px"}, 0)
-      .to(birdsLocation.outBirds.nWBird.nativeElement, 2, {rotation: "-=180", svgOrigin: "20px 160px"}, 0)
+    tl.to(birdsLocation.outBirds.nEBird.nativeElement, 2, {rotation: "-=180", svgOrigin: "620px 160px"}, 0)
+      .to(birdsLocation.outBirds.sEBird.nativeElement, 2, {rotation: "+=180", svgOrigin: "620px 160px"}, 0)
+      .to(birdsLocation.outBirds.sWBird.nativeElement, 2, {rotation: "-=180", svgOrigin: "20px 160px"}, 0)
+      .to(birdsLocation.outBirds.nWBird.nativeElement, 2, {rotation: "+=180", svgOrigin: "20px 160px"}, 0)
     return tl
   }
 
