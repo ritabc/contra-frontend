@@ -82,7 +82,7 @@ export class AnimationComponent implements OnInit, OnChanges {
 
                 // For every progression: animate the progression move, and get the final (or first) position
                 danceTimeline.add(moveMethod(birdsLoc), "Progression" + progIndex.toString());
-                birdsLoc = this[this.nameConverter.transform(positions[moveIndex + 1].description)](progIndex); 
+                birdsLoc = this[this.nameConverter.transform(positions[moveIndex + 1].description)](progIndex);
 
                 // If statement based on whether birds are out
                 /// if NO couples are out, couples need to be sent out

@@ -26,11 +26,11 @@ export class BuildDanceComponent implements OnInit {
   constructor(public router:Router, public apiService:ApiService) { }
 
   ngOnInit() {
-    this.apiService.getPositionId("position",'improper').subscribe((improper_id_data) => {
+    this.apiService.getPositionIdByDescription("improper").subscribe((improper_id_data) => {
       this.improperFormationId = improper_id_data['id'];
     });
 
-    this.apiService.getPositionId("position", "becket").subscribe((becket_id_data) => {
+    this.apiService.getPositionIdByDescription("becket").subscribe((becket_id_data) => {
       this.becketFormationId = becket_id_data['id'];
     });
   }

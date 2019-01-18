@@ -11,7 +11,7 @@ export class UpdateMovesService {
   constructor(public apiService:ApiService) { }
 
   public updateMoves(lastPositionId:number) {
-    this.apiService.get_next_available_moves("next-moves", lastPositionId).subscribe((move_data:Move[]) => {
+    this.apiService.getNextAvailableMoves(lastPositionId).subscribe((move_data:Move[]) => {
       // debugger
       console.log(move_data)
       this.next_available_moves = move_data.map(function(element) {
@@ -23,7 +23,7 @@ export class UpdateMovesService {
   }
 
   // {
-  //   this.apiService.get_next_available_moves("next-moves", lastPositionId).subscribe((move_data) => {
+  //   this.apiService.getNextAvailableMoves("next-moves", lastPositionId).subscribe((move_data) => {
   //     console.log(typeof move_data.json())
   //     move_data.forEach(function(move_element){
   //       let move:Move = new Move(move_element.id, move_element.name);

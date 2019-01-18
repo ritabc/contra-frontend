@@ -20,7 +20,7 @@ export class AvailableMovesComponent implements OnInit {
   @Input() availableMovesInMoveComponent;
   @Input()
   set positionLastMoveEndsAtInMoveComponent(newValue) {
-    this.apiService.get_next_available_moves("next-moves", newValue).subscribe((move_data) => {
+    this.apiService.getNextAvailableMoves(newValue).subscribe((move_data) => {
       let movesToPush = [];
       move_data.forEach(function(move) {
         let newMove = new Move(move.id, move.name)
@@ -33,7 +33,7 @@ export class AvailableMovesComponent implements OnInit {
   constructor(public apiService:ApiService) { }
 
   ngOnInit() {
-    this.apiService.getAllMoves("moves").subscribe((move_data:Move[]) => {
+    this.apiService.getAllMoves().subscribe((move_data:Move[]) => {
       this.available_moves = move_data
     });
   }

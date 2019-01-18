@@ -13,29 +13,34 @@ export class ApiService {
   constructor(public http: HttpClient) { }
 
   // GET next available moves based on last move end position
-  public get_next_available_moves(path:string, previous_move_ending_position_id:number) {
-    var endpoint = this.API_URL + path + '/?previous_move_ending_position_id=' + previous_move_ending_position_id;
+  // Used in Build Dance Component
+  public getNextAvailableMoves(previousMoveEndingPositionId:number) {
+    var endpoint = this.API_URL + "next-moves" + '/?previous_move_ending_position_id=' + previousMoveEndingPositionId;
     return this.http.get<Move[]>(endpoint);
   }
 
   // GET all positions (maybe I need to add groups (position shape?) to positions table for ease of displaying them)
-  public get_positions(path:string) {
-    var endpoint = this.API_URL + path;
+  public getAllPositions() {
+    var endpoint = this.API_URL + "positions";
     return this.http.get(endpoint);
   }
 
-  public getPositionId(path:string, formation:string) {
-    var endpoint = this.API_URL + path + '/?description=' + formation;
+  // Get Position Id by Description
+  // Used currently only by Build Dance Component to Get Id's of Formation-positions
+  public getPositionIdByDescription(description:string) {
+    var endpoint = this.API_URL + "position" + '/?description=' + description;
     return this.http.get(endpoint);
   }
 
-  public getAllMoves(path:string) {
-    var endpoint = this.API_URL + path;
+  // Used by Build Dance Component
+  public getAllMoves() {
+    var endpoint = this.API_URL + "moves";
     return this.http.get(endpoint);
   }
 
-  public getAllDances(path:string) {
-    var endpoint = this.API_URL + path;
+  // Used by Visualize/Choose-Dance Component
+  public getAllDances() {
+    var endpoint = this.API_URL + "dances";
     return this.http.get<Dance[]>(endpoint)
   }
 
@@ -49,9 +54,9 @@ export class ApiService {
     return this.http.get<(Dance)>(endpoint)
   }
 
-  public getAnimationInfo(path:string, danceId:number) {
-    var endpoint = this.API_URL + path + '/?dance_id=' + danceId.toString();
-    return this.http.get(endpoint);
-  }
-
 }
+
+// public getAnimationInfo(path:string, danceId:number) {
+//   var endpoint = this.API_URL + path + '/?dance_id=' + danceId.toString();
+//   return this.http.get(endpoint);
+// }

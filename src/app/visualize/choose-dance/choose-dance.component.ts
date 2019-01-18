@@ -23,7 +23,7 @@ export class ChooseDanceComponent implements OnInit {
   constructor(public apiService:ApiService) { }
 
   ngOnInit() {
-    this.apiService.getAllDances("dances").subscribe((danceData) => {
+    this.apiService.getAllDances().subscribe((danceData) => {
       danceData.forEach(function(dance) {
         this.allDances.push(new Dance(dance.id, dance.name, dance.writer, dance.description, dance.isBecket, dance.outCouplesWaitingPosition))
       }, this)

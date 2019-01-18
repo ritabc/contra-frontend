@@ -24,7 +24,7 @@ export class PositionsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.apiService.get_positions("positions").subscribe((position_data:Position[]) => {
+    this.apiService.getAllPositions().subscribe((position_data:Position[]) => {
       this.positions = position_data;
     });
   }
