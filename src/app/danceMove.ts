@@ -6,4 +6,10 @@ export class DanceMove {
   public move:Move;
   public endingPosition:Position;
   public isProgression:boolean;
+
+  constructor(move, endingPosition, isProgression) {
+    this.move = move;
+    this.endingPosition = endingPosition;
+    this.isProgression = isProgression;
+  }
 }

@@ -4,6 +4,7 @@ import { TweenLite, TweenMax, TimelineMax, CSSPlugin } from 'gsap/TweenMax';
 import { Move } from '../../move';
 import { Position } from '../../position';
 import { Dance } from '../../dance';
+import { DanceMove } from '../../danceMove'
 import { SnakeToCamelPipe } from '../../snakeToCamel.pipe';
 import { ApiService } from '../../api.service';
 
@@ -14,7 +15,10 @@ import { ApiService } from '../../api.service';
 })
 
 export class AnimationComponent implements OnInit, OnChanges {
-  @Input() steps:Array<Move|Position>;
+
+  @Input() steps:Array<Move|Position>; //
+  @Input() danceMoves:Array<DanceMove>;
+  @Input() danceFormation:Position;
 
   @ViewChild('R1') private R1:ElementRef;
   @ViewChild('L1') private L1:ElementRef;

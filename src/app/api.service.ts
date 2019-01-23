@@ -5,6 +5,8 @@ import 'rxjs/add/operator/map';
 import { Dance } from './dance';
 import { Move } from './move';
 import { Position } from './position';
+import { DanceMove } from './danceMove';
+
 @Injectable()
 export class ApiService {
 
@@ -39,19 +41,29 @@ export class ApiService {
   }
 
   // Used by Visualize/Choose-Dance Component
+  // Probably stable
   public getAllDances() {
     var endpoint = this.API_URL + "dances";
     return this.http.get<Dance[]>(endpoint)
   }
 
-  public getSteps(danceId:number) {
-    var endpoint = this.API_URL + 'dance-composition/?dance_id=' + danceId.toString();
-    return this.http.get<(Move|Position)[]>(endpoint)
-  }
-
+  // Should be used by Visualize Component, which will:
+  //// - receive danceId from ChooseDance Component, and
+  //// - Calculate danceInfo using API service, and
+  //// - Display Dance Title, Composer, Formation, and other info about the dance
   public getDanceInformation(danceId:number) {
     var endpoint = this.API_URL + 'dances?id=' + danceId.toString();
     return this.http.get<(Dance)>(endpoint)
+  }
+
+  // Doesn't need to deal with formation, or position 0 (Can start with move 1 and it's ending position.)
+  // However, watch out, because previously this call did return JSON which started with formation-position
+  // Needs to return <DanceMove[]>
+  public getDanceMoves(danceId:number) {
+    var endpoint = this.API_URL + 'dance-moves-info/?dance_id=' + danceId.toString();
+    // return this.http.get<DanceMove[]>(endpoint) // don't think this'll work here
+    return this.http.get(endpoint)
+
   }
 
 }

@@ -15,8 +15,7 @@ export class ChooseDanceComponent implements OnInit {
   public allDances:Dance[]=[];
   private internalDanceId
   private steps:Array<Move|Position> = [];
-  @Output() danceStepsFromChooseDance: EventEmitter<any> = new EventEmitter();
-  @Output() danceIdFromChooseDance: EventEmitter<any> = new EventEmitter();
+  @Output() internaDanceIdFromChooseDance: EventEmitter<any> = new EventEmitter();
 
   // @Output() chooseDanceToOutput: EventEmitter<number> = new EventEmitter();
 
@@ -31,28 +30,30 @@ export class ChooseDanceComponent implements OnInit {
   }
 
   public emitDanceIdFromChosenDance(event) {
-    console.log(event)
+    // console.log(event)
     // this.internalDanceId = event.path[0].id // doesn't work on Firefox
     this.internalDanceId = event.detail
-    this.danceIdFromChooseDance.emit(this.internalDanceId)
-  }
-
-  public emitStepsFromChosenDance(event) {
-    this.apiService.getSteps(this.internalDanceId).subscribe((stepsData) => {
-      stepsData.forEach(function(step, i) {
-        if (step.hasOwnProperty('description')) {
-          let position = new Position(step.id, false, step['description'])
-          if (i === 0) {
-            position.isFormation = true
-          }
-          this.steps.push(position)
-        }
-        else if (step.hasOwnProperty('name')) {
-          this.steps.push(new Move(step.id, step['name']))
-        }
-        this.danceStepsFromChooseDance.emit(this.steps)
-      }, this)
-    })
+    this.internaDanceIdFromChooseDance.emit(this.internalDanceId)
   }
 
 }
+
+// was sending steps from chosen dance to visualize component
+// Update: steps/d-m's from danceId calculation should occur in Visualize
+// public emitStepsFromChosenDance(event) {
+//   this.apiService.getSteps(this.internalDanceId).subscribe((stepsData) => {
+//     stepsData.forEach(function(step, i) {
+//       if (step.hasOwnProperty('description')) {
+//         let position = new Position(step.id, false, step['description'])
+//         if (i === 0) {
+//           position.isFormation = true
+//         }
+//         this.steps.push(position)
+//       }
+//       else if (step.hasOwnProperty('name')) {
+//         this.steps.push(new Move(step.id, step['name']))
+//       }
+//       this.danceStepsFromChooseDance.emit(this.steps)
+//     }, this)
+//   })
+// }

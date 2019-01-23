@@ -7,7 +7,6 @@ export class Dance {
   public description:string;
   public isBecket:boolean;
   public outCouplesWaitingPosition:string;
-  public moves:Array<DanceMove>;
 
   constructor(id, name, writer, description, isBecket, outCouplesWaitingPosition) {
     this.id = id;
