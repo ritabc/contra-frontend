@@ -18,7 +18,7 @@ export class VisualizeComponent implements OnInit {
 
   public danceIdFromChooseDance:number;
   public chosenDance:Dance;
-  public chosenDanceMoves:Array<DanceMove> = [];
+  public chosenDanceMoves:Array<DanceMove>;
   public chosenDanceFormation:Position;
 
   constructor(public apiService:ApiService, private snakeToCamel:SnakeToCamelPipe) { }
@@ -42,6 +42,7 @@ export class VisualizeComponent implements OnInit {
 
     // Turn this.danceIdFromChooseDance into danceMoves
     this.apiService.getDanceMoves(this.danceIdFromChooseDance).subscribe((danceMovesData:DanceMove[]) => {
+    this.chosenDanceMoves = [] // Initialize the array here so ngOnChanges will watch for the change
       danceMovesData.forEach(function(danceMove) {
         let move = new Move(danceMove.move.id, danceMove.move.name);
         let endingPosition = new Position(danceMove.endingPosition.id, false, danceMove.endingPosition.description)

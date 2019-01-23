@@ -16,8 +16,8 @@ import { ApiService } from '../../api.service';
 
 export class AnimationComponent implements OnInit, OnChanges {
 
-  @Input() steps:Array<Move|Position>; //
-  @Input() danceMoves:Array<DanceMove>;
+  // @Input() steps:Array<Move|Position>;
+  @Input() danceMoves;
   @Input() danceFormation:Position;
 
   @ViewChild('R1') private R1:ElementRef;
@@ -34,7 +34,7 @@ export class AnimationComponent implements OnInit, OnChanges {
   @ViewChild('L6') private L6:ElementRef;
   // couplesOut:boolean = true // calculate this instead in ngOnChanges by even or oddness of progNumber
   // @Input() danceId:number;
-  @Input() currentDance:Dance
+  @Input() currentDance:Dance //
 
   constructor(private el: ElementRef, private nameConverter:SnakeToCamelPipe, private apiService:ApiService) { }
 
@@ -42,10 +42,18 @@ export class AnimationComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    for (const propName of Object.keys(changes)) { // change to for the changes.steps
+    console.log(changes)
+
+    for (const propName of Object.keys(changes)) {
       const change = changes[propName];
-      if (propName === "steps" && !change.firstChange) { // if steps have changed and its not the initial page load
-        console.log(this.currentDance) // Even within steps change, have access to currentDance data
+      console.log(propName)
+      console.log(this.danceMoves)
+      console.log(change)
+
+      // if steps have changed and its not the initial page load
+     if (propName === "danceMoves" && !change.firstChange) { // This doesn't work because of ()!change.firstChange). Only one (the intial) change is happening due to an array refernce reason: the array reference is the same, and hasn't been changed, even if we add elements to it
+
+        console.log(this.danceMoves) // Even within steps change, have access to currentDance data
         console.log(change.currentValue) // Is array of steps
 
         // Take steps (dance_moves) for dance, convert into positions and moves
