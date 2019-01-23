@@ -19,6 +19,7 @@ export class AnimationComponent implements OnInit, OnChanges {
   // @Input() steps:Array<Move|Position>;
   @Input() danceMoves;
   @Input() danceFormation:Position;
+  @Input() formation:string;
 
   @ViewChild('R1') private R1:ElementRef;
   @ViewChild('L1') private L1:ElementRef;
@@ -51,10 +52,11 @@ export class AnimationComponent implements OnInit, OnChanges {
       console.log(change)
 
       // if steps have changed and its not the initial page load
-     if (propName === "danceMoves" && !change.firstChange) { // This doesn't work because of ()!change.firstChange). Only one (the intial) change is happening due to an array refernce reason: the array reference is the same, and hasn't been changed, even if we add elements to it
+      if (propName === "danceMoves" && !change.firstChange) { // This doesn't work because of ()!change.firstChange). Only one (the intial) change is happening due to an array refernce reason: the array reference is the same, and hasn't been changed, even if we add elements to it
 
-        console.log(this.danceMoves) // Even within steps change, have access to currentDance data
-        console.log(change.currentValue) // Is array of steps
+        console.log(change.currentValue) // Is array of danceMoves
+        console.log(this.danceMoves)
+        console.log(this.formation)
 
         // Take steps (dance_moves) for dance, convert into positions and moves
         let positions:Array<Position> = [];

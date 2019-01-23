@@ -19,7 +19,7 @@ export class VisualizeComponent implements OnInit {
   public danceIdFromChooseDance:number;
   public chosenDance:Dance;
   public chosenDanceMoves:Array<DanceMove>;
-  public chosenDanceFormation:Position;
+  public chosenDanceFormation:string;
 
   constructor(public apiService:ApiService, private snakeToCamel:SnakeToCamelPipe) { }
 
@@ -49,6 +49,13 @@ export class VisualizeComponent implements OnInit {
         this.chosenDanceMoves.push(new DanceMove(move, endingPosition, danceMove.isProgression))
       }, this)
     })
+
+    // Get formation from this.chosenDance
+    if (this.chosenDance.isBecket) {
+      this.chosenDanceFormation = "becket"
+    } else if (!this.chosenDance.isBecket) {
+      this.chosenDanceFormation = "improper"
+    }
   }
 
   // probably now irrelevant, but concept is still necessary so keep for now
