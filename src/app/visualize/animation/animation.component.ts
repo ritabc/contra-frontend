@@ -53,26 +53,10 @@ export class AnimationComponent implements OnInit, OnChanges {
 
         console.log(change.currentValue) // Is array of danceMoves
 
-        // Take (dance_moves) for dance, convert into positions and moves
-        // Should we keep doing things this way?
-        /// Alternative: replace every moves[i] element with danceMove.move, positions[i] with danceMove.endingPosition
-        // let positions:Array<Position> = [];
-        // let moves:Array<Move> = [];
-        // change.currentValue.forEach(function(step, i) {
-        //   if (i === 0) {
-        //     positions.push(step)
-        //   } else if (i % 2 === 1) {
-        //     moves.push(step)
-        //   } else if (i % 2 === 0) {
-        //     positions.push(step)
-        //   }
-        // })
-        // console.log(positions, moves)
-
         let danceTimeline = new TimelineMax({})
-        var birdsLoc
+        let birdsLoc
 
-        // set up formation, which will always exist as a method
+        // set up formation, visually and for birdsLoc value
         birdsLoc = this[this.formation + "Formation"](); // Get birdsLocation from formation method
 
         // Loop through 12 full iterations of the dance
@@ -127,8 +111,6 @@ export class AnimationComponent implements OnInit, OnChanges {
                 console.log(danceTimeline.getLabelsArray())
                 console.log("progIndex = ", progIndex)
                 // birdsLoc = this[endingPositionName](progIndex); // What position should we be in just before sending couples out? if progIndex === 0, position should be: Improper(1)
-
-                // UNDO till here
 
                 // If statement based on whether birds are out
                 /// if NO couples are out, couples need to be sent out
