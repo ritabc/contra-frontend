@@ -38,24 +38,24 @@ export class VisualizeComponent implements OnInit {
                                  danceInformationFromApi[0].description,
                                  danceInformationFromApi[0].is_becket,
                                  danceInformationFromApi[0].out_couples_waiting_position)
+      // Get formation from this.chosenDance
+      if (this.chosenDance.isBecket) {
+        this.chosenDanceFormation = "becket"
+      } else if (!this.chosenDance.isBecket) {
+        this.chosenDanceFormation = "improper"
+      }
     })
 
     // Turn this.danceIdFromChooseDance into danceMoves
     this.apiService.getDanceMoves(this.danceIdFromChooseDance).subscribe((danceMovesData:DanceMove[]) => {
     this.chosenDanceMoves = [] // Initialize the array here so ngOnChanges will watch for the change
       danceMovesData.forEach(function(danceMove) {
+        console.log(danceMove.isProgression)
         let move = new Move(danceMove.move.id, danceMove.move.name);
         let endingPosition = new Position(danceMove.endingPosition.id, false, danceMove.endingPosition.description)
         this.chosenDanceMoves.push(new DanceMove(move, endingPosition, danceMove.isProgression))
       }, this)
     })
-
-    // Get formation from this.chosenDance
-    if (this.chosenDance.isBecket) {
-      this.chosenDanceFormation = "becket"
-    } else if (!this.chosenDance.isBecket) {
-      this.chosenDanceFormation = "improper"
-    }
   }
 
   // probably now irrelevant, but concept is still necessary so keep for now

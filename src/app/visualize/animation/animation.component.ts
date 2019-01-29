@@ -47,75 +47,120 @@ export class AnimationComponent implements OnInit, OnChanges {
 
     for (const propName of Object.keys(changes)) {
       const change = changes[propName];
-      console.log(propName)
-      console.log(this.danceMoves)
-      console.log(change)
 
       // if steps have changed and its not the initial page load
-      if (propName === "danceMoves" && !change.firstChange) { // This doesn't work because of ()!change.firstChange). Only one (the intial) change is happening due to an array refernce reason: the array reference is the same, and hasn't been changed, even if we add elements to it
+      if (propName === "danceMoves" && !change.firstChange) {
 
         console.log(change.currentValue) // Is array of danceMoves
-        console.log(this.danceMoves)
-        console.log(this.formation)
 
-        // Take steps (dance_moves) for dance, convert into positions and moves
-        let positions:Array<Position> = [];
-        let moves:Array<Move> = [];
-        change.currentValue.forEach(function(step, i) {
-          if (i === 0) {
-            positions.push(step)
-          } else if (i % 2 === 1) {
-            moves.push(step)
-          } else if (i % 2 === 0) {
-            positions.push(step)
-          }
-        })
-        console.log(positions, moves)
-
-        // run the formation method to set up dancers at start of dance, get birdsLoc for the first time
+        // Take (dance_moves) for dance, convert into positions and moves
+        // Should we keep doing things this way?
+        /// Alternative: replace every moves[i] element with danceMove.move, positions[i] with danceMove.endingPosition
+        // let positions:Array<Position> = [];
+        // let moves:Array<Move> = [];
+        // change.currentValue.forEach(function(step, i) {
+        //   if (i === 0) {
+        //     positions.push(step)
+        //   } else if (i % 2 === 1) {
+        //     moves.push(step)
+        //   } else if (i % 2 === 0) {
+        //     positions.push(step)
+        //   }
+        // })
+        // console.log(positions, moves)
 
         let danceTimeline = new TimelineMax({})
         var birdsLoc
 
-        for (let progIndex = 0; progIndex < 12; ++progIndex) {
-          moves.forEach(function(move, moveIndex) {
+        // set up formation, which will always exist as a method
+        birdsLoc = this[this.formation + "Formation"](); // Get birdsLocation from formation method
 
-            // obtain moveMethod name and position Method name, check whether they both exist as functions
-            let moveMethod = this[this.nameConverter.transform(move.name)]
-            let rubyPositionName = positions[moveIndex].description.toString()
-            let positionName = this.nameConverter.transform(rubyPositionName);
-            if (typeof moveMethod === 'function' && typeof this[positionName] === 'function' ) {
+        // Loop through 12 full iterations of the dance
+        for (let progIndex = 0; progIndex < 12; progIndex++) {
 
-              // if this is the very first move, set up the formation
-              if (progIndex === 0 && moveIndex === 0) {
-                birdsLoc = this[this.nameConverter.transform(positions[0].description) + "Formation"]();
+          // Loop through all dance moves during each full iterations
+          this.danceMoves.forEach(function(danceMove, danceMoveIndex) {
+
+            // setup
+            /// Obtain moveMethod: method which returns each move's animation
+            /// Obtain position name (written in camel_case and being called from Rails API)
+            /// Obtain position Method name (written in snakeCase)
+            let moveMethod = this[this.nameConverter.transform(danceMove.move.name)]
+            let rubyPositionName = danceMove.endingPosition.description.toString()
+            let endingPositionName = this.nameConverter.transform(rubyPositionName);
+
+            // check whether both methods exist as functions (are all new moves and positions hard-coded yet?)
+            if (typeof moveMethod === 'function' && typeof this[endingPositionName] === 'function' ) {
+
+              // if the danceMove is a regular move (ie, NOT a progression)
+              if (!danceMove.isProgression) {
+
+                // BirdsLoc was calculated before (with improper formation)
+
+                ///////
+                if (progIndex === 0) {
+                  console.log(birdsLoc.h4Birds.nEBirds[1].nativeElement.getBoundingClientRect().x, birdsLoc.h4Birds.nEBirds[1].nativeElement.getBoundingClientRect().y,  "is the bL used in the next move")
+                } ///////
+
+                // Using the prior birdLoc, add the move (first - BTR) to the TL
                 danceTimeline.add(moveMethod(birdsLoc));
 
-              // if the move is a progression
-              } else if (moveIndex === moves.length - 1) {
+                // Now, recalculate birdsLoc using danceMove.endingPosition (improper, progIndex = 0). This should be equivalent to the next birdsLoc returned improperPosition(0)
+                birdsLoc = this[endingPositionName](progIndex);
 
-                // For every progression: animate the progression move, and get the final (or first) position
-                danceTimeline.add(moveMethod(birdsLoc), "Progression" + progIndex.toString());
-                birdsLoc = this[this.nameConverter.transform(positions[moveIndex + 1].description)](progIndex);
+                ///////
+                if (progIndex === 0) {
+                  console.log(null, "this position returned bL of: (next 2 sets of bL should be ==)", birdsLoc.h4Birds.nEBirds[1].nativeElement.getBoundingClientRect().x, birdsLoc.h4Birds.nEBirds[1].nativeElement.getBoundingClientRect().y)
+                } ///////
+
+              }
+
+              // else if the move is a progression
+              else if (danceMove.isProgression) {
+                console.log("reached progression")
+
+                // Does this block differ depending on whether couples are OUT or IN?
+                // // Use prior calculated bL, add move animation to TL with a label of "ProgressionN" (Progression0)
+                // // For every progression: animate the progression move at label: ProgressionN, then get the last move's ending position
+                // /// (Dance has not yet progressed. progIndex = 0. move is caliTwirl. This move's ending position is improper, but it is _improper(1)_)
+                // danceTimeline.add(moveMethod(birdsLoc), "Progression" + progIndex.toString());
+                console.log(danceTimeline.getLabelsArray())
+                console.log("progIndex = ", progIndex)
+                // birdsLoc = this[endingPositionName](progIndex); // What position should we be in just before sending couples out? if progIndex === 0, position should be: Improper(1)
+
+                // UNDO till here
 
                 // If statement based on whether birds are out
                 /// if NO couples are out, couples need to be sent out
-                if (progIndex % 2 === 0) {
+                if (progIndex % 2 === 0) { // if it's a send-couples-out progression,
+
+                  // Use prior calculated bL, add move animation to TL with a label of "ProgressionN" (Progression0)
+                  // For every progression: animate the progression move at label: ProgressionN, then get that move's ending position
+                  /// (Dance has not yet progressed. progIndex = 0. move is caliTwirl.)
+                  danceTimeline.add(moveMethod(birdsLoc), "Progression" + progIndex.toString());
+                  progIndex++
                   // update birdsLoc
+                  console.log(progIndex)
+                  birdsLoc = this[endingPositionName](progIndex) // (progIndex = 1)
+                  /// For the first call of sendCouplesOutPerpendicular, birdsLoc should be based on improperPosition(1)
+
+                  // (progIndex = 1, after improper(1), birdsLoc should now have couples out)
+                  // TODO: Why do we need to send them out again?
                   birdsLoc = this.sendCouplesOutPerpendicular(birdsLoc) // will need to later be dynamic depending on how couples wait out
-                  birdsLoc = this.crossoverPerpendicular(birdsLoc)
                   // add end effects animation to timeline after the Progression Happens
-                  danceTimeline.add(this.crossoverPerpendicularAnimation(birdsLoc), "Progression" + progIndex.toString() + "+=2")
+                  birdsLoc = this.crossoverPerpendicular(birdsLoc)
+                  danceTimeline.add(this.crossoverPerpendicularAnimation(birdsLoc), "Progression" + progIndex.toString() + "+=2") // Crossing over happens in between other move animations (nothing else happens during it). Does this mess anything up?
+
 
                 /// if couples ARE out, they need to come back in
-                } else if (progIndex % 2 === 1) {
+                } else if (progIndex % 2 === 1) { // if it's an incorporate-out-couples progression
+                  // Use prior calculated bL, add move animation to TL with a label of "ProgressionN" (Progression0)
+                  // For every progression: animate the progression move at label: ProgressionN, then get the last move's ending position
+                  danceTimeline.add(moveMethod(birdsLoc), "Progression" + progIndex.toString());
+
                   birdsLoc = this.incorporateOutCouplesPerpendicular(birdsLoc)
                 }
 
-              // if the move is NOT a progression, NOT the formation
-              } else {
-                birdsLoc = this[positionName](progIndex);
-                danceTimeline.add(moveMethod(birdsLoc));
               }
 
             // if either the move or position hasn't been coded yet
@@ -131,6 +176,7 @@ export class AnimationComponent implements OnInit, OnChanges {
   }
 
 // FORMATIONS =================================================
+/// Shows dancers on page as static circles
 
   public improperFormation() {
     console.log("hit formation setup");
@@ -140,32 +186,29 @@ export class AnimationComponent implements OnInit, OnChanges {
                                         nWBirds: [this.L6, this.L4, this.L2]},
                               outBirds: {}
                              }
-    // The following needs refactoring to use birdsLocation instead
-    let dottedLarks = [this.L5, this.L3, this.L1];
-    let solidLarks = [this.L6, this.L4, this.L2];
-    let dottedRavens = [this.R5, this.R3, this.R1];
-    let solidRavens = [this.R6, this.R4, this.R2];
 
-    dottedLarks.forEach(function(bird, index) {
-      let dx = (240*index + 140).toString() + 'px'
-      bird.nativeElement.style.cx = dx;
-      bird.nativeElement.style.cy = '220px';
-    })
-    solidLarks.forEach(function(bird, index) {
-      let dx = (240*index + 20).toString() + 'px'
-      bird.nativeElement.style.cx = dx;
-      bird.nativeElement.style.cy = '100px';
-    })
-    dottedRavens.forEach(function(bird, index) {
+    birdsLocation.h4Birds.nEBirds.forEach(function(bird, index) {
       let dx = (240*index + 140).toString() + 'px'
       bird.nativeElement.style.cx = dx;
       bird.nativeElement.style.cy = '100px';
     })
-    solidRavens.forEach(function(bird, index) {
+    birdsLocation.h4Birds.sEBirds.forEach(function(bird, index) {
+      let dx = (240*index + 140).toString() + 'px'
+      bird.nativeElement.style.cx = dx;
+      bird.nativeElement.style.cy = '220px';
+    })
+    birdsLocation.h4Birds.sWBirds.forEach(function(bird, index) {
       let dx = (240*index + 20).toString() + 'px'
       bird.nativeElement.style.cx = dx;
       bird.nativeElement.style.cy = '220px';
     })
+    birdsLocation.h4Birds.nWBirds.forEach(function(bird, index) {
+      let dx = (240*index + 20).toString() + 'px'
+      bird.nativeElement.style.cx = dx;
+      bird.nativeElement.style.cy = '100px';
+    })
+
+
     return birdsLocation
   }
 
@@ -216,7 +259,7 @@ export class AnimationComponent implements OnInit, OnChanges {
                                         nWBirds: [this.L6, this.L4, this.L2]},
                               outBirds: {}
                              }
-    for (let prog = 0; prog <= progressionNumber; ++prog) {
+    for (let prog = 0; prog <= progressionNumber; prog++) {
       if (prog > 12) {
         return null
       } else if (prog === 0) {
@@ -355,23 +398,18 @@ export class AnimationComponent implements OnInit, OnChanges {
 // Define Moves
 /// Moves need to know:
 // - birdsLocation (startPos), which is comprised of: a) h4Birds:{[nEBirds], [sEBirds], [sWBirds], [nWBirds]}, b) outBirds: null OR {neOutBird, sEOutBird, sWOutBird, nWOutBird}, c) outCoupl
-// - shouldOutCouplesAnimate (true iff moveIndex = 1)
-// - whether couples are out, and if so, what position they should wait in?
 // - is the move a progression?
-// New: just startPos and couplesOut:boolean
-// Instead of the animating move updating the birdsLocation varible, it will just animate
+// Instead of the animating move and updating the birdsLocation varible, it will just animate
 
 // Regular Moves ==========
 
-  public balanceTheRing = (startPos) => {
+  public balanceTheRing(startPos) {
     console.log("hit MOVE balanceTheRing")
 
     let nETl = new TimelineMax();
     let sETl = new TimelineMax();
     let sWTl = new TimelineMax();
     let nWTl = new TimelineMax();
-    // // out couples need animating too!
-    // let eeTl = new TimelineMax();
 
     startPos.h4Birds.nEBirds.map(function(bird, i) {
       let tl = new TimelineMax();
@@ -652,10 +690,12 @@ export class AnimationComponent implements OnInit, OnChanges {
     return [nETl, sETl, sWTl, nWTl]
   }
 
-// Accessory Methods for Updating BirdsLocation =======================
+// Accessory Methods Regarding End Effects for Updating BirdsLocation =======================
   /// Waiting Out and Going in Perpendicular to Direction of Travel =======================
 
   public sendCouplesOutPerpendicular(birdsLocation) {
+    // TODO: Check: first time this is called in heartbeat. birdsLoc will be the result of improper(1)
+    // (Is birdsLoc at the end of this method the same as at the end of improper(1))
     birdsLocation.outBirds.nEBird = birdsLocation.h4Birds.nWBirds.pop();
     birdsLocation.outBirds.sEBird = birdsLocation.h4Birds.sWBirds.pop();
     birdsLocation.outBirds.sWBird = birdsLocation.h4Birds.sEBirds.shift();
@@ -665,10 +705,10 @@ export class AnimationComponent implements OnInit, OnChanges {
 
   public crossoverPerpendicular(birdsLocation) {
     // update out birds (cross them over) who are waiting out perpendicular to direction of travel
-    let newNE = birdsLocation.outBirds.sEBird
-    let newSE = birdsLocation.outBirds.nEBird
-    let newSW = birdsLocation.outBirds.nWBird
-    let newNW = birdsLocation.outBirds.sWBird
+    let newNE = birdsLocation.outBirds.sEBird;
+    let newSE = birdsLocation.outBirds.nEBird;
+    let newSW = birdsLocation.outBirds.nWBird;
+    let newNW = birdsLocation.outBirds.sWBird;
     birdsLocation.outBirds.nEBird = newNE;
     birdsLocation.outBirds.sEBird = newSE;
     birdsLocation.outBirds.sWBird = newSW;
@@ -681,6 +721,7 @@ export class AnimationComponent implements OnInit, OnChanges {
     birdsLocation.h4Birds.sEBirds.push(birdsLocation.outBirds.sEBird)
     birdsLocation.h4Birds.sWBirds.unshift(birdsLocation.outBirds.sWBird)
     birdsLocation.h4Birds.nWBirds.unshift(birdsLocation.outBirds.nWBird)
+    birdsLocation.outBirds = {}
     return birdsLocation
   }
 
@@ -701,18 +742,19 @@ export class AnimationComponent implements OnInit, OnChanges {
 
 // Methods for Animating End Effects =======================
 
+  // animation for out couples who wait out in Improper or Proper Formation (perpendicular to direction of travel)
   public crossoverPerpendicularAnimation(birdsLocation) {
-    // animation for out couples who wait out in Improper or Proper Formation (perpendicular to direction of travel)
-    console.log(getComputedStyle(birdsLocation.outBirds.nEBird.nativeElement))
-    console.log(birdsLocation)
-    console.log(birdsLocation.outBirds.nEBird.nativeElement.getClientRects()[0].x)
-    console.log(birdsLocation.outBirds.nEBird.nativeElement.getBoundingClientRect().left) // top corner x axis value
-    console.log(birdsLocation.outBirds.nEBird.nativeElement.getClientRects()[0].left)
 
-    console.log(birdsLocation.outBirds.nEBird.nativeElement.getBoundingClientRect().y) // origin?
-    console.log(birdsLocation.outBirds.nEBird.nativeElement.getClientRects()[0].y)
-    console.log(birdsLocation.outBirds.nEBird.nativeElement.getBoundingClientRect().top) // left corner y axis value
-    console.log(birdsLocation.outBirds.nEBird.nativeElement.getClientRects()[0].top)
+    // console.log(getComputedStyle(birdsLocation.outBirds.nEBird.nativeElement))
+    // console.log(birdsLocation)
+    // console.log(birdsLocation.outBirds.nEBird.nativeElement.getClientRects()[0].x)
+    // console.log(birdsLocation.outBirds.nEBird.nativeElement.getBoundingClientRect().left) // top corner x axis value
+    // console.log(birdsLocation.outBirds.nEBird.nativeElement.getClientRects()[0].left)
+    //
+    // console.log(birdsLocation.outBirds.nEBird.nativeElement.getBoundingClientRect().y) // origin?
+    // console.log(birdsLocation.outBirds.nEBird.nativeElement.getClientRects()[0].y)
+    // console.log(birdsLocation.outBirds.nEBird.nativeElement.getBoundingClientRect().top) // left corner y axis value
+    // console.log(birdsLocation.outBirds.nEBird.nativeElement.getClientRects()[0].top)
     let tl = new TimelineMax();
     tl.to(birdsLocation.outBirds.nEBird.nativeElement, 2, {rotation: "-=180", svgOrigin: "620px 160px"}, 0)
       .to(birdsLocation.outBirds.sEBird.nativeElement, 2, {rotation: "+=180", svgOrigin: "620px 160px"}, 0)
