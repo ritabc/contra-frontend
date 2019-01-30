@@ -87,52 +87,33 @@ export class AnimationComponent implements OnInit, OnChanges {
               }
 
               // else if the move is a progression
-              //// THEN, the Minute after the move happens, the length of h4 switches (right after the move, we need to sendCouplesOut, or incorportate them.)
+              //// ??? THEN, the Minute after the move happens, the length of h4 switches (right after the move, we need to sendCouplesOut, or incorportate them.)
+              ////// This may be a good point, and a clue to refactoring: When does the length of h4 shift? After progression move, but before that move's ending position? After the prog_move and its end_pos? Depending on the answer, i may need to refactor the seed file: The cali twirl may end in impropor or in sOSw/N,1sFDown, depending on the answer
               else if (danceMove.isProgression) {
                 console.log("reached progression")
-                console.log(birdsLoc.h4Birds.nEBirds.length)
 
+                // For every progression: animate the progression move (giving it the label: ProgressionN), then get the endingPosition of the progressionMove
+                danceTimeline.add(moveMethod(birdsLoc), "Progression" + progIndex.toString());
+                birdsLoc = this[endingPositionName](progIndex)
 
-                // Does this block differ depending on whether couples are OUT or IN?
-                // // Use prior calculated bL, add move animation to TL with a label of "ProgressionN" (Progression0)
-                // // For every progression: animate the progression move at label: ProgressionN, then get the last move's ending position
-                // /// (Dance has not yet progressed. progIndex = 0. move is caliTwirl. This move's ending position is improper, but it is _improper(1)_)
-                // danceTimeline.add(moveMethod(birdsLoc), "Progression" + progIndex.toString());
-                console.log(danceTimeline.getLabelsArray())
-                console.log("progIndex = ", progIndex)
-                // birdsLoc = this[endingPositionName](progIndex); // What position should we be in just before sending couples out? if progIndex === 0, position should be: Improper(1)
+                // ??? (Dance has not yet progressed. progIndex = 0. move is caliTwirl. This move's ending position is improper, but it is _improper(1)_)
 
                 // If statement based on whether birds are out
                 /// if NO couples are out, couples need to be sent out
-                if (progIndex % 2 === 0) { // if it's a send-couples-out progression,
+                // if it's a send-couples-out progression,
+                if (progIndex % 2 === 0) {  // Alternatively, could we say: if (Object.keys(birdsLoc.outBirds).length === 0)
 
-                  // Use prior calculated bL, add move animation to TL with a label of "ProgressionN" (Progression0)
-                  // For every progression: animate the progression move at label: ProgressionN, then get that move's ending position
-                  /// (Dance has not yet progressed. progIndex = 0. move is caliTwirl.)
-                  danceTimeline.add(moveMethod(birdsLoc), "Progression" + progIndex.toString());
                   // update birdsLoc
-                  console.log(progIndex)
-                  birdsLoc = this[endingPositionName](progIndex) // (progIndex = 1)
-                  /// For the first call of sendCouplesOutPerpendicular, birdsLoc should be based on improperPosition(1)
-
-                  // (progIndex = 1, after improper(1), birdsLoc should now have couples out)
-                  // Why do we need to send them out again?
                   birdsLoc = this.sendCouplesOutPerpendicular(birdsLoc) // will need to later be dynamic depending on how couples wait out
-                  // add end effects animation to timeline after the Progression Happens
+
+
+                  // Why on earth are the next two lines in the order they're in currently? Seems counter-inituitve to the way it's usually done (1st a move takes the current bL, then 2nd we calculate the endingPos based on progIndex and independently of prior birdsLoc) <<--- TODO: re-program end effects position and move/animation methods to be analagous
                   birdsLoc = this.crossoverPerpendicular(birdsLoc)
-                  danceTimeline.add(this.crossoverPerpendicularAnimation(birdsLoc), "Progression" + progIndex.toString() + "+=2") // Crossing over happens in between other move animations (nothing else happens during it). Does this mess anything up?
+                  danceTimeline.add(this.crossoverPerpendicularAnimation(birdsLoc), "Progression" + progIndex.toString() + "+=2")
 
-                // TODO: is it this method?
                 /// if couples ARE out, they need to come back in
-                } else if (progIndex % 2 === 1) { // if it's an incorporate-out-couples progression
-                  // Use prior calculated bL, add move animation to TL with a label of "ProgressionN" (Progression0)
-                  // For every progression: animate the progression move at label: ProgressionN, then get the last move's ending position
-                  danceTimeline.add(moveMethod(birdsLoc), "Progression" + progIndex.toString());
-
-
-                  // TODO: The ending position method still needs to be called!
-                  birdsLoc = this[endingPositionName](progIndex)
-
+                // if it's an incorporate-out-couples progression
+                } else if (progIndex % 2 === 1) {
                   birdsLoc = this.incorporateOutCouplesPerpendicular(birdsLoc)
                 }
 
