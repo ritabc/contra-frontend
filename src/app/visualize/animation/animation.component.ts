@@ -63,11 +63,11 @@ export class AnimationComponent implements OnInit, OnChanges {
         for (let progIndex = 0; progIndex < 12; progIndex++) {
 
           // Loop through all dance moves during each full iterations
-          this.danceMoves.forEach(function(danceMove, danceMoveIndex) {
+          this.danceMoves.forEach(function(danceMove) {
 
             // setup
             /// Obtain moveMethod: method which returns each move's animation
-            /// Obtain position name (written in camel_case and being called from Rails API)
+            /// Obtain position name (called from Rails API, written in camel_case)
             /// Obtain position Method name (written in snakeCase)
             let moveMethod = this[this.nameConverter.transform(danceMove.move.name)]
             let rubyPositionName = danceMove.endingPosition.description.toString()
@@ -78,30 +78,20 @@ export class AnimationComponent implements OnInit, OnChanges {
 
               // if the danceMove is a regular move (ie, NOT a progression)
               if (!danceMove.isProgression) {
-
-                // BirdsLoc was calculated before (with improper formation)
-
-                ///////
-                if (progIndex === 0) {
-                  console.log(birdsLoc.h4Birds.nEBirds[1].nativeElement.getBoundingClientRect().x, birdsLoc.h4Birds.nEBirds[1].nativeElement.getBoundingClientRect().y,  "is the bL used in the next move")
-                } ///////
-
                 // Using the prior birdLoc, add the move (first - BTR) to the TL
                 danceTimeline.add(moveMethod(birdsLoc));
 
-                // Now, recalculate birdsLoc using danceMove.endingPosition (improper, progIndex = 0). This should be equivalent to the next birdsLoc returned improperPosition(0)
+                // Now, recalculate birdsLoc using danceMove.endingPosition (improper, progIndex = 0)
                 birdsLoc = this[endingPositionName](progIndex);
-
-                ///////
-                if (progIndex === 0) {
-                  console.log(null, "this position returned bL of: (next 2 sets of bL should be ==)", birdsLoc.h4Birds.nEBirds[1].nativeElement.getBoundingClientRect().x, birdsLoc.h4Birds.nEBirds[1].nativeElement.getBoundingClientRect().y)
-                } ///////
 
               }
 
               // else if the move is a progression
+              //// THEN, the Minute after the move happens, the length of h4 switches (right after the move, we need to sendCouplesOut, or incorportate them.)
               else if (danceMove.isProgression) {
                 console.log("reached progression")
+                console.log(birdsLoc.h4Birds.nEBirds.length)
+
 
                 // Does this block differ depending on whether couples are OUT or IN?
                 // // Use prior calculated bL, add move animation to TL with a label of "ProgressionN" (Progression0)
@@ -120,25 +110,28 @@ export class AnimationComponent implements OnInit, OnChanges {
                   // For every progression: animate the progression move at label: ProgressionN, then get that move's ending position
                   /// (Dance has not yet progressed. progIndex = 0. move is caliTwirl.)
                   danceTimeline.add(moveMethod(birdsLoc), "Progression" + progIndex.toString());
-                  progIndex++
                   // update birdsLoc
                   console.log(progIndex)
                   birdsLoc = this[endingPositionName](progIndex) // (progIndex = 1)
                   /// For the first call of sendCouplesOutPerpendicular, birdsLoc should be based on improperPosition(1)
 
                   // (progIndex = 1, after improper(1), birdsLoc should now have couples out)
-                  // TODO: Why do we need to send them out again?
+                  // Why do we need to send them out again?
                   birdsLoc = this.sendCouplesOutPerpendicular(birdsLoc) // will need to later be dynamic depending on how couples wait out
                   // add end effects animation to timeline after the Progression Happens
                   birdsLoc = this.crossoverPerpendicular(birdsLoc)
                   danceTimeline.add(this.crossoverPerpendicularAnimation(birdsLoc), "Progression" + progIndex.toString() + "+=2") // Crossing over happens in between other move animations (nothing else happens during it). Does this mess anything up?
 
-
+                // TODO: is it this method?
                 /// if couples ARE out, they need to come back in
                 } else if (progIndex % 2 === 1) { // if it's an incorporate-out-couples progression
                   // Use prior calculated bL, add move animation to TL with a label of "ProgressionN" (Progression0)
                   // For every progression: animate the progression move at label: ProgressionN, then get the last move's ending position
                   danceTimeline.add(moveMethod(birdsLoc), "Progression" + progIndex.toString());
+
+
+                  // TODO: The ending position method still needs to be called!
+                  birdsLoc = this[endingPositionName](progIndex)
 
                   birdsLoc = this.incorporateOutCouplesPerpendicular(birdsLoc)
                 }
@@ -393,25 +386,25 @@ export class AnimationComponent implements OnInit, OnChanges {
     let sWTl = new TimelineMax();
     let nWTl = new TimelineMax();
 
-    startPos.h4Birds.nEBirds.map(function(bird, i) {
+    startPos.h4Birds.nEBirds.map(function(bird) {
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 1, {x: "-=40", y: "+=40"})
         .to(bird.nativeElement, 1, {x: "+=40", y: "-=40"})
       nETl.add(tl, 0)
     })
-    startPos.h4Birds.sEBirds.map(function(bird, i){
+    startPos.h4Birds.sEBirds.map(function(bird){
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 1, {x: "-=40", y: "-=40"})
         .to(bird.nativeElement, 1, {x: "+=40", y: "+=40"})
         sETl.add(tl, 0)
     })
-    startPos.h4Birds.sWBirds.map(function(bird, i) {
+    startPos.h4Birds.sWBirds.map(function(bird) {
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 1, {x: "+=40", y: "-=40"})
         .to(bird.nativeElement, 1, {x: "-=40", y: "+=40"})
         sWTl.add(tl, 0)
     })
-    startPos.h4Birds.nWBirds.map(function(bird, i) {
+    startPos.h4Birds.nWBirds.map(function(bird) {
       let tl = new TimelineMax();
       tl.to(bird.nativeElement, 1, {x: "+=40", y: "+=40"})
         .to(bird.nativeElement, 1, {x: "-=40", y: "-=40"})
@@ -608,6 +601,7 @@ export class AnimationComponent implements OnInit, OnChanges {
 
   public californiaTwirlUpAndDown(startPos) {
     console.log("Hit MOVE californiaTwirl")
+    console.log(startPos.h4Birds.nEBirds.length)
     console.log(startPos)
     let nETl = new TimelineMax();
     let sETl = new TimelineMax();
@@ -676,16 +670,26 @@ export class AnimationComponent implements OnInit, OnChanges {
   /// Waiting Out and Going in Perpendicular to Direction of Travel =======================
 
   public sendCouplesOutPerpendicular(birdsLocation) {
+    console.log("Hit position update sendCouplesOutPerpendicular")
+    for (let i = 0; i < 3; i++) {
+      console.log(birdsLocation.h4Birds.nEBirds[i])
+    }
     // TODO: Check: first time this is called in heartbeat. birdsLoc will be the result of improper(1)
     // (Is birdsLoc at the end of this method the same as at the end of improper(1))
     birdsLocation.outBirds.nEBird = birdsLocation.h4Birds.nWBirds.pop();
     birdsLocation.outBirds.sEBird = birdsLocation.h4Birds.sWBirds.pop();
     birdsLocation.outBirds.sWBird = birdsLocation.h4Birds.sEBirds.shift();
     birdsLocation.outBirds.nWBird = birdsLocation.h4Birds.nEBirds.shift();
+    console.log(birdsLocation.h4Birds.nEBirds.length)
+    for (let j = 0; j < 3; j++) {
+      console.log(birdsLocation.h4Birds.nEBirds[j])
+    }
     return birdsLocation
   }
 
   public crossoverPerpendicular(birdsLocation) {
+    console.log("Hit position update crossoverPerpendicular")
+    console.log(birdsLocation.h4Birds.nEBirds.length)
     // update out birds (cross them over) who are waiting out perpendicular to direction of travel
     let newNE = birdsLocation.outBirds.sEBird;
     let newSE = birdsLocation.outBirds.nEBird;
@@ -699,11 +703,14 @@ export class AnimationComponent implements OnInit, OnChanges {
   }
 
   public incorporateOutCouplesPerpendicular(birdsLocation) {
+    console.log("Hit position update incorporateOutCouplesPerpendicular")
+    console.log(birdsLocation.h4Birds.nEBirds.length)
     birdsLocation.h4Birds.nEBirds.push(birdsLocation.outBirds.nEBird)
     birdsLocation.h4Birds.sEBirds.push(birdsLocation.outBirds.sEBird)
     birdsLocation.h4Birds.sWBirds.unshift(birdsLocation.outBirds.sWBird)
     birdsLocation.h4Birds.nWBirds.unshift(birdsLocation.outBirds.nWBird)
-    birdsLocation.outBirds = {}
+    birdsLocation.outBirds = {} // The next time birdsLoc gets updated, does it rely on outBirds being blank?
+    // TODO: When is the next time bl gets updated?
     return birdsLocation
   }
 
@@ -726,6 +733,8 @@ export class AnimationComponent implements OnInit, OnChanges {
 
   // animation for out couples who wait out in Improper or Proper Formation (perpendicular to direction of travel)
   public crossoverPerpendicularAnimation(birdsLocation) {
+    console.log("Hit move crossoverPerpendicularAnimation")
+
 
     // console.log(getComputedStyle(birdsLocation.outBirds.nEBird.nativeElement))
     // console.log(birdsLocation)
