@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AnimationComponent } from './animation.component';
+import { SnakeToCamelPipe } from '../../snakeToCamel.pipe';
+import { ApiService } from '../../api.service';
 
 describe('AnimationComponent', () => {
   let component: AnimationComponent;
@@ -8,9 +11,11 @@ describe('AnimationComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AnimationComponent ]
+      imports: [HttpClientTestingModule],
+      declarations: [AnimationComponent],
+      providers: [SnakeToCamelPipe, ApiService],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

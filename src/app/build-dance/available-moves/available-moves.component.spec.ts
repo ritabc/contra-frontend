@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TitleCasePipe } from './../../titleCase.pipe';
 import { AvailableMovesComponent } from './available-moves.component';
 
 describe('AvailableMovesComponent', () => {
@@ -8,9 +9,10 @@ describe('AvailableMovesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AvailableMovesComponent ]
+      imports: [HttpClientTestingModule],
+      declarations: [AvailableMovesComponent, TitleCasePipe]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

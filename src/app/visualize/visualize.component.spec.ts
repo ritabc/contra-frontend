@@ -1,6 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { VisualizeComponent } from './visualize.component';
+import { StepsComponent } from './steps/steps.component';
+import { ChooseDanceComponent } from './choose-dance/choose-dance.component';
+import { AnimationComponent } from './animation/animation.component';
+import { TitleCasePipe } from '../titleCase.pipe';
+import { ApiService } from '../api.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { SnakeToCamelPipe } from '../snakeToCamel.pipe';
 
 describe('VisualizeComponent', () => {
   let component: VisualizeComponent;
@@ -8,9 +15,17 @@ describe('VisualizeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VisualizeComponent ]
+      imports: [HttpClientTestingModule],
+      declarations: [
+        VisualizeComponent,
+        StepsComponent,
+        ChooseDanceComponent,
+        AnimationComponent,
+        TitleCasePipe,
+      ],
+      providers: [ApiService, SnakeToCamelPipe],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -6,7 +6,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ApiService } from './api.service';
-import { TitleCasePipe } from './titleCase.pipe';
 import { SnakeToCamelPipe } from './snakeToCamel.pipe'
 
 import { AppComponent } from './app.component';
@@ -18,13 +17,13 @@ import { VisualizeComponent } from './visualize/visualize.component';
 import { StepsComponent } from './visualize/steps/steps.component';
 import { ChooseDanceComponent } from './visualize/choose-dance/choose-dance.component';
 import { AnimationComponent } from './visualize/animation/animation.component';
+import { TitleCasePipe } from './titleCase.pipe';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     BuildDanceComponent,
-    TitleCasePipe,
     DraftComponent,
     AvailableMovesComponent,
     PositionsComponent,
@@ -49,7 +48,7 @@ import { AnimationComponent } from './visualize/animation/animation.component';
       }
     ]),
   ],
-  providers: [ApiService, SnakeToCamelPipe],
+  providers: [ApiService, SnakeToCamelPipe, TitleCasePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

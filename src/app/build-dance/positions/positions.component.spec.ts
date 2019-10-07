@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+
+import { TitleCasePipe } from './../../titleCase.pipe';
 
 import { PositionsComponent } from './positions.component';
+import { ApiService } from '../../api.service';
 
 describe('PositionsComponent', () => {
   let component: PositionsComponent;
@@ -8,9 +12,11 @@ describe('PositionsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PositionsComponent ]
+      imports: [HttpClientTestingModule],
+      declarations: [PositionsComponent, TitleCasePipe],
+      providers: [ApiService],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

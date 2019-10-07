@@ -1,11 +1,14 @@
 import { TestBed, inject } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ApiService } from './api.service';
 
 import { UpdateMovesService } from './update-moves.service';
 
 describe('UpdateMovesService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [UpdateMovesService]
+      imports: [HttpClientTestingModule],
+      providers: [UpdateMovesService, ApiService]
     });
   });
 

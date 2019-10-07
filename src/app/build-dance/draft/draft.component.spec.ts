@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TitleCasePipe } from './../../titleCase.pipe';
 
 import { DraftComponent } from './draft.component';
 
@@ -8,9 +9,9 @@ describe('DraftComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DraftComponent ]
+      declarations: [DraftComponent, TitleCasePipe]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

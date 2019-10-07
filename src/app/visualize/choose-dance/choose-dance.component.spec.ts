@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ChooseDanceComponent } from './choose-dance.component';
 
 describe('ChooseDanceComponent', () => {
@@ -8,9 +8,10 @@ describe('ChooseDanceComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ChooseDanceComponent ]
+      imports: [HttpClientTestingModule],
+      declarations: [ChooseDanceComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

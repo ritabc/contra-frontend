@@ -1,4 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+
+import { AvailableMovesComponent } from './available-moves/available-moves.component';
+import { PositionsComponent } from './positions/positions.component';
+import { DraftComponent } from './draft/draft.component';
+import { TitleCasePipe } from './../titleCase.pipe';
+import { ApiService } from './../api.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { BuildDanceComponent } from './build-dance.component';
 
@@ -8,9 +16,20 @@ describe('BuildDanceComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BuildDanceComponent ]
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule
+      ],
+      declarations: [
+        BuildDanceComponent,
+        AvailableMovesComponent,
+        PositionsComponent,
+        DraftComponent,
+        TitleCasePipe
+      ],
+      providers: [ApiService],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
