@@ -21,34 +21,35 @@ import { TitleCasePipe } from './titleCase.pipe';
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    BuildDanceComponent,
-    DraftComponent,
-    AvailableMovesComponent,
-    PositionsComponent,
-    VisualizeComponent,
-    StepsComponent,
-    ChooseDanceComponent,
-    AnimationComponent
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    RouterModule.forRoot([
-      {
-        path: 'build-a-dance',
-        component: BuildDanceComponent
-      },
-      {
-        path: 'visualize',
-        component: VisualizeComponent
-      }
-    ]),
-  ],
-  providers: [ApiService, SnakeToCamelPipe, TitleCasePipe],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        BuildDanceComponent,
+        DraftComponent,
+        AvailableMovesComponent,
+        PositionsComponent,
+        VisualizeComponent,
+        StepsComponent,
+        ChooseDanceComponent,
+        AnimationComponent,
+        TitleCasePipe
+    ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        RouterModule.forRoot([
+            {
+                path: 'build-a-dance',
+                component: BuildDanceComponent
+            },
+            {
+                path: 'visualize',
+                component: VisualizeComponent
+            }
+        ]),
+    ],
+    providers: [ApiService, SnakeToCamelPipe, TitleCasePipe],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
