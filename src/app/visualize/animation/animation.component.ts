@@ -129,6 +129,8 @@ export class AnimationComponent implements OnInit, OnChanges {
             outBirds: {}
         }
         // The following needs refactoring to use birdsLocation instead
+        // dotted is legacy for "starts as a one"
+        // solid is legacy for "starts as a two"
         let dottedLarks = [this.L5, this.L3, this.L1];
         let solidLarks = [this.L6, this.L4, this.L2];
         let dottedRavens = [this.R5, this.R3, this.R1];
