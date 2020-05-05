@@ -1,11 +1,11 @@
 .dance-set {
   $number-of-hands-fours: 3;
-  width: 640px;
+  width: 880px;
   height: 320px;
   margin: 0 auto;
   svg {
     height: 320px;
-    width: 160px + 240px * ($number-of-hands-fours - 1);
+    width: 400px + 240px * ($number-of-hands-fours - 1);
     position: relative;
     // circle {
     //   position:absolute;
