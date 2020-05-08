@@ -55,5 +55,5 @@ export class ChooseDanceComponent implements OnInit {
             }, this)
             this.danceStepsFromChooseDance.emit(this.steps)
         }
-    };
+    }
 }
