@@ -32,7 +32,7 @@ export class AnimationComponent implements OnInit, OnChanges {
     // @Input() danceId:number;
     @Input() currentDance: Dance
 
-    constructor(private el: ElementRef, private nameConverter: SnakeToCamelPipe, private apiService: ApiService) { }
+    constructor(private nameConverter: SnakeToCamelPipe, private apiService: ApiService) { }
 
     ngOnInit() {
     }
