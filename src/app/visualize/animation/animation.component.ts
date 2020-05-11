@@ -35,9 +35,12 @@ export class AnimationComponent implements OnInit, OnChanges {
     constructor(private nameConverter: SnakeToCamelPipe, private apiService: ApiService) { }
 
     ngOnInit() {
-        console.log(this.L1.nativeElement)
-        let birdsLoc = this.improperFormation()
-        this.balanceTheRing(birdsLoc)
+        setTimeout(() => {
+
+            let birdsLoc = this.improperFormation()
+            this.swingOnSidesOfSet(birdsLoc)
+            // let tl = new TimelineMax;
+        }, 1000);
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -132,35 +135,27 @@ export class AnimationComponent implements OnInit, OnChanges {
             outBirds: {}
         }
 
-        // UPDATED
-        console.log(birdsLocation.h4Birds.sEBirds[2].nativeElement)
-        birdsLocation.h4Birds.sEBirds[2].nativeElement.setAttribute('x', '620px')
-        birdsLocation.h4Birds.sEBirds[2].nativeElement.setAttribute('y', '220px')
-        // birdsLocation.h4Birds.sEBirds[2].nativeElement.style.x = '620px';
-
+        // UPDATED from bird.nativeElement.style.cx = dx
         birdsLocation.h4Birds.sEBirds.forEach(function (bird, index) {
-            // UPDATED
-            if (index != 2) {
-
-                let dx = (240 * index + 140).toString() + 'px'
-                bird.nativeElement.style.cx = dx;
-                bird.nativeElement.style.cy = '220px';
-            }
+            let dx = (240 * index + 140).toString() + 'px';
+            bird.nativeElement.setAttribute('x', dx);
+            bird.nativeElement.setAttribute('y', '220px');
         })
         birdsLocation.h4Birds.nWBirds.forEach(function (bird, index) {
             let dx = (240 * index + 20).toString() + 'px'
-            bird.nativeElement.style.cx = dx;
-            bird.nativeElement.style.cy = '100px';
+            bird.nativeElement.setAttribute('x', dx);
+
+            bird.nativeElement.setAttribute('y', '100px');
         })
         birdsLocation.h4Birds.nEBirds.forEach(function (bird, index) {
             let dx = (240 * index + 140).toString() + 'px'
-            bird.nativeElement.style.cx = dx;
-            bird.nativeElement.style.cy = '100px';
+            bird.nativeElement.setAttribute('x', dx);
+            bird.nativeElement.setAttribute('y', '100px');
         })
         birdsLocation.h4Birds.sWBirds.forEach(function (bird, index) {
             let dx = (240 * index + 20).toString() + 'px'
-            bird.nativeElement.style.cx = dx;
-            bird.nativeElement.style.cy = '220px';
+            bird.nativeElement.setAttribute('x', dx);
+            bird.nativeElement.setAttribute('y', '220px');
         })
         return birdsLocation
     }
@@ -387,30 +382,29 @@ export class AnimationComponent implements OnInit, OnChanges {
         // // out couples need animating too!
         // let eeTl = new TimelineMax();
 
+        // UPDATED: added 'attr:'
         startPos.h4Birds.nEBirds.map(function (bird, i) {
             let tl = new TimelineMax();
-            tl.to(bird.nativeElement, 1, { x: "-=40", y: "+=40" })
-                .to(bird.nativeElement, 1, { x: "+=40", y: "-=40" })
+            tl.to(bird.nativeElement, 1, { attr: { x: "-=40", y: "+=40" } })
+                .to(bird.nativeElement, 1, { attr: { x: "+=40", y: "-=40" } })
             nETl.add(tl, 0)
         })
         startPos.h4Birds.sEBirds.map(function (bird, i) {
             let tl = new TimelineMax();
-            console.log(bird.nativeElement)
-            // UPDATED
             tl.to(bird.nativeElement, 1, { attr: { x: "-=40", y: "-=40" } })
                 .to(bird.nativeElement, 1, { attr: { x: "+=40", y: "+=40" } })
             sETl.add(tl, 0)
         })
         startPos.h4Birds.sWBirds.map(function (bird, i) {
             let tl = new TimelineMax();
-            tl.to(bird.nativeElement, 1, { x: "+=40", y: "-=40" })
-                .to(bird.nativeElement, 1, { x: "-=40", y: "+=40" })
+            tl.to(bird.nativeElement, 1, { attr: { x: "+=40", y: "-=40" } })
+                .to(bird.nativeElement, 1, { attr: { x: "-=40", y: "+=40" } })
             sWTl.add(tl, 0)
         })
         startPos.h4Birds.nWBirds.map(function (bird, i) {
             let tl = new TimelineMax();
-            tl.to(bird.nativeElement, 1, { x: "+=40", y: "+=40" })
-                .to(bird.nativeElement, 1, { x: "-=40", y: "-=40" })
+            tl.to(bird.nativeElement, 1, { attr: { x: "+=40", y: "+=40" } })
+                .to(bird.nativeElement, 1, { attr: { x: "-=40", y: "-=40" } })
             nWTl.add(tl, 0)
         })
         return [nETl, sETl, sWTl, nWTl]
@@ -424,24 +418,25 @@ export class AnimationComponent implements OnInit, OnChanges {
         let nWTl = new TimelineMax();
         let eeTl = new TimelineMax();
 
+        // UPDATED: added 'attr:'
         startPos.h4Birds.nEBirds.map(function (bird, i) {
             let tl = new TimelineMax();
-            tl.to(bird.nativeElement, 2, { x: "-=120" })
+            tl.to(bird.nativeElement, 2, { attr: { x: "-=120" } })
             nETl.add(tl, 0)
         })
         startPos.h4Birds.sEBirds.map(function (bird) {
             let tl = new TimelineMax();
-            tl.to(bird.nativeElement, 2, { y: "-=120" })
+            tl.to(bird.nativeElement, 2, { attr: { y: "-=120" } })
             sETl.add(tl, 0)
         })
         startPos.h4Birds.sWBirds.map(function (bird, i) {
             let tl = new TimelineMax();
-            tl.to(bird.nativeElement, 2, { x: "+=120" })
+            tl.to(bird.nativeElement, 2, { attr: { x: "+=120" } })
             sWTl.add(tl, 0)
         })
         startPos.h4Birds.nWBirds.map(function (bird) {
             let tl = new TimelineMax();
-            tl.to(bird.nativeElement, 2, { y: "+=120" })
+            tl.to(bird.nativeElement, 2, { attr: { y: "+=120" } })
             nWTl.add(tl, 0)
         })
         return [nETl, sETl, sWTl, nWTl]
@@ -465,50 +460,51 @@ export class AnimationComponent implements OnInit, OnChanges {
 
         startPos.h4Birds.sEBirds.map(function (sEBird, i) {
             let tl = new TimelineMax();
-            tl.to(sEBird.nativeElement, 0.4, { x: "-=40", y: "+=20" })
+            tl.to(sEBird.nativeElement, 1.4, { attr: { x: "-=40", y: "+=20" } })
             if (sEBird.nativeElement.id[0] === 'L') {
-                tl.to(sEBird.nativeElement, 1.2, { rotation: "+=450", svgOrigin: 240 * i + xOffset + "px 220px" })
-                    .to(sEBird.nativeElement, 0.4, { x: "-=40", y: "-=20" })
-            } else if (sEBird.nativeElement.id[0] === 'R') {
-                tl.to(sEBird.nativeElement, 1.2, { rotation: "+=630", svgOrigin: 240 * i + xOffset + "px 220px" })
-                    .to(sEBird.nativeElement, 0.4, { x: "+=40", y: "+=20" })
-            }
+                console.log(sEBird.nativeElement)
+                tl.to(sEBird.nativeElement, 2.2, { rotation: "+=360", svgOrigin: (240 * i + xOffset).toString() + "px 220px" })
+                    .to(sEBird.nativeElement, 1.4, { attr: { x: "-=40", y: "-=20" } })
+            } //else if (sEBird.nativeElement.id[0] === 'R') {
+            //     tl.to(sEBird.nativeElement, 1.2, { rotation: "+=630", svgOrigin: 240 * i + xOffset + "px 220px" })
+            //         .to(sEBird.nativeElement, 0.4, { attr: { x: "+=40", y: "+=20" } })
+            // }
             sETl.add(tl, 0)
         })
         startPos.h4Birds.sWBirds.map(function (sWBird, i) {
             let tl = new TimelineMax();
-            tl.to(sWBird.nativeElement, 0.4, { x: "+=40", y: "-=20" })
+            tl.to(sWBird.nativeElement, 1.4, { attr: { x: "+=40", y: "-=20" } })
             if (sWBird.nativeElement.id[0] === 'R') {
-                tl.to(sWBird.nativeElement, 1.2, { rotation: "+=450", svgOrigin: 240 * i + xOffset + "px 220px" })
-                    .to(sWBird.nativeElement, 0.4, { x: "+=40", y: "+=20" })
-            } else if (sWBird.nativeElement.id[0] === 'L') {
-                tl.to(sWBird.nativeElement, 1.2, { rotation: "+=630", svgOrigin: 240 * i + xOffset + "px 220px" })
-                    .to(sWBird.nativeElement, 0.4, { x: "-=40", y: "-=20" })
-            }
+                tl.to(sWBird.nativeElement, 2.2, { rotation: "+=360", svgOrigin: 240 * i + xOffset + "px 220px" })
+                    .to(sWBird.nativeElement, 1.4, { attr: { x: "+=40", y: "+=20" } })
+            } // else if (sWBird.nativeElement.id[0] === 'L') {
+            //     tl.to(sWBird.nativeElement, 1.2, { rotation: "+=630", svgOrigin: 240 * i + xOffset + "px 220px" })
+            //         .to(sWBird.nativeElement, 0.4, { attr: { x: "-=40", y: "-=20" } })
+            // }
             sWTl.add(tl, 0)
         })
         startPos.h4Birds.nWBirds.map(function (nWBird, i) {
             let tl = new TimelineMax();
-            tl.to(nWBird.nativeElement, 0.4, { x: "+=40", y: "-=20" })
+            tl.to(nWBird.nativeElement, 0.4, { attr: { x: "+=40", y: "-=20" } })
             if (nWBird.nativeElement.id[0] === 'L') {
                 tl.to(nWBird.nativeElement, 1.2, { rotation: "+=450", svgOrigin: 240 * i + xOffset + "px 100px" })
-                    .to(nWBird.nativeElement, 0.4, { x: "+=40", y: "+=20" })
-            } else if (nWBird.nativeElement.id[0] === 'R') {
-                tl.to(nWBird.nativeElement, 1.2, { rotation: "+=630", svgOrigin: 240 * i + xOffset + "px 100px" })
-                    .to(nWBird.nativeElement, 0.4, { x: "-=40", y: "-=20" })
-            }
+                    .to(nWBird.nativeElement, 0.4, { attr: { x: "+=40", y: "+=20" } })
+            } // else if (nWBird.nativeElement.id[0] === 'R') {
+            //     tl.to(nWBird.nativeElement, 1.2, { rotation: "+=630", svgOrigin: 240 * i + xOffset + "px 100px" })
+            //         .to(nWBird.nativeElement, 0.4, { attr: { x: "-=40", y: "-=20" } })
+            // }
             nWTl.add(tl, 0)
         })
         startPos.h4Birds.nEBirds.map(function (nEBird, i) {
             let tl = new TimelineMax();
-            tl.to(nEBird.nativeElement, 0.4, { x: "-=40", y: "+=20" })
+            tl.to(nEBird.nativeElement, 0.4, { attr: { x: "-=40", y: "+=20" } })
             if (nEBird.nativeElement.id[0] === 'R') {
                 tl.to(nEBird.nativeElement, 1.2, { rotation: "+=450", svgOrigin: 240 * i + xOffset + "px 100" })
-                    .to(nEBird.nativeElement, 0.4, { x: "-=40", y: "-=20" })
-            } else if (nEBird.nativeElement.id[0] === 'L') {
-                tl.to(nEBird.nativeElement, 1.2, { rotation: "+=630", svgOrigin: 240 * i + xOffset + "px 100" })
-                    .to(nEBird.nativeElement, 0.4, { x: "+=40", y: "+=20" })
-            }
+                    .to(nEBird.nativeElement, 0.4, { attr: { x: "-=40", y: "-=20" } })
+            } // else if (nEBird.nativeElement.id[0] === 'L') {
+            //     tl.to(nEBird.nativeElement, 1.2, { rotation: "+=630", svgOrigin: 240 * i + xOffset + "px 100" })
+            //         .to(nEBird.nativeElement, 0.4, { attr: { x: "+=40", y: "+=20" } })
+            // }
             nETl.add(tl, 0)
         })
         return [nETl, sETl, sWTl, nWTl]

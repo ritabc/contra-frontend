@@ -2,7 +2,7 @@
 <!-- dancerId (R1, L6) remains with the svg, and does not change -->
 <!-- Odds start as ones-->
 <!-- At the start, R1/L1, R3/L3 mean 1's, however when R5/L5 get to the bottom, they will become 2's. -->
-<!-- ngStyle attribute doesn't do anything for now -->
+<!-- ngStyle doesn't do anything for now -->
 <!-- '#L1' is used for ViewChild -->
 <!-- id='L1' is used for code like 'if (sEBird.nativeElement.id[0] === 'L')' -->
 <div class="dance-set">
@@ -11,27 +11,49 @@
             <circle r="18" fill='#E68A97' stroke='#CF9669' stroke-width="3" stroke-dasharray="5 2" />
         </svg>
 
-        <svg:circle r="18" fill='#E68A97' stroke='#4A4949' stroke-width="3" stroke-dasharray="5 2" id="R1" #R1
-            [ngStyle]="R1Style" />
-        <svg:circle r="18" fill='#E6B38A' stroke='#CF9669' stroke-width="3" stroke-dasharray="5 2" id="L2" #L2
-            [ngStyle]="L2Style" />
-        <svg:circle r="18" fill='#E6B38A' stroke='#4A4949' stroke-width="3" stroke-dasharray="5 2" id="R2" #R2
-            [ngStyle]="L2Style" />
-        <svg:circle r="18" fill='#E1E68A' stroke='#CF9669' stroke-width="3" stroke-dasharray="5 2" id="L3" #L3
-            [ngStyle]="L3Style" />
-        <svg:circle r="18" fill='#E1E68A' stroke='#4A4949' stroke-width="3" stroke-dasharray="5 2" id="R3" #R3
-            [ngStyle]="R3Style" />
-        <svg:circle r="18" fill='#8EE68A' stroke='#CF9669' stroke-width="3" stroke-dasharray="5 2" id="L4" #L4
-            [ngStyle]="L4Style" />
-        <svg:circle r="18" fill='#8EE68A' stroke='#4A4949' stroke-width="3" stroke-dasharray="5 2" id="R4" #R4
-            [ngStyle]="R4Style" />
-        <svg:circle r="18" fill='#8ABCE6' stroke='#CF9669' stroke-width="3" stroke-dasharray="5 2" id="L5" #L5
-            [ngStyle]="L5Style" />
-        <svg:circle r="18" fill='#8ABCE6' stroke='#4A4949' stroke-width="3" stroke-dasharray="5 2" id="R5" #R5
-            [ngStyle]="R5Style" />
-        <svg:circle r="18" fill='#B88AE6' stroke='#CF9669' stroke-width="3" stroke-dasharray="5 2" id="L6" #L6
-            [ngStyle]="L6Style" />
-        <svg:circle r="18" fill='#B88AE6' stroke='#4A4949' stroke-width="3" stroke-dasharray="5 2" id="R6" #R6
-            [ngStyle]="R6Style" />
+        <svg class="dancer" id="R1" #R1>
+            <circle r="18" fill='#E68A97' stroke='#4A4949' stroke-width="3" stroke-dasharray="5 2"
+                [ngStyle]="R1Style" />
+        </svg>
+        <svg class="dancer" id="L2" #L2>
+            <circle r="18" fill='#E6B38A' stroke='#CF9669' stroke-width="3" stroke-dasharray="5 2"
+                [ngStyle]="L2Style" />
+        </svg>
+        <svg class="dancer" id="R2" #R2>
+            <circle r="18" fill='#E6B38A' stroke='#4A4949' stroke-width="3" stroke-dasharray="5 2"
+                [ngStyle]="L2Style" />
+        </svg>
+        <svg class="dancer" id="L3" #L3>
+            <circle r="18" fill='#E1E68A' stroke='#CF9669' stroke-width="3" stroke-dasharray="5 2"
+                [ngStyle]="L3Style" />
+        </svg>
+        <svg class="dancer" id="R3" #R3>
+            <circle r="18" fill='#E1E68A' stroke='#4A4949' stroke-width="3" stroke-dasharray="5 2"
+                [ngStyle]="R3Style" />
+        </svg>
+        <svg class="dancer" id="L4" #L4>
+            <circle r="18" fill='#8EE68A' stroke='#CF9669' stroke-width="3" stroke-dasharray="5 2"
+                [ngStyle]="L4Style" />
+        </svg>
+        <svg class="dancer" id="R4" #R4>
+            <circle r="18" fill='#8EE68A' stroke='#4A4949' stroke-width="3" stroke-dasharray="5 2"
+                [ngStyle]="R4Style" />
+        </svg>
+        <svg class="dancer" id="L5" #L5>
+            <circle r="18" fill='#8ABCE6' stroke='#CF9669' stroke-width="3" stroke-dasharray="5 2"
+                [ngStyle]="L5Style" />
+        </svg>
+        <svg class="dancer" id="R5" #R5>
+            <circle r="18" fill='#8ABCE6' stroke='#4A4949' stroke-width="3" stroke-dasharray="5 2"
+                [ngStyle]="R5Style" />
+        </svg>
+        <svg class="dancer" id="L6" #L6>
+            <circle r="18" fill='#B88AE6' stroke='#CF9669' stroke-width="3" stroke-dasharray="5 2"
+                [ngStyle]="L6Style" />
+        </svg>
+        <svg class="dancer" id="R6" #R6>
+            <circle r="18" fill='#B88AE6' stroke='#4A4949' stroke-width="3" stroke-dasharray="5 2"
+                [ngStyle]="R6Style" />
+        </svg>
     </svg>
 </div>
