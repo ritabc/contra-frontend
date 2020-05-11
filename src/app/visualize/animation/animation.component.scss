@@ -3,12 +3,15 @@
   width: 880px;
   height: 320px;
   margin: 0 auto;
-  svg {
-    height: 320px;
-    width: 400px + 240px * ($number-of-hands-fours - 1);
-    position: relative;
-    // circle {
-    //   position:absolute;
-    // }
-  }
+  .dancer {
+      overflow: visible;
+    }
+//   #dancefloor {
+//     height: 320px;
+//     width: 400px + 240px * ($number-of-hands-fours - 1);
+//     position: relative;
+//     // circle {
+//     //   position:absolute;
+//     // }
+//   }
 }
