@@ -130,29 +130,21 @@ export class AnimationComponent implements OnInit, OnChanges {
             outBirds: {}
         }
 
-        // UPDATED from bird.nativeElement.style.cx = dx
         birdsLocation.h4Birds.sEBirds.forEach(function (bird, index) {
             let dx = (240 * index + 140).toString() + 'px';
             bird.nativeElement.style.transform = `translate(${dx}, 220px)`;
-            // bird.nativeElement.setAttribute('y', '220px');
         })
         birdsLocation.h4Birds.nWBirds.forEach(function (bird, index) {
             let dx = (240 * index + 20).toString() + 'px'
-            // bird.nativeElement.setAttribute('x', dx);
             bird.nativeElement.style.transform = `translate(${dx}, 100px)`;
-            // bird.nativeElement.setAttribute('y', '100px');
         })
         birdsLocation.h4Birds.nEBirds.forEach(function (bird, index) {
             let dx = (240 * index + 140).toString() + 'px'
             bird.nativeElement.style.transform = `translate(${dx}, 100px)`;
-            // bird.nativeElement.setAttribute('x', dx);
-            // bird.nativeElement.setAttribute('y', '100px');
         })
         birdsLocation.h4Birds.sWBirds.forEach(function (bird, index) {
             let dx = (240 * index + 20).toString() + 'px'
             bird.nativeElement.style.transform = `translate(${dx}, 220px)`;
-            // bird.nativeElement.setAttribute('x', dx);
-            // bird.nativeElement.setAttribute('y', '220px');
         })
         return birdsLocation
     }
@@ -379,7 +371,6 @@ export class AnimationComponent implements OnInit, OnChanges {
         // // out couples need animating too!
         // let eeTl = new TimelineMax();
 
-        // UPDATED: added 'attr:'
         startPos.h4Birds.nEBirds.map(function (bird, i) {
             let tl = new TimelineMax();
             tl.to(bird.nativeElement, 1, { x: "-=40", y: "+=40" })
@@ -415,7 +406,6 @@ export class AnimationComponent implements OnInit, OnChanges {
         let nWTl = new TimelineMax();
         let eeTl = new TimelineMax();
 
-        // UPDATED: added 'attr:'
         startPos.h4Birds.nEBirds.map(function (bird, i) {
             let tl = new TimelineMax();
             tl.to(bird.nativeElement, 2, { x: "-=120" })
