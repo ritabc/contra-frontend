@@ -7,9 +7,11 @@
 <!-- id='L1' is used for code like 'if (sEBird.nativeElement.id[0] === 'L')' -->
 <div class="dance-set">
     <svg viewBox="-120 0 880 320">
-        <circle r="18" fill='#E68A97' stroke='#CF9669' stroke-width="3" stroke-dasharray="5 2" id="L1" #L1
-            [ngStyle]="L1Style" />
-        <circle r="18" fill='#E68A97' stroke='#4A4949' stroke-width="3" stroke-dasharray="5 2" id="R1" #R1
+        <svg id="L1" #L1>
+            <circle r="18" fill='#E68A97' stroke='#CF9669' stroke-width="3" stroke-dasharray="5 2" />
+        </svg>
+
+        <svg:circle r="18" fill='#E68A97' stroke='#4A4949' stroke-width="3" stroke-dasharray="5 2" id="R1" #R1
             [ngStyle]="R1Style" />
         <svg:circle r="18" fill='#E6B38A' stroke='#CF9669' stroke-width="3" stroke-dasharray="5 2" id="L2" #L2
             [ngStyle]="L2Style" />

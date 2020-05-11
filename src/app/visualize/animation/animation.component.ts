@@ -35,6 +35,9 @@ export class AnimationComponent implements OnInit, OnChanges {
     constructor(private nameConverter: SnakeToCamelPipe, private apiService: ApiService) { }
 
     ngOnInit() {
+        console.log(this.L1.nativeElement)
+        let birdsLoc = this.improperFormation()
+        this.balanceTheRing(birdsLoc)
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -128,30 +131,33 @@ export class AnimationComponent implements OnInit, OnChanges {
             },
             outBirds: {}
         }
-        // The following needs refactoring to use birdsLocation instead
-        // dotted is legacy for "starts as a one"
-        // solid is legacy for "starts as a two"
-        let dottedLarks = [this.L5, this.L3, this.L1];
-        let solidLarks = [this.L6, this.L4, this.L2];
-        let dottedRavens = [this.R5, this.R3, this.R1];
-        let solidRavens = [this.R6, this.R4, this.R2];
 
-        dottedLarks.forEach(function (bird, index) {
-            let dx = (240 * index + 140).toString() + 'px'
-            bird.nativeElement.style.cx = dx;
-            bird.nativeElement.style.cy = '220px';
+        // UPDATED
+        console.log(birdsLocation.h4Birds.sEBirds[2].nativeElement)
+        birdsLocation.h4Birds.sEBirds[2].nativeElement.setAttribute('x', '620px')
+        birdsLocation.h4Birds.sEBirds[2].nativeElement.setAttribute('y', '220px')
+        // birdsLocation.h4Birds.sEBirds[2].nativeElement.style.x = '620px';
+
+        birdsLocation.h4Birds.sEBirds.forEach(function (bird, index) {
+            // UPDATED
+            if (index != 2) {
+
+                let dx = (240 * index + 140).toString() + 'px'
+                bird.nativeElement.style.cx = dx;
+                bird.nativeElement.style.cy = '220px';
+            }
         })
-        solidLarks.forEach(function (bird, index) {
+        birdsLocation.h4Birds.nWBirds.forEach(function (bird, index) {
             let dx = (240 * index + 20).toString() + 'px'
             bird.nativeElement.style.cx = dx;
             bird.nativeElement.style.cy = '100px';
         })
-        dottedRavens.forEach(function (bird, index) {
+        birdsLocation.h4Birds.nEBirds.forEach(function (bird, index) {
             let dx = (240 * index + 140).toString() + 'px'
             bird.nativeElement.style.cx = dx;
             bird.nativeElement.style.cy = '100px';
         })
-        solidRavens.forEach(function (bird, index) {
+        birdsLocation.h4Birds.sWBirds.forEach(function (bird, index) {
             let dx = (240 * index + 20).toString() + 'px'
             bird.nativeElement.style.cx = dx;
             bird.nativeElement.style.cy = '220px';
@@ -389,8 +395,10 @@ export class AnimationComponent implements OnInit, OnChanges {
         })
         startPos.h4Birds.sEBirds.map(function (bird, i) {
             let tl = new TimelineMax();
-            tl.to(bird.nativeElement, 1, { x: "-=40", y: "-=40" })
-                .to(bird.nativeElement, 1, { x: "+=40", y: "+=40" })
+            console.log(bird.nativeElement)
+            // UPDATED
+            tl.to(bird.nativeElement, 1, { attr: { x: "-=40", y: "-=40" } })
+                .to(bird.nativeElement, 1, { attr: { x: "+=40", y: "+=40" } })
             sETl.add(tl, 0)
         })
         startPos.h4Birds.sWBirds.map(function (bird, i) {
