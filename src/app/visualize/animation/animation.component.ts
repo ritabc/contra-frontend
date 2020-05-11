@@ -32,9 +32,10 @@ export class AnimationComponent implements OnInit, OnChanges {
     // @Input() danceId:number;
     @Input() currentDance: Dance
 
-    constructor(private el: ElementRef, private nameConverter: SnakeToCamelPipe, private apiService: ApiService) { }
+    constructor(private nameConverter: SnakeToCamelPipe, private apiService: ApiService) { }
 
     ngOnInit() {
+        this.improperFormation()
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -128,33 +129,22 @@ export class AnimationComponent implements OnInit, OnChanges {
             },
             outBirds: {}
         }
-        // The following needs refactoring to use birdsLocation instead
-        // dotted is legacy for "starts as a one"
-        // solid is legacy for "starts as a two"
-        let dottedLarks = [this.L5, this.L3, this.L1];
-        let solidLarks = [this.L6, this.L4, this.L2];
-        let dottedRavens = [this.R5, this.R3, this.R1];
-        let solidRavens = [this.R6, this.R4, this.R2];
 
-        dottedLarks.forEach(function (bird, index) {
-            let dx = (240 * index + 140).toString() + 'px'
-            bird.nativeElement.style.cx = dx;
-            bird.nativeElement.style.cy = '220px';
+        birdsLocation.h4Birds.sEBirds.forEach(function (bird, index) {
+            let dx = (240 * index + 140).toString() + 'px';
+            bird.nativeElement.style.transform = `translate(${dx}, 220px)`;
         })
-        solidLarks.forEach(function (bird, index) {
+        birdsLocation.h4Birds.nWBirds.forEach(function (bird, index) {
             let dx = (240 * index + 20).toString() + 'px'
-            bird.nativeElement.style.cx = dx;
-            bird.nativeElement.style.cy = '100px';
+            bird.nativeElement.style.transform = `translate(${dx}, 100px)`;
         })
-        dottedRavens.forEach(function (bird, index) {
+        birdsLocation.h4Birds.nEBirds.forEach(function (bird, index) {
             let dx = (240 * index + 140).toString() + 'px'
-            bird.nativeElement.style.cx = dx;
-            bird.nativeElement.style.cy = '100px';
+            bird.nativeElement.style.transform = `translate(${dx}, 100px)`;
         })
-        solidRavens.forEach(function (bird, index) {
+        birdsLocation.h4Birds.sWBirds.forEach(function (bird, index) {
             let dx = (240 * index + 20).toString() + 'px'
-            bird.nativeElement.style.cx = dx;
-            bird.nativeElement.style.cy = '220px';
+            bird.nativeElement.style.transform = `translate(${dx}, 220px)`;
         })
         return birdsLocation
     }
@@ -459,7 +449,8 @@ export class AnimationComponent implements OnInit, OnChanges {
             let tl = new TimelineMax();
             tl.to(sEBird.nativeElement, 0.4, { x: "-=40", y: "+=20" })
             if (sEBird.nativeElement.id[0] === 'L') {
-                tl.to(sEBird.nativeElement, 1.2, { rotation: "+=450", svgOrigin: 240 * i + xOffset + "px 220px" })
+                console.log(sEBird.nativeElement)
+                tl.to(sEBird.nativeElement, 1.2, { rotation: "+=450", svgOrigin: (240 * i + xOffset).toString() + "px 220px" })
                     .to(sEBird.nativeElement, 0.4, { x: "-=40", y: "-=20" })
             } else if (sEBird.nativeElement.id[0] === 'R') {
                 tl.to(sEBird.nativeElement, 1.2, { rotation: "+=630", svgOrigin: 240 * i + xOffset + "px 220px" })
