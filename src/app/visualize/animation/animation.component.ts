@@ -35,7 +35,7 @@ export class AnimationComponent implements OnInit, OnChanges {
     constructor(private nameConverter: SnakeToCamelPipe, private apiService: ApiService) { }
 
     ngOnInit() {
-        this.improperFormation()
+        this.balanceTheRing(this.improperFormation())
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -117,7 +117,9 @@ export class AnimationComponent implements OnInit, OnChanges {
     }
 
     // FORMATIONS =================================================
-
+    // Down the line, the page will load with dancers proper and facing the caller. 
+    // If a dance starts with improper formation, this function will be called and dancers will take hands four (every other couple crosses over and turns to around) 
+    // For now, this function assumes dancers start in improper formation.
     public improperFormation() {
         console.log("hit formation setup");
         let birdsLocation: any = {
@@ -132,7 +134,7 @@ export class AnimationComponent implements OnInit, OnChanges {
 
         birdsLocation.h4Birds.sEBirds.forEach(function (bird, index) {
             let dx = (240 * index + 140).toString() + 'px';
-            bird.nativeElement.style.transform = `translate(${dx}, 220px)`;
+            bird.nativeElement.style.transform = `translate(${dx}, 220px) rotate(180deg)`;
         })
         birdsLocation.h4Birds.nWBirds.forEach(function (bird, index) {
             let dx = (240 * index + 20).toString() + 'px'
@@ -140,7 +142,7 @@ export class AnimationComponent implements OnInit, OnChanges {
         })
         birdsLocation.h4Birds.nEBirds.forEach(function (bird, index) {
             let dx = (240 * index + 140).toString() + 'px'
-            bird.nativeElement.style.transform = `translate(${dx}, 100px)`;
+            bird.nativeElement.style.transform = `translate(${dx}, 100px) rotate(180deg)`;
         })
         birdsLocation.h4Birds.sWBirds.forEach(function (bird, index) {
             let dx = (240 * index + 20).toString() + 'px'
@@ -371,28 +373,49 @@ export class AnimationComponent implements OnInit, OnChanges {
         // // out couples need animating too!
         // let eeTl = gsap.timeline();
 
+        // Set up formula for determining x-value offset (depends on whether couples are out)
+        let xOffset
+        // if there are couples out
+        if ('nEBird' in startPos.outBirds) {
+            xOffset = 200;
+        } else { // if all couples are in
+            xOffset = 80;
+        }
+
         startPos.h4Birds.nEBirds.map(function (bird, i) {
+            console.log(bird.nativeElement.transformOrigin)
             let tl = gsap.timeline();
-            tl.to(bird.nativeElement, 1, { x: "-=40", y: "+=40" })
-                .to(bird.nativeElement, 1, { x: "+=40", y: "-=40" })
+            // Problem: Want translations to start from transformOrigin, but rotation to be around svgOrigin
+            // Potential solution: use second group with second origin: https://greensock.com/forums/topic/14604-combining-svg-origin-with-transform-origin/
+            // Another potential solution: have dancers face in (rotate) first, then balance (translate)
+            // Another potential solution: transformOrigin: 50% 50%
+            tl.to(bird.nativeElement, { x: "-=40", y: "+=40", rotation: "-=45", transformOrigin: "50% 50%", duration: 4 })
+                // tl.to(bird.nativeElement, { rotation: "-=90", transformOrigin: "0 0", duration: 4 })
+
+                .to(bird.nativeElement, { x: "+=40", y: "-=40", rotation: "+=45", transformOrigin: "50% 50%", duration: 4 })
+            // .to(bird.nativeElement, { rotation: "+=90", transformOrigin: "0 0", duration: 4 })
+
+            // tl.to(bird.nativeElement, {rotation})
             nETl.add(tl, 0)
         })
         startPos.h4Birds.sEBirds.map(function (bird, i) {
             let tl = gsap.timeline();
-            tl.to(bird.nativeElement, 1, { x: "-=40", y: "-=40" })
-                .to(bird.nativeElement, 1, { x: "+=40", y: "+=40" })
+            tl.to(bird.nativeElement, { x: "-=40", y: "-=40", rotation: "+=45", transformOrigin: "0 0", duration: 4 })
+                .to(bird.nativeElement, { x: "+=40", y: "+=40", rotation: "-=45", transformOrigin: "0 0", duration: 4 })
             sETl.add(tl, 0)
         })
         startPos.h4Birds.sWBirds.map(function (bird, i) {
             let tl = gsap.timeline();
-            tl.to(bird.nativeElement, 1, { x: "+=40", y: "-=40" })
-                .to(bird.nativeElement, 1, { x: "-=40", y: "+=40" })
+            tl.to(bird.nativeElement, { rotation: "-=45", transformOrigin: "50% 50%", duration: 1 })
+                .to(bird.nativeElement, { x: "+=40", y: "-=40", duration: 2 })
+                .to(bird.nativeElement, { x: "-=40", y: "+=40", duration: 2 })
+                .to(bird.nativeElement, { rotation: "+=45", transformOrigin: "50% 50%", duration: 1 })
             sWTl.add(tl, 0)
         })
         startPos.h4Birds.nWBirds.map(function (bird, i) {
             let tl = gsap.timeline();
-            tl.to(bird.nativeElement, 1, { x: "+=40", y: "+=40" })
-                .to(bird.nativeElement, 1, { x: "-=40", y: "-=40" })
+            tl.to(bird.nativeElement, { x: "+=40", y: "+=40", duration: 2 })
+                .to(bird.nativeElement, { x: "-=40", y: "-=40", duration: 2 })
             nWTl.add(tl, 0)
         })
         return [nETl, sETl, sWTl, nWTl]
