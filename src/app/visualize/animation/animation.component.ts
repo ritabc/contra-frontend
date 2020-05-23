@@ -35,7 +35,11 @@ export class AnimationComponent implements OnInit, OnChanges {
     constructor(private nameConverter: SnakeToCamelPipe, private apiService: ApiService) { }
 
     ngOnInit() {
-        this.balanceTheRing(this.improperFormation())
+        let pos = this.improperFormation()
+        this.balanceTheRing(pos)
+        pos = this.improper()
+        // this.petronella(pos)
+
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -370,52 +374,37 @@ export class AnimationComponent implements OnInit, OnChanges {
         let sETl = gsap.timeline();
         let sWTl = gsap.timeline();
         let nWTl = gsap.timeline();
-        // // out couples need animating too!
-        // let eeTl = gsap.timeline();
 
-        // Set up formula for determining x-value offset (depends on whether couples are out)
-        let xOffset
-        // if there are couples out
-        if ('nEBird' in startPos.outBirds) {
-            xOffset = 200;
-        } else { // if all couples are in
-            xOffset = 80;
-        }
+        let negOffset = "-=25"
+        let posOffset = "+=25"
 
         startPos.h4Birds.nEBirds.map(function (bird, i) {
-            console.log(bird.nativeElement.transformOrigin)
             let tl = gsap.timeline();
             // Problem: Want translations to start from transformOrigin, but rotation to be around svgOrigin
             // Potential solution: use second group with second origin: https://greensock.com/forums/topic/14604-combining-svg-origin-with-transform-origin/
             // Another potential solution: have dancers face in (rotate) first, then balance (translate)
             // Another potential solution: transformOrigin: 50% 50%
-            tl.to(bird.nativeElement, { x: "-=40", y: "+=40", rotation: "-=45", transformOrigin: "50% 50%", duration: 4 })
-                // tl.to(bird.nativeElement, { rotation: "-=90", transformOrigin: "0 0", duration: 4 })
-
-                .to(bird.nativeElement, { x: "+=40", y: "-=40", rotation: "+=45", transformOrigin: "50% 50%", duration: 4 })
-            // .to(bird.nativeElement, { rotation: "+=90", transformOrigin: "0 0", duration: 4 })
-
-            // tl.to(bird.nativeElement, {rotation})
+            // Another potential solution: transformOrigin using percentages, calculate the center of the circle (it's currently a rectangular with nose/face)
+            tl.to(bird.nativeElement, { x: negOffset, y: posOffset, rotation: "-=45", transformOrigin: "50% 50%", duration: 1 })
+                .to(bird.nativeElement, { x: posOffset, y: negOffset, rotation: "+=45", transformOrigin: "50% 50%", duration: 1 })
             nETl.add(tl, 0)
         })
         startPos.h4Birds.sEBirds.map(function (bird, i) {
             let tl = gsap.timeline();
-            tl.to(bird.nativeElement, { x: "-=40", y: "-=40", rotation: "+=45", transformOrigin: "0 0", duration: 4 })
-                .to(bird.nativeElement, { x: "+=40", y: "+=40", rotation: "-=45", transformOrigin: "0 0", duration: 4 })
+            tl.to(bird.nativeElement, { x: negOffset, y: negOffset, rotation: "+=45", transformOrigin: "50% 50%", duration: 1 })
+                .to(bird.nativeElement, { x: posOffset, y: posOffset, rotation: "-=45", transformOrigin: "50% 50%", duration: 1 })
             sETl.add(tl, 0)
         })
         startPos.h4Birds.sWBirds.map(function (bird, i) {
             let tl = gsap.timeline();
-            tl.to(bird.nativeElement, { rotation: "-=45", transformOrigin: "50% 50%", duration: 1 })
-                .to(bird.nativeElement, { x: "+=40", y: "-=40", duration: 2 })
-                .to(bird.nativeElement, { x: "-=40", y: "+=40", duration: 2 })
-                .to(bird.nativeElement, { rotation: "+=45", transformOrigin: "50% 50%", duration: 1 })
+            tl.to(bird.nativeElement, { x: posOffset, y: negOffset, rotation: "-=45", transformOrigin: "50% 50%", duration: 1 })
+                .to(bird.nativeElement, { x: negOffset, y: posOffset, rotation: "+=45", transformOrigin: "50% 50%", duration: 1 })
             sWTl.add(tl, 0)
         })
         startPos.h4Birds.nWBirds.map(function (bird, i) {
             let tl = gsap.timeline();
-            tl.to(bird.nativeElement, { x: "+=40", y: "+=40", duration: 2 })
-                .to(bird.nativeElement, { x: "-=40", y: "-=40", duration: 2 })
+            tl.to(bird.nativeElement, { x: posOffset, y: posOffset, rotation: "+=45", transformOrigin: "50% 50%", duration: 1 })
+                .to(bird.nativeElement, { x: negOffset, y: negOffset, rotation: "-=45", transformOrigin: "50% 50%", duration: 1 })
             nWTl.add(tl, 0)
         })
         return [nETl, sETl, sWTl, nWTl]
