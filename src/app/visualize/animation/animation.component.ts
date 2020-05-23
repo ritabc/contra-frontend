@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, SimpleChanges, OnChanges } from '@angular/core';
-import { TweenLite, TweenMax, TimelineMax, CSSPlugin } from 'gsap/TweenMax';
+import { gsap } from 'gsap';
 
 import { Move } from '../../move';
 import { Position } from '../../position';
@@ -60,7 +60,7 @@ export class AnimationComponent implements OnInit, OnChanges {
 
                 // run the formation method to set up dancers at start of dance, get birdsLoc for the first time
 
-                let danceTimeline = new TimelineMax({})
+                let danceTimeline = gsap.timeline()
                 var birdsLoc
 
                 for (let progIndex = 0; progIndex < 12; ++progIndex) {
@@ -364,33 +364,33 @@ export class AnimationComponent implements OnInit, OnChanges {
     public balanceTheRing = (startPos) => {
         console.log("hit MOVE balanceTheRing")
 
-        let nETl = new TimelineMax();
-        let sETl = new TimelineMax();
-        let sWTl = new TimelineMax();
-        let nWTl = new TimelineMax();
+        let nETl = gsap.timeline();
+        let sETl = gsap.timeline();
+        let sWTl = gsap.timeline();
+        let nWTl = gsap.timeline();
         // // out couples need animating too!
-        // let eeTl = new TimelineMax();
+        // let eeTl = gsap.timeline();
 
         startPos.h4Birds.nEBirds.map(function (bird, i) {
-            let tl = new TimelineMax();
+            let tl = gsap.timeline();
             tl.to(bird.nativeElement, 1, { x: "-=40", y: "+=40" })
                 .to(bird.nativeElement, 1, { x: "+=40", y: "-=40" })
             nETl.add(tl, 0)
         })
         startPos.h4Birds.sEBirds.map(function (bird, i) {
-            let tl = new TimelineMax();
+            let tl = gsap.timeline();
             tl.to(bird.nativeElement, 1, { x: "-=40", y: "-=40" })
                 .to(bird.nativeElement, 1, { x: "+=40", y: "+=40" })
             sETl.add(tl, 0)
         })
         startPos.h4Birds.sWBirds.map(function (bird, i) {
-            let tl = new TimelineMax();
+            let tl = gsap.timeline();
             tl.to(bird.nativeElement, 1, { x: "+=40", y: "-=40" })
                 .to(bird.nativeElement, 1, { x: "-=40", y: "+=40" })
             sWTl.add(tl, 0)
         })
         startPos.h4Birds.nWBirds.map(function (bird, i) {
-            let tl = new TimelineMax();
+            let tl = gsap.timeline();
             tl.to(bird.nativeElement, 1, { x: "+=40", y: "+=40" })
                 .to(bird.nativeElement, 1, { x: "-=40", y: "-=40" })
             nWTl.add(tl, 0)
@@ -400,29 +400,29 @@ export class AnimationComponent implements OnInit, OnChanges {
 
     public petronella(startPos) {
         console.log("hit MOVE petronella")
-        let nETl = new TimelineMax();
-        let sETl = new TimelineMax();
-        let sWTl = new TimelineMax();
-        let nWTl = new TimelineMax();
-        let eeTl = new TimelineMax();
+        let nETl = gsap.timeline();
+        let sETl = gsap.timeline();
+        let sWTl = gsap.timeline();
+        let nWTl = gsap.timeline();
+        let eeTl = gsap.timeline();
 
         startPos.h4Birds.nEBirds.map(function (bird, i) {
-            let tl = new TimelineMax();
+            let tl = gsap.timeline();
             tl.to(bird.nativeElement, 2, { x: "-=120" })
             nETl.add(tl, 0)
         })
         startPos.h4Birds.sEBirds.map(function (bird) {
-            let tl = new TimelineMax();
+            let tl = gsap.timeline();
             tl.to(bird.nativeElement, 2, { y: "-=120" })
             sETl.add(tl, 0)
         })
         startPos.h4Birds.sWBirds.map(function (bird, i) {
-            let tl = new TimelineMax();
+            let tl = gsap.timeline();
             tl.to(bird.nativeElement, 2, { x: "+=120" })
             sWTl.add(tl, 0)
         })
         startPos.h4Birds.nWBirds.map(function (bird) {
-            let tl = new TimelineMax();
+            let tl = gsap.timeline();
             tl.to(bird.nativeElement, 2, { y: "+=120" })
             nWTl.add(tl, 0)
         })
@@ -431,10 +431,10 @@ export class AnimationComponent implements OnInit, OnChanges {
 
     public swingOnSidesOfSet(startPos) {
         console.log("Hit MOVE swingOnSidesOfSet")
-        let nETl = new TimelineMax();
-        let sETl = new TimelineMax();
-        let sWTl = new TimelineMax();
-        let nWTl = new TimelineMax();
+        let nETl = gsap.timeline();
+        let sETl = gsap.timeline();
+        let sWTl = gsap.timeline();
+        let nWTl = gsap.timeline();
 
         // Set up formula for determining x-value offset (depends on whether couples are out)
         let xOffset
@@ -446,7 +446,7 @@ export class AnimationComponent implements OnInit, OnChanges {
         }
 
         startPos.h4Birds.sEBirds.map(function (sEBird, i) {
-            let tl = new TimelineMax();
+            let tl = gsap.timeline();
             tl.to(sEBird.nativeElement, 0.4, { x: "-=40", y: "+=20" })
             if (sEBird.nativeElement.id[0] === 'L') {
                 console.log(sEBird.nativeElement)
@@ -459,7 +459,7 @@ export class AnimationComponent implements OnInit, OnChanges {
             sETl.add(tl, 0)
         })
         startPos.h4Birds.sWBirds.map(function (sWBird, i) {
-            let tl = new TimelineMax();
+            let tl = gsap.timeline();
             tl.to(sWBird.nativeElement, 0.4, { x: "+=40", y: "-=20" })
             if (sWBird.nativeElement.id[0] === 'R') {
                 tl.to(sWBird.nativeElement, 1.2, { rotation: "+=450", svgOrigin: 240 * i + xOffset + "px 220px" })
@@ -471,7 +471,7 @@ export class AnimationComponent implements OnInit, OnChanges {
             sWTl.add(tl, 0)
         })
         startPos.h4Birds.nWBirds.map(function (nWBird, i) {
-            let tl = new TimelineMax();
+            let tl = gsap.timeline();
             tl.to(nWBird.nativeElement, 0.4, { x: "+=40", y: "-=20" })
             if (nWBird.nativeElement.id[0] === 'L') {
                 tl.to(nWBird.nativeElement, 1.2, { rotation: "+=450", svgOrigin: 240 * i + xOffset + "px 100px" })
@@ -483,7 +483,7 @@ export class AnimationComponent implements OnInit, OnChanges {
             nWTl.add(tl, 0)
         })
         startPos.h4Birds.nEBirds.map(function (nEBird, i) {
-            let tl = new TimelineMax();
+            let tl = gsap.timeline();
             tl.to(nEBird.nativeElement, 0.4, { x: "-=40", y: "+=20" })
             if (nEBird.nativeElement.id[0] === 'R') {
                 tl.to(nEBird.nativeElement, 1.2, { rotation: "+=450", svgOrigin: 240 * i + xOffset + "px 100" })
@@ -499,8 +499,8 @@ export class AnimationComponent implements OnInit, OnChanges {
 
     public dancersOnRightRightShoulderRoundOnceAndAHalf(startPos) {
         console.log("Hit MOVE dancersOnRightRightShoulderRoundOnceAndAHalf")
-        let sETl = new TimelineMax();
-        let nWTl = new TimelineMax();
+        let sETl = gsap.timeline();
+        let nWTl = gsap.timeline();
 
         // Set up formula for determining x-value offset (depends on whether couples are out)
         let xOffset
@@ -512,14 +512,14 @@ export class AnimationComponent implements OnInit, OnChanges {
         }
 
         startPos.h4Birds.sEBirds.map(function (bird, i) {
-            let tl = new TimelineMax();
+            let tl = gsap.timeline();
             tl.to(bird.nativeElement, 0.4, { x: "-=80", y: "-=40" })
                 .to(bird.nativeElement, 1.2, { rotation: "+=450", svgOrigin: 240 * i + xOffset + "px 160px" })
                 .to(bird.nativeElement, 0.4, { x: "-=40", y: "-=40" })
             sETl.add(tl, 0)
         })
         startPos.h4Birds.nWBirds.map(function (bird, i) {
-            let tl = new TimelineMax();
+            let tl = gsap.timeline();
             tl.to(bird.nativeElement, 0.4, { x: "+=80", y: "+=40" })
                 .to(bird.nativeElement, 1.2, { rotation: "+=450", svgOrigin: 240 * i + xOffset + "px 160px" })
                 .to(bird.nativeElement, 0.4, { x: "+=40", y: "+=40" })
@@ -530,8 +530,8 @@ export class AnimationComponent implements OnInit, OnChanges {
 
     public dancersOnLeftRightShoulderRoundOnceAndAHalf(startPos) {
         console.log("Hit MOVE dancersOnLeftRightShoulderRoundOnceAndAHalf")
-        let sWTl = new TimelineMax();
-        let nETl = new TimelineMax();
+        let sWTl = gsap.timeline();
+        let nETl = gsap.timeline();
 
         // Set up formula for determining x-value offset (depends on whether couples are out)
         let xOffset
@@ -543,14 +543,14 @@ export class AnimationComponent implements OnInit, OnChanges {
         }
 
         startPos.h4Birds.sWBirds.map(function (bird, i) {
-            let tl = new TimelineMax();
+            let tl = gsap.timeline();
             tl.to(bird.nativeElement, 0.4, { x: "+=40", y: "-=80" })
                 .to(bird.nativeElement, 1.2, { rotation: "+=450", svgOrigin: 240 * i + xOffset + "px 160px" })
                 .to(bird.nativeElement, 0.4, { x: "+=40", y: "-=40" })
             sWTl.add(tl, 0)
         })
         startPos.h4Birds.nEBirds.map(function (bird, i) {
-            let tl = new TimelineMax();
+            let tl = gsap.timeline();
             tl.to(bird.nativeElement, 0.4, { x: "-=40", y: "+=80" })
                 .to(bird.nativeElement, 1.2, { rotation: "+=450", svgOrigin: 240 * i + xOffset + "px 160px" })
                 .to(bird.nativeElement, 0.4, { x: "-=40", y: "+=40" })
@@ -561,7 +561,7 @@ export class AnimationComponent implements OnInit, OnChanges {
 
     public circleLeftThreeQuarters(startPos) {
         console.log("Hit MOVE circleLeftThreeQuarters")
-        let moveTl = new TimelineMax();
+        let moveTl = gsap.timeline();
 
         // Set up formula for determining x-value offset (depends on whether couples are out)
         let xOffset
@@ -575,7 +575,7 @@ export class AnimationComponent implements OnInit, OnChanges {
         const birdsInArrayByCardinalPositioning = [startPos.h4Birds.nEBirds, startPos.h4Birds.sEBirds, startPos.h4Birds.sWBirds, startPos.h4Birds.nWBirds]
         birdsInArrayByCardinalPositioning.map(function (birdsByCarinalPosition) {
             birdsByCarinalPosition.map(function (bird, i) {
-                let tl = new TimelineMax();
+                let tl = gsap.timeline();
                 tl.to(bird.nativeElement, 2, { rotation: "+=270", svgOrigin: 240 * i + xOffset + "px 160px" })
                 moveTl.add(tl, 0)
             })
@@ -588,10 +588,10 @@ export class AnimationComponent implements OnInit, OnChanges {
     public californiaTwirlUpAndDown(startPos) {
         console.log("Hit MOVE californiaTwirl")
         console.log(startPos)
-        let nETl = new TimelineMax();
-        let sETl = new TimelineMax();
-        let sWTl = new TimelineMax();
-        let nWTl = new TimelineMax();
+        let nETl = gsap.timeline();
+        let sETl = gsap.timeline();
+        let sWTl = gsap.timeline();
+        let nWTl = gsap.timeline();
 
         // Set up formula for determining x-value offset (depends on whether couples are out)
         let xOffsetForWestBirds, xOffsetForEastBirds
@@ -605,7 +605,7 @@ export class AnimationComponent implements OnInit, OnChanges {
         }
 
         startPos.h4Birds.nWBirds.map(function (bird, i) {
-            let tl = new TimelineMax();
+            let tl = gsap.timeline();
             if (bird.nativeElement.id[0] === "L") {
                 tl.to(bird.nativeElement, 0.6, { rotation: "+=90", svgOrigin: 240 * i + xOffsetForWestBirds + "px 140px" }, "+=0.6")
                     .to(bird.nativeElement, 0.8, { y: "+=40" })
@@ -616,7 +616,7 @@ export class AnimationComponent implements OnInit, OnChanges {
             nWTl.add(tl, 0)
         })
         startPos.h4Birds.sWBirds.map(function (bird, i) {
-            let tl = new TimelineMax();
+            let tl = gsap.timeline();
             if (bird.nativeElement.id[0] === "R") {
                 tl.to(bird.nativeElement, 0.6, { rotation: "-=90", svgOrigin: 240 * i + xOffsetForWestBirds + "px 180px" })
                     .to(bird.nativeElement, 0.8, { y: "-=40" }, "+=0.6")
@@ -627,7 +627,7 @@ export class AnimationComponent implements OnInit, OnChanges {
             sWTl.add(tl, 0)
         })
         startPos.h4Birds.nEBirds.map(function (bird, i) {
-            let tl = new TimelineMax();
+            let tl = gsap.timeline();
             if (bird.nativeElement.id[0] === "R") {
                 tl.to(bird.nativeElement, 0.6, { rotation: "+=90", svgOrigin: 240 * i + xOffsetForEastBirds + "px 140px" })
                     .to(bird.nativeElement, 0.8, { y: "+=40" }, "+=0.6")
@@ -638,7 +638,7 @@ export class AnimationComponent implements OnInit, OnChanges {
             nETl.add(tl, 0)
         })
         startPos.h4Birds.sEBirds.map(function (bird, i) {
-            let tl = new TimelineMax();
+            let tl = gsap.timeline();
             if (bird.nativeElement.id[0] === "L") {
                 tl.to(bird.nativeElement, 0.6, { rotation: "-=90", svgOrigin: 240 * i + xOffsetForEastBirds + "px 180px" }, "+=0.6")
                     .to(bird.nativeElement, 0.8, { y: "-=40" })
@@ -712,7 +712,7 @@ export class AnimationComponent implements OnInit, OnChanges {
         console.log(birdsLocation.outBirds.nEBird.nativeElement.getClientRects()[0].y)
         console.log(birdsLocation.outBirds.nEBird.nativeElement.getBoundingClientRect().top) // left corner y axis value
         console.log(birdsLocation.outBirds.nEBird.nativeElement.getClientRects()[0].top)
-        let tl = new TimelineMax();
+        let tl = gsap.timeline();
         tl.to(birdsLocation.outBirds.nEBird.nativeElement, 2, { rotation: "-=180", svgOrigin: "620px 160px" }, 0)
             .to(birdsLocation.outBirds.sEBird.nativeElement, 2, { rotation: "+=180", svgOrigin: "620px 160px" }, 0)
             .to(birdsLocation.outBirds.sWBird.nativeElement, 2, { rotation: "-=180", svgOrigin: "20px 160px" }, 0)
