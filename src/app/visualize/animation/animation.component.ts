@@ -6,6 +6,7 @@ import { Position } from '../../position';
 import { Dance } from '../../dance';
 import { SnakeToCamelPipe } from '../../snakeToCamel.pipe';
 import { ApiService } from '../../api.service';
+import { setTimeout } from 'timers';
 
 @Component({
     selector: 'app-animation',
@@ -35,11 +36,8 @@ export class AnimationComponent implements OnInit, OnChanges {
     constructor(private nameConverter: SnakeToCamelPipe, private apiService: ApiService) { }
 
     ngOnInit() {
-        let pos = this.improperFormation()
-        this.balanceTheRing(pos)
-        pos = this.improper()
-        // this.petronella(pos)
-
+        this.improperFormation()
+        // setTimeout(() => { this.petronella(this.improperFormation(0)) }, 500)
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -418,24 +416,35 @@ export class AnimationComponent implements OnInit, OnChanges {
         let nWTl = gsap.timeline();
         let eeTl = gsap.timeline();
 
-        startPos.h4Birds.nEBirds.map(function (bird, i) {
+        let negOffset = "-=120"
+        let posOffset = "+=120"
+
+        startPos.h4Birds.nEBirds.map(function (bird) {
             let tl = gsap.timeline();
-            tl.to(bird.nativeElement, 2, { x: "-=120" })
+            tl.to(bird.nativeElement, { rotation: "-=45", transformOrigin: "50% 50%", duration: 0.2 })
+                .to(bird.nativeElement, { x: negOffset, rotation: "+=270", transformOrigin: "50% 50%", duration: 1.6 })
+                .to(bird.nativeElement, { rotation: "-=45", transformOrigin: "50% 50%", duration: 0.2 })
             nETl.add(tl, 0)
         })
         startPos.h4Birds.sEBirds.map(function (bird) {
             let tl = gsap.timeline();
-            tl.to(bird.nativeElement, 2, { y: "-=120" })
+            tl.to(bird.nativeElement, { rotation: "+=45", transformOrigin: "50% 50%", duration: 0.2 })
+                .to(bird.nativeElement, { y: negOffset, rotation: "+=270", transformOrigin: "50% 50%", duration: 1.6 })
+                .to(bird.nativeElement, { rotation: "+=45", transformOrigin: "50% 50%", duration: 0.2 })
             sETl.add(tl, 0)
         })
-        startPos.h4Birds.sWBirds.map(function (bird, i) {
+        startPos.h4Birds.sWBirds.map(function (bird) {
             let tl = gsap.timeline();
-            tl.to(bird.nativeElement, 2, { x: "+=120" })
+            tl.to(bird.nativeElement, { rotation: "-=45", transformOrigin: "50% 50%", duration: 0.2 })
+                .to(bird.nativeElement, { x: posOffset, rotation: "+=270", transformOrigin: "50% 50%", duration: 1.6 })
+                .to(bird.nativeElement, { rotation: "-=45", transformOrigin: "50% 50%", duration: 0.2 })
             sWTl.add(tl, 0)
         })
         startPos.h4Birds.nWBirds.map(function (bird) {
             let tl = gsap.timeline();
-            tl.to(bird.nativeElement, 2, { y: "+=120" })
+            tl.to(bird.nativeElement, { rotation: "+=45", transformOrigin: "50% 50%", duration: 0.2 })
+                .to(bird.nativeElement, { y: posOffset, rotation: "+=270", transformOrigin: "50% 50%", duration: 1.6 })
+                .to(bird.nativeElement, { rotation: "+=45", transformOrigin: "50% 50%", duration: 0.2 })
             nWTl.add(tl, 0)
         })
         return [nETl, sETl, sWTl, nWTl]
@@ -748,3 +757,4 @@ export class AnimationComponent implements OnInit, OnChanges {
 // console.log(bird.nativeElement.getClientRects()[0].y)
 // console.log(bird.nativeElement.getBoundingClientRect().top) // left corner y axis value
 // console.log(bird.nativeElement.getClientRects()[0].top)
+// console.log(bird.nativeElement.getBBox())
