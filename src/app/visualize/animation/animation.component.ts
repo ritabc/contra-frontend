@@ -37,7 +37,9 @@ export class AnimationComponent implements OnInit, OnChanges {
 
     ngOnInit() {
         this.improperFormation()
-        // this.circleLeftThreeQuarters(this.improperFormation())
+        setTimeout(() => {
+            // this.californiaTwirlUpAndDown(this.improperFormation())
+        }, 1500)
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -549,8 +551,6 @@ export class AnimationComponent implements OnInit, OnChanges {
         return [sETl, nWTl]
     }
 
-
-
     public circleLeftThreeQuarters(startPos) {
         console.log("Hit MOVE circleLeftThreeQuarters")
         let moveTl = gsap.timeline();
@@ -601,7 +601,6 @@ export class AnimationComponent implements OnInit, OnChanges {
 
     public californiaTwirlUpAndDown(startPos) {
         console.log("Hit MOVE californiaTwirl")
-        console.log(startPos)
         let nETl = gsap.timeline();
         let sETl = gsap.timeline();
         let sWTl = gsap.timeline();
@@ -617,51 +616,53 @@ export class AnimationComponent implements OnInit, OnChanges {
             xOffsetForWestBirds = -20;
             xOffsetForEastBirds = 100
         }
+        let shortDur = 0.6
+        let longDur = 0.8
 
         startPos.h4Birds.nWBirds.map(function (bird, i) {
             let tl = gsap.timeline();
             if (bird.nativeElement.id[0] === "L") {
-                tl.to(bird.nativeElement, 0.6, { rotation: "+=90", svgOrigin: 240 * i + xOffsetForWestBirds + "px 140px" }, "+=0.6")
-                    .to(bird.nativeElement, 0.8, { y: "+=40" })
-            } else if (bird.nativeElement.id[0] === "R") {
-                tl.to(bird.nativeElement, 0.6, { rotation: "+=90", svgOrigin: 240 * i + xOffsetForWestBirds + "px 140px" })
-                    .to(bird.nativeElement, 0.8, { y: "+=40" }, "+=0.6")
-            }
-            nWTl.add(tl, 0)
-        })
+                tl.to(bird.nativeElement, { rotation: "+=90", svgOrigin: 240 * i + xOffsetForWestBirds + "px 140px", duration: shortDur }, `+=${shortDur}`)
+                    .to(bird.nativeElement, { y: "+=40", rotation: "+=90", transformOrigin: "50% 50%", duration: longDur })
+                // } else if (bird.nativeElement.id[0] === "R") {
+                //     tl.to(bird.nativeElement, { rotation: "+=90", svgOrigin: 240 * i + xOffsetForWestBirds + "px 140px", duration: shortDur })
+                //         .to(bird.nativeElement, { y: "+=40", duration: longDur }, `+=${shortDur}`)
+                // }
+                nWTl.add(tl, 0)
+            })
         startPos.h4Birds.sWBirds.map(function (bird, i) {
             let tl = gsap.timeline();
             if (bird.nativeElement.id[0] === "R") {
-                tl.to(bird.nativeElement, 0.6, { rotation: "-=90", svgOrigin: 240 * i + xOffsetForWestBirds + "px 180px" })
-                    .to(bird.nativeElement, 0.8, { y: "-=40" }, "+=0.6")
-            } else if (bird.nativeElement.id[0] === "L") {
-                tl.to(bird.nativeElement, 0.6, { rotation: "-=90", svgOrigin: 240 * i + xOffsetForWestBirds + "px 180px" }, "+=0.6")
-                    .to(bird.nativeElement, 0.8, { y: "-=40" })
-            }
-            sWTl.add(tl, 0)
-        })
+                tl.to(bird.nativeElement, { rotation: "-=90", svgOrigin: 240 * i + xOffsetForWestBirds + "px 180px", duration: shortDur })
+                    .to(bird.nativeElement, { y: "-=40", rotation: "-=90", transformOrigin: "50% 50%", duration: longDur }, `+=${shortDur}`)
+                // } else if (bird.nativeElement.id[0] === "L") {
+                //     tl.to(bird.nativeElement, { rotation: "-=90", svgOrigin: 240 * i + xOffsetForWestBirds + "px 180px", duration: shortDur }, `+=${shortDur}`)
+                //         .to(bird.nativeElement, { y: "-=40", duration: longDur })
+                // }
+                sWTl.add(tl, 0)
+            })
         startPos.h4Birds.nEBirds.map(function (bird, i) {
             let tl = gsap.timeline();
             if (bird.nativeElement.id[0] === "R") {
-                tl.to(bird.nativeElement, 0.6, { rotation: "+=90", svgOrigin: 240 * i + xOffsetForEastBirds + "px 140px" })
-                    .to(bird.nativeElement, 0.8, { y: "+=40" }, "+=0.6")
-            } else if (bird.nativeElement.id[0] === "L") {
-                tl.to(bird.nativeElement, 0.6, { rotation: "+=90", svgOrigin: 240 * i + xOffsetForEastBirds + "px 140px" }, "+=0.6")
-                    .to(bird.nativeElement, 0.8, { y: "+=40" })
-            }
-            nETl.add(tl, 0)
-        })
+                tl.to(bird.nativeElement, { rotation: "+=90", svgOrigin: 240 * i + xOffsetForEastBirds + "px 140px", duration: shortDur })
+                    .to(bird.nativeElement, { y: "+=40", rotation: "+=90", transformOrigin: "50% 50%", duration: longDur }, `+=${shortDur}`)
+                // } else if (bird.nativeElement.id[0] === "L") {
+                //     tl.to(bird.nativeElement, { rotation: "+=90", svgOrigin: 240 * i + xOffsetForEastBirds + "px 140px", duration: shortDur }, `+=${shortDur}`)
+                //         .to(bird.nativeElement, { y: "+=40", duration: longDur })
+                // }
+                nETl.add(tl, 0)
+            })
         startPos.h4Birds.sEBirds.map(function (bird, i) {
             let tl = gsap.timeline();
             if (bird.nativeElement.id[0] === "L") {
-                tl.to(bird.nativeElement, 0.6, { rotation: "-=90", svgOrigin: 240 * i + xOffsetForEastBirds + "px 180px" }, "+=0.6")
-                    .to(bird.nativeElement, 0.8, { y: "-=40" })
-            } else if (bird.nativeElement.id[0] === "R") {
-                tl.to(bird.nativeElement, 0.6, { rotation: "-=90", svgOrigin: 240 * i + xOffsetForEastBirds + "px 180px" })
-                    .to(bird.nativeElement, 0.8, { y: "-=40" }, "+=0.6")
-            }
-            sETl.add(tl, 0)
-        })
+                tl.to(bird.nativeElement, { rotation: "-=90", svgOrigin: 240 * i + xOffsetForEastBirds + "px 180px", duration: shortDur }, `+=${shortDur}`)
+                    .to(bird.nativeElement, { y: "-=40", rotation: "-=90", transformOrigin: "50% 50%", duration: longDur })
+                // } else if (bird.nativeElement.id[0] === "R") {
+                //     tl.to(bird.nativeElement, { rotation: "-=90", svgOrigin: 240 * i + xOffsetForEastBirds + "px 180px", duration: shortDur })
+                //         .to(bird.nativeElement, { y: "-=40", duration: longDur }, `+=${shortDur}`)
+                // }
+                sETl.add(tl, 0)
+            })
         return [nETl, sETl, sWTl, nWTl]
     }
 
