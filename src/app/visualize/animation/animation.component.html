@@ -7,78 +7,25 @@
 <!-- id='L1' is used for code like 'if (sEBird.nativeElement.id[0] === 'L')' -->
 <div class="dance-set">
     <svg viewBox="-120 0 880 320">
-        <g class="dancer" id="L1" #L1>
-            <line x1="10" y1="-10" x2="30" y2="0" stroke="#CF9669"></line>
-            <line x1="10" y1="10" x2="30" y2="0" stroke="#CF9669"></line>
-            <circle r="18" fill='#E68A97' stroke='#CF9669' stroke-width="3" stroke-dasharray="5 2" />
-        </g>
-
-        <g class="dancer" id="R1" #R1>
-            <line x1="10" y1="-10" x2="30" y2="0" stroke="#4A4949"></line>
-            <line x1="10" y1="10" x2="30" y2="0" stroke="#4A4949"></line>
-            <circle r="18" fill='#E68A97' stroke='#4A4949' stroke-width="3" stroke-dasharray="5 2"
-                [ngStyle]="R1Style" />
-
-        </g>
-        <g class="dancer" id="L2" #L2>
-            <line x1="10" y1="-10" x2="30" y2="0" stroke="#CF9669"></line>
-            <line x1="10" y1="10" x2="30" y2="0" stroke="#CF9669"></line>
-            <circle r="18" fill='#E6B38A' stroke='#CF9669' stroke-width="3" stroke-dasharray="5 2"
-                [ngStyle]="L2Style" />
-        </g>
-        <g class="dancer" id="R2" #R2>
-            <line x1="10" y1="-10" x2="30" y2="0" stroke="#4A4949"></line>
-            <line x1="10" y1="10" x2="30" y2="0" stroke="#4A4949"></line>
-            <circle r="18" fill='#E6B38A' stroke='#4A4949' stroke-width="3" stroke-dasharray="5 2"
-                [ngStyle]="L2Style" />
-        </g>
-        <g class="dancer" id="L3" #L3>
-            <line x1="10" y1="-10" x2="30" y2="0" stroke="#CF9669"></line>
-            <line x1="10" y1="10" x2="30" y2="0" stroke="#CF9669"></line>
-            <circle r="18" fill='#E1E68A' stroke='#CF9669' stroke-width="3" stroke-dasharray="5 2"
-                [ngStyle]="L3Style" />
-        </g>
-        <g class="dancer" id="R3" #R3>
-            <line x1="10" y1="-10" x2="30" y2="0" stroke="#4A4949"></line>
-            <line x1="10" y1="10" x2="30" y2="0" stroke="#4A4949"></line>
-            <circle r="18" fill='#E1E68A' stroke='#4A4949' stroke-width="3" stroke-dasharray="5 2"
-                [ngStyle]="R3Style" />
-        </g>
-        <g class="dancer" id="L4" #L4>
-            <line x1="10" y1="-10" x2="30" y2="0" stroke="#CF9669"></line>
-            <line x1="10" y1="10" x2="30" y2="0" stroke="#CF9669"></line>
-            <circle r="18" fill='#8EE68A' stroke='#CF9669' stroke-width="3" stroke-dasharray="5 2"
-                [ngStyle]="L4Style" />
-        </g>
-        <g class="dancer" id="R4" #R4>
-            <line x1="10" y1="-10" x2="30" y2="0" stroke="#4A4949"></line>
-            <line x1="10" y1="10" x2="30" y2="0" stroke="#4A4949"></line>
-            <circle r="18" fill='#8EE68A' stroke='#4A4949' stroke-width="3" stroke-dasharray="5 2"
-                [ngStyle]="R4Style" />
-        </g>
-        <g class="dancer" id="L5" #L5>
-            <line x1="10" y1="-10" x2="30" y2="0" stroke="#CF9669"></line>
-            <line x1="10" y1="10" x2="30" y2="0" stroke="#CF9669"></line>
-            <circle r="18" fill='#8ABCE6' stroke='#CF9669' stroke-width="3" stroke-dasharray="5 2"
-                [ngStyle]="L5Style" />
-        </g>
-        <g class="dancer" id="R5" #R5>
-            <line x1="10" y1="-10" x2="30" y2="0" stroke="#4A4949"></line>
-            <line x1="10" y1="10" x2="30" y2="0" stroke="#4A4949"></line>
-            <circle r="18" fill='#8ABCE6' stroke='#4A4949' stroke-width="3" stroke-dasharray="5 2"
-                [ngStyle]="R5Style" />
-        </g>
-        <g class="dancer" id="L6" #L6>
-            <line x1="10" y1="-10" x2="30" y2="0" stroke="#CF9669"></line>
-            <line x1="10" y1="10" x2="30" y2="0" stroke="#CF9669"></line>
-            <circle r="18" fill='#B88AE6' stroke='#CF9669' stroke-width="3" stroke-dasharray="5 2"
-                [ngStyle]="L6Style" />
-        </g>
-        <g class="dancer" id="R6" #R6>
-            <line x1="10" y1="-10" x2="30" y2="0" stroke="#4A4949"></line>
-            <line x1="10" y1="10" x2="30" y2="0" stroke="#4A4949"></line>
-            <circle r="18" fill='#B88AE6' stroke='#4A4949' stroke-width="3" stroke-dasharray="5 2"
-                [ngStyle]="R6Style" />
-        </g>
+        <defs>
+            <g id="dancer">
+                <rect width="60" height="60" x="-30" y="-30" opacity="0"></rect>
+                <line x1="10" y1="-10" x2="30" y2="0"></line>
+                <line x1="10" y1="10" x2="30" y2="0"></line>
+                <circle r="18" stroke-width="3" stroke-dasharray="5 2" />
+            </g>
+        </defs>
+        <use href="#dancer" id="L1" #L1 stroke="#CF9669" fill='#E68A97'></use>
+        <use href="#dancer" id="R1" #R1 stroke="#4A4949" fill='#E68A97'></use>
+        <use href="#dancer" id="L2" #L2 stroke="#4A4949" fill='#E6B38A'></use>
+        <use href="#dancer" id="R2" #R2 stroke="#CF9669" fill='#E6B38A'></use>
+        <use href="#dancer" id="L3" #L3 stroke="#CF9669" fill='#E1E68A'></use>
+        <use href="#dancer" id="R3" #R3 stroke="#4A4949" fill='#E1E68A'></use>
+        <use href="#dancer" id="L4" #L4 stroke="#4A4949" fill='#8EE68A'></use>
+        <use href="#dancer" id="R4" #R4 stroke="#CF9669" fill='#8EE68A'></use>
+        <use href="#dancer" id="L5" #L5 stroke="#CF9669" fill='#8ABCE6'></use>
+        <use href="#dancer" id="R5" #R5 stroke="#4A4949" fill='#8ABCE6'></use>
+        <use href="#dancer" id="L6" #L6 stroke="#4A4949" fill='#B88AE6'></use>
+        <use href="#dancer" id="R6" #R6 stroke="#CF9669" fill='#B88AE6'></use>
     </svg>
 </div>
