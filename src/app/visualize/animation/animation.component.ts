@@ -37,9 +37,7 @@ export class AnimationComponent implements OnInit, OnChanges {
 
     ngOnInit() {
         this.improperFormation()
-        setTimeout(() => {
-            // this.dancersOnRightRightShoulderRoundOnceAndAHalf(this.improperFormation())
-        }, 1000)
+        // this.circleLeftThreeQuarters(this.improperFormation())
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -418,30 +416,30 @@ export class AnimationComponent implements OnInit, OnChanges {
 
         startPos.h4Birds.nEBirds.map(function (bird) {
             let tl = gsap.timeline();
-            tl.to(bird.nativeElement, { rotation: "-=45", transformOrigin: "50% 50%", duration: 0.2 })
-                .to(bird.nativeElement, { x: negOffset, rotation: "+=270", transformOrigin: "50% 50%", duration: 1.6 })
-                .to(bird.nativeElement, { rotation: "-=45", transformOrigin: "50% 50%", duration: 0.2 })
+            tl.to(bird.nativeElement, { rotation: "-=45", transformOrigin: "50% 50%", duration: 0.3 })
+                .to(bird.nativeElement, { x: negOffset, rotation: "+=270", transformOrigin: "50% 50%", duration: 1.4 })
+                .to(bird.nativeElement, { rotation: "-=45", transformOrigin: "50% 50%", duration: 0.3 })
             nETl.add(tl, 0)
         })
         startPos.h4Birds.sEBirds.map(function (bird) {
             let tl = gsap.timeline();
-            tl.to(bird.nativeElement, { rotation: "+=45", transformOrigin: "50% 50%", duration: 0.2 })
-                .to(bird.nativeElement, { y: negOffset, rotation: "+=270", transformOrigin: "50% 50%", duration: 1.6 })
-                .to(bird.nativeElement, { rotation: "+=45", transformOrigin: "50% 50%", duration: 0.2 })
+            tl.to(bird.nativeElement, { rotation: "+=45", transformOrigin: "50% 50%", duration: 0.3 })
+                .to(bird.nativeElement, { y: negOffset, rotation: "+=270", transformOrigin: "50% 50%", duration: 1.4 })
+                .to(bird.nativeElement, { rotation: "+=45", transformOrigin: "50% 50%", duration: 0.3 })
             sETl.add(tl, 0)
         })
         startPos.h4Birds.sWBirds.map(function (bird) {
             let tl = gsap.timeline();
-            tl.to(bird.nativeElement, { rotation: "-=45", transformOrigin: "50% 50%", duration: 0.2 })
-                .to(bird.nativeElement, { x: posOffset, rotation: "+=270", transformOrigin: "50% 50%", duration: 1.6 })
-                .to(bird.nativeElement, { rotation: "-=45", transformOrigin: "50% 50%", duration: 0.2 })
+            tl.to(bird.nativeElement, { rotation: "-=45", transformOrigin: "50% 50%", duration: 0.3 })
+                .to(bird.nativeElement, { x: posOffset, rotation: "+=270", transformOrigin: "50% 50%", duration: 1.4 })
+                .to(bird.nativeElement, { rotation: "-=45", transformOrigin: "50% 50%", duration: 0.3 })
             sWTl.add(tl, 0)
         })
         startPos.h4Birds.nWBirds.map(function (bird) {
             let tl = gsap.timeline();
-            tl.to(bird.nativeElement, { rotation: "+=45", transformOrigin: "50% 50%", duration: 0.2 })
-                .to(bird.nativeElement, { y: posOffset, rotation: "+=270", transformOrigin: "50% 50%", duration: 1.6 })
-                .to(bird.nativeElement, { rotation: "+=45", transformOrigin: "50% 50%", duration: 0.2 })
+            tl.to(bird.nativeElement, { rotation: "+=45", transformOrigin: "50% 50%", duration: 0.3 })
+                .to(bird.nativeElement, { y: posOffset, rotation: "+=270", transformOrigin: "50% 50%", duration: 1.4 })
+                .to(bird.nativeElement, { rotation: "+=45", transformOrigin: "50% 50%", duration: 0.3 })
             nWTl.add(tl, 0)
         })
         return [nETl, sETl, sWTl, nWTl]
@@ -471,7 +469,7 @@ export class AnimationComponent implements OnInit, OnChanges {
             tl.to(sEBird.nativeElement, { x: "-=40", y: "+=20", rotation: "+=35", transformOrigin: "50% 50%", duration: shortDur })
             if (sEBird.nativeElement.id[0] === 'L') {
                 tl.to(sEBird.nativeElement, { rotation: "+=450", svgOrigin: (240 * i + xOffset).toString() + "px 220px", duration: longDur })
-                    .to(sEBird.nativeElement, { x: "-=40", y: "-=20", rotation: "+=45", transformOrigin: "50% 50%", duration: shortDur })
+                    .to(sEBird.nativeElement, { x: "-=40", y: "-=20", rotation: "+=55", transformOrigin: "50% 50%", duration: shortDur })
             } else if (sEBird.nativeElement.id[0] === 'R') {
                 tl.to(sEBird.nativeElement, { rotation: "+=630", svgOrigin: 240 * i + xOffset + "px 220px", duration: longDur })
                     .to(sEBird.nativeElement, { x: "+=40", y: "+=20", rotation: "+=55", transformOrigin: "50% 50%", duration: shortDur })
@@ -483,7 +481,7 @@ export class AnimationComponent implements OnInit, OnChanges {
             tl.to(sWBird.nativeElement, { x: "+=40", y: "-=20", rotation: "+=35", transformOrigin: "50% 50%", duration: shortDur })
             if (sWBird.nativeElement.id[0] === 'R') {
                 tl.to(sWBird.nativeElement, { rotation: "+=450", svgOrigin: 240 * i + xOffset + "px 220px", duration: longDur })
-                    .to(sWBird.nativeElement, { x: "+=40", y: "+=20", rotation: "+=45", transformOrigin: "50% 50%", duration: shortDur })
+                    .to(sWBird.nativeElement, { x: "+=40", y: "+=20", rotation: "+=55", transformOrigin: "50% 50%", duration: shortDur })
             } else if (sWBird.nativeElement.id[0] === 'L') {
                 tl.to(sWBird.nativeElement, { rotation: "+=630", svgOrigin: 240 * i + xOffset + "px 220px", duration: longDur })
                     .to(sWBird.nativeElement, { x: "-=40", y: "-=20", rotation: "+=55", transformOrigin: "50% 50%", duration: shortDur })
@@ -495,7 +493,7 @@ export class AnimationComponent implements OnInit, OnChanges {
             tl.to(nWBird.nativeElement, { x: "+=40", y: "-=20", rotation: "+=35", transformOrigin: "50% 50%", duration: shortDur })
             if (nWBird.nativeElement.id[0] === 'L') {
                 tl.to(nWBird.nativeElement, { rotation: "+=450", svgOrigin: 240 * i + xOffset + "px 100px", duration: longDur })
-                    .to(nWBird.nativeElement, { x: "+=40", y: "+=20", rotation: "+=45", transformOrigin: "50% 50%", duration: shortDur })
+                    .to(nWBird.nativeElement, { x: "+=40", y: "+=20", rotation: "+=55", transformOrigin: "50% 50%", duration: shortDur })
             } else if (nWBird.nativeElement.id[0] === 'R') {
                 tl.to(nWBird.nativeElement, { rotation: "+=630", svgOrigin: 240 * i + xOffset + "px 100px", duration: longDur })
                     .to(nWBird.nativeElement, { x: "-=40", y: "-=20", rotation: "+=55", transformOrigin: "50% 50%", duration: shortDur })
@@ -507,7 +505,7 @@ export class AnimationComponent implements OnInit, OnChanges {
             tl.to(nEBird.nativeElement, { x: "-=40", y: "+=20", rotation: "+=35", transformOrigin: "50% 50%", duration: shortDur })
             if (nEBird.nativeElement.id[0] === 'R') {
                 tl.to(nEBird.nativeElement, { rotation: "+=450", svgOrigin: 240 * i + xOffset + "px 100", duration: longDur })
-                    .to(nEBird.nativeElement, { x: "-=40", y: "-=20", rotation: "+=45", transformOrigin: "50% 50%", duration: shortDur })
+                    .to(nEBird.nativeElement, { x: "-=40", y: "-=20", rotation: "+=55", transformOrigin: "50% 50%", duration: shortDur })
             } else if (nEBird.nativeElement.id[0] === 'L') {
                 tl.to(nEBird.nativeElement, { rotation: "+=630", svgOrigin: 240 * i + xOffset + "px 100", duration: longDur })
                     .to(nEBird.nativeElement, { x: "+=40", y: "+=20", rotation: "+=55", transformOrigin: "50% 50%", duration: shortDur })
@@ -531,8 +529,8 @@ export class AnimationComponent implements OnInit, OnChanges {
             xOffset = 80;
         }
 
-        let shortDur = 1.4
-        let longDur = 2.2
+        let shortDur = 0.4
+        let longDur = 1.2
 
         startPos.h4Birds.sEBirds.map(function (bird, i) {
             let tl = gsap.timeline();
@@ -551,36 +549,7 @@ export class AnimationComponent implements OnInit, OnChanges {
         return [sETl, nWTl]
     }
 
-    public dancersOnLeftRightShoulderRoundOnceAndAHalf(startPos) {
-        console.log("Hit MOVE dancersOnLeftRightShoulderRoundOnceAndAHalf")
-        let sWTl = gsap.timeline();
-        let nETl = gsap.timeline();
 
-        // Set up formula for determining x-value offset (depends on whether couples are out)
-        let xOffset
-        // if there are couples out
-        if ('nEBird' in startPos.outBirds) {
-            xOffset = 200;
-        } else {// if all couples are in
-            xOffset = 80;
-        }
-
-        startPos.h4Birds.sWBirds.map(function (bird, i) {
-            let tl = gsap.timeline();
-            tl.to(bird.nativeElement, 0.4, { x: "+=40", y: "-=80" })
-                .to(bird.nativeElement, 1.2, { rotation: "+=450", svgOrigin: 240 * i + xOffset + "px 160px" })
-                .to(bird.nativeElement, 0.4, { x: "+=40", y: "-=40" })
-            sWTl.add(tl, 0)
-        })
-        startPos.h4Birds.nEBirds.map(function (bird, i) {
-            let tl = gsap.timeline();
-            tl.to(bird.nativeElement, 0.4, { x: "-=40", y: "+=80" })
-                .to(bird.nativeElement, 1.2, { rotation: "+=450", svgOrigin: 240 * i + xOffset + "px 160px" })
-                .to(bird.nativeElement, 0.4, { x: "-=40", y: "+=40" })
-            nETl.add(tl, 0)
-        })
-        return [nETl, sWTl]
-    }
 
     public circleLeftThreeQuarters(startPos) {
         console.log("Hit MOVE circleLeftThreeQuarters")
@@ -595,15 +564,37 @@ export class AnimationComponent implements OnInit, OnChanges {
             xOffset = 80;
         }
 
-        const birdsInArrayByCardinalPositioning = [startPos.h4Birds.nEBirds, startPos.h4Birds.sEBirds, startPos.h4Birds.sWBirds, startPos.h4Birds.nWBirds]
-        birdsInArrayByCardinalPositioning.map(function (birdsByCarinalPosition) {
-            birdsByCarinalPosition.map(function (bird, i) {
-                let tl = gsap.timeline();
-                tl.to(bird.nativeElement, 2, { rotation: "+=270", svgOrigin: 240 * i + xOffset + "px 160px" })
-                moveTl.add(tl, 0)
-            })
+        startPos.h4Birds.nEBirds.map(function (bird, i) {
+            let tl = gsap.timeline()
+            tl.to(bird.nativeElement, { rotation: "-=45", transformOrigin: "50% 50%", duration: 0.3 })
+                .to(bird.nativeElement, { rotation: "+=270", svgOrigin: 240 * i + xOffset + "px 160px", duration: 1.4 })
+                .to(bird.nativeElement, { rotation: "-=45", transformOrigin: "50% 50%", duration: 0.3 })
+            moveTl.add(tl, 0)
         })
+        startPos.h4Birds.sEBirds.map(function (bird, i) {
+            let tl = gsap.timeline()
+            tl.to(bird.nativeElement, { rotation: "+=45", transformOrigin: "50% 50%", duration: 0.3 })
+                .to(bird.nativeElement, { rotation: "+=270", svgOrigin: 240 * i + xOffset + "px 160px", duration: 1.4 })
+                .to(bird.nativeElement, { rotation: "+=45", transformOrigin: "50% 50%", duration: 0.3 })
+            moveTl.add(tl, 0)
+        })
+        startPos.h4Birds.sWBirds.map(function (bird, i) {
+            let tl = gsap.timeline()
+            tl.to(bird.nativeElement, { rotation: "-=45", transformOrigin: "50% 50%", duration: 0.3 })
+                .to(bird.nativeElement, { rotation: "+=270", svgOrigin: 240 * i + xOffset + "px 160px", duration: 1.4 })
+                .to(bird.nativeElement, { rotation: "-=45", transformOrigin: "50% 50%", duration: 0.3 })
+            moveTl.add(tl, 0)
+        })
+        startPos.h4Birds.nWBirds.map(function (bird, i) {
+            let tl = gsap.timeline()
+            tl.to(bird.nativeElement, { rotation: "+=45", transformOrigin: "50% 50%", duration: 0.3 })
+                .to(bird.nativeElement, { rotation: "+=270", svgOrigin: 240 * i + xOffset + "px 160px", duration: 1.4 })
+                .to(bird.nativeElement, { rotation: "+=45", transformOrigin: "50% 50%", duration: 0.3 })
+            moveTl.add(tl, 0)
+        })
+
         return moveTl
+
     }
 
     // Progression Moves ============================
@@ -748,6 +739,38 @@ export class AnimationComponent implements OnInit, OnChanges {
     }
 }
 
+
+// Unfinished Methods ==========================================
+ // public dancersOnLeftRightShoulderRoundOnceAndAHalf(startPos) {
+    //     console.log("Hit MOVE dancersOnLeftRightShoulderRoundOnceAndAHalf")
+    //     let sWTl = gsap.timeline();
+    //     let nETl = gsap.timeline();
+
+    //     // Set up formula for determining x-value offset (depends on whether couples are out)
+    //     let xOffset
+    //     // if there are couples out
+    //     if ('nEBird' in startPos.outBirds) {
+    //         xOffset = 200;
+    //     } else {// if all couples are in
+    //         xOffset = 80;
+    //     }
+
+    //     startPos.h4Birds.sWBirds.map(function (bird, i) {
+    //         let tl = gsap.timeline();
+    //         tl.to(bird.nativeElement, 0.4, { x: "+=40", y: "-=80" })
+    //             .to(bird.nativeElement, 1.2, { rotation: "+=450", svgOrigin: 240 * i + xOffset + "px 160px" })
+    //             .to(bird.nativeElement, 0.4, { x: "+=40", y: "-=40" })
+    //         sWTl.add(tl, 0)
+    //     })
+    //     startPos.h4Birds.nEBirds.map(function (bird, i) {
+    //         let tl = gsap.timeline();
+    //         tl.to(bird.nativeElement, 0.4, { x: "-=40", y: "+=80" })
+    //             .to(bird.nativeElement, 1.2, { rotation: "+=450", svgOrigin: 240 * i + xOffset + "px 160px" })
+    //             .to(bird.nativeElement, 0.4, { x: "-=40", y: "+=40" })
+    //         nETl.add(tl, 0)
+    //     })
+    //     return [nETl, sWTl]
+    // }
 
 // // !!!!DON'T DELETE!!!!
 // console.log(bird.nativeElement.getBoundingClientRect().x) // origin?
