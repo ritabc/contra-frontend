@@ -473,8 +473,8 @@ export class AnimationComponent implements OnInit, OnChanges {
                 tl.to(sEBird.nativeElement, { rotation: "+=450", svgOrigin: (240 * i + xOffset).toString() + "px 220px", duration: longDur })
                     .to(sEBird.nativeElement, { x: "-=40", y: "-=20", rotation: "+=45", transformOrigin: "50% 50%", duration: shortDur })
             } else if (sEBird.nativeElement.id[0] === 'R') {
-                tl.to(sEBird.nativeElement, 1.2, { rotation: "+=630", svgOrigin: 240 * i + xOffset + "px 220px" })
-                    .to(sEBird.nativeElement, 0.4, { x: "+=40", y: "+=20" })
+                tl.to(sEBird.nativeElement, { rotation: "+=630", svgOrigin: 240 * i + xOffset + "px 220px", duration: longDur })
+                    .to(sEBird.nativeElement, { x: "+=40", y: "+=20", rotation: "+=55", transformOrigin: "50% 50%", duration: shortDur })
             }
             sETl.add(tl, 0)
         })
@@ -485,8 +485,8 @@ export class AnimationComponent implements OnInit, OnChanges {
                 tl.to(sWBird.nativeElement, { rotation: "+=450", svgOrigin: 240 * i + xOffset + "px 220px", duration: longDur })
                     .to(sWBird.nativeElement, { x: "+=40", y: "+=20", rotation: "+=45", transformOrigin: "50% 50%", duration: shortDur })
             } else if (sWBird.nativeElement.id[0] === 'L') {
-                tl.to(sWBird.nativeElement, 1.2, { rotation: "+=630", svgOrigin: 240 * i + xOffset + "px 220px" })
-                    .to(sWBird.nativeElement, 0.4, { x: "-=40", y: "-=20" })
+                tl.to(sWBird.nativeElement, { rotation: "+=630", svgOrigin: 240 * i + xOffset + "px 220px", duration: longDur })
+                    .to(sWBird.nativeElement, { x: "-=40", y: "-=20", rotation: "+=55", transformOrigin: "50% 50%", duration: shortDur })
             }
             sWTl.add(tl, 0)
         })
@@ -497,8 +497,8 @@ export class AnimationComponent implements OnInit, OnChanges {
                 tl.to(nWBird.nativeElement, { rotation: "+=450", svgOrigin: 240 * i + xOffset + "px 100px", duration: longDur })
                     .to(nWBird.nativeElement, { x: "+=40", y: "+=20", rotation: "+=45", transformOrigin: "50% 50%", duration: shortDur })
             } else if (nWBird.nativeElement.id[0] === 'R') {
-                tl.to(nWBird.nativeElement, 1.2, { rotation: "+=630", svgOrigin: 240 * i + xOffset + "px 100px" })
-                    .to(nWBird.nativeElement, 0.4, { x: "-=40", y: "-=20" })
+                tl.to(nWBird.nativeElement, { rotation: "+=630", svgOrigin: 240 * i + xOffset + "px 100px", duration: longDur })
+                    .to(nWBird.nativeElement, { x: "-=40", y: "-=20", rotation: "+=55", transformOrigin: "50% 50%", duration: shortDur })
             }
             nWTl.add(tl, 0)
         })
@@ -509,8 +509,8 @@ export class AnimationComponent implements OnInit, OnChanges {
                 tl.to(nEBird.nativeElement, { rotation: "+=450", svgOrigin: 240 * i + xOffset + "px 100", duration: longDur })
                     .to(nEBird.nativeElement, { x: "-=40", y: "-=20", rotation: "+=45", transformOrigin: "50% 50%", duration: shortDur })
             } else if (nEBird.nativeElement.id[0] === 'L') {
-                tl.to(nEBird.nativeElement, 1.2, { rotation: "+=630", svgOrigin: 240 * i + xOffset + "px 100" })
-                    .to(nEBird.nativeElement, 0.4, { x: "+=40", y: "+=20" })
+                tl.to(nEBird.nativeElement, { rotation: "+=630", svgOrigin: 240 * i + xOffset + "px 100", duration: longDur })
+                    .to(nEBird.nativeElement, { x: "+=40", y: "+=20", rotation: "+=55", transformOrigin: "50% 50%", duration: shortDur })
             }
             nETl.add(tl, 0)
         })
