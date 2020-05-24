@@ -37,7 +37,9 @@ export class AnimationComponent implements OnInit, OnChanges {
 
     ngOnInit() {
         this.improperFormation()
-        // setTimeout(() => { this.petronella(this.improperFormation(0)) }, 500)
+        setTimeout(() => {
+            // this.swingOnSidesOfSet(this.improperProgressed(0))
+        }, 1000)
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -378,11 +380,6 @@ export class AnimationComponent implements OnInit, OnChanges {
 
         startPos.h4Birds.nEBirds.map(function (bird, i) {
             let tl = gsap.timeline();
-            // Problem: Want translations to start from transformOrigin, but rotation to be around svgOrigin
-            // Potential solution: use second group with second origin: https://greensock.com/forums/topic/14604-combining-svg-origin-with-transform-origin/
-            // Another potential solution: have dancers face in (rotate) first, then balance (translate)
-            // Another potential solution: transformOrigin: 50% 50%
-            // Another potential solution: transformOrigin using percentages, calculate the center of the circle (it's currently a rectangular with nose/face)
             tl.to(bird.nativeElement, { x: negOffset, y: posOffset, rotation: "-=45", transformOrigin: "50% 50%", duration: 1 })
                 .to(bird.nativeElement, { x: posOffset, y: negOffset, rotation: "+=45", transformOrigin: "50% 50%", duration: 1 })
             nETl.add(tl, 0)
@@ -466,13 +463,15 @@ export class AnimationComponent implements OnInit, OnChanges {
             xOffset = 80;
         }
 
+        let shortDur = 0.4
+        let longDur = 1.2
+
         startPos.h4Birds.sEBirds.map(function (sEBird, i) {
             let tl = gsap.timeline();
-            tl.to(sEBird.nativeElement, 0.4, { x: "-=40", y: "+=20" })
+            tl.to(sEBird.nativeElement, { x: "-=40", y: "+=20", rotation: "+=35", transformOrigin: "50% 50%", duration: shortDur })
             if (sEBird.nativeElement.id[0] === 'L') {
-                console.log(sEBird.nativeElement)
-                tl.to(sEBird.nativeElement, 1.2, { rotation: "+=450", svgOrigin: (240 * i + xOffset).toString() + "px 220px" })
-                    .to(sEBird.nativeElement, 0.4, { x: "-=40", y: "-=20" })
+                tl.to(sEBird.nativeElement, { rotation: "+=450", svgOrigin: (240 * i + xOffset).toString() + "px 220px", duration: longDur })
+                    .to(sEBird.nativeElement, { x: "-=40", y: "-=20", rotation: "+=45", transformOrigin: "50% 50%", duration: shortDur })
             } else if (sEBird.nativeElement.id[0] === 'R') {
                 tl.to(sEBird.nativeElement, 1.2, { rotation: "+=630", svgOrigin: 240 * i + xOffset + "px 220px" })
                     .to(sEBird.nativeElement, 0.4, { x: "+=40", y: "+=20" })
@@ -481,10 +480,10 @@ export class AnimationComponent implements OnInit, OnChanges {
         })
         startPos.h4Birds.sWBirds.map(function (sWBird, i) {
             let tl = gsap.timeline();
-            tl.to(sWBird.nativeElement, 0.4, { x: "+=40", y: "-=20" })
+            tl.to(sWBird.nativeElement, { x: "+=40", y: "-=20", rotation: "+=35", transformOrigin: "50% 50%", duration: shortDur })
             if (sWBird.nativeElement.id[0] === 'R') {
-                tl.to(sWBird.nativeElement, 1.2, { rotation: "+=450", svgOrigin: 240 * i + xOffset + "px 220px" })
-                    .to(sWBird.nativeElement, 0.4, { x: "+=40", y: "+=20" })
+                tl.to(sWBird.nativeElement, { rotation: "+=450", svgOrigin: 240 * i + xOffset + "px 220px", duration: longDur })
+                    .to(sWBird.nativeElement, { x: "+=40", y: "+=20", rotation: "+=45", transformOrigin: "50% 50%", duration: shortDur })
             } else if (sWBird.nativeElement.id[0] === 'L') {
                 tl.to(sWBird.nativeElement, 1.2, { rotation: "+=630", svgOrigin: 240 * i + xOffset + "px 220px" })
                     .to(sWBird.nativeElement, 0.4, { x: "-=40", y: "-=20" })
@@ -493,10 +492,10 @@ export class AnimationComponent implements OnInit, OnChanges {
         })
         startPos.h4Birds.nWBirds.map(function (nWBird, i) {
             let tl = gsap.timeline();
-            tl.to(nWBird.nativeElement, 0.4, { x: "+=40", y: "-=20" })
+            tl.to(nWBird.nativeElement, { x: "+=40", y: "-=20", rotation: "+=35", transformOrigin: "50% 50%", duration: shortDur })
             if (nWBird.nativeElement.id[0] === 'L') {
-                tl.to(nWBird.nativeElement, 1.2, { rotation: "+=450", svgOrigin: 240 * i + xOffset + "px 100px" })
-                    .to(nWBird.nativeElement, 0.4, { x: "+=40", y: "+=20" })
+                tl.to(nWBird.nativeElement, { rotation: "+=450", svgOrigin: 240 * i + xOffset + "px 100px", duration: longDur })
+                    .to(nWBird.nativeElement, { x: "+=40", y: "+=20", rotation: "+=45", transformOrigin: "50% 50%", duration: shortDur })
             } else if (nWBird.nativeElement.id[0] === 'R') {
                 tl.to(nWBird.nativeElement, 1.2, { rotation: "+=630", svgOrigin: 240 * i + xOffset + "px 100px" })
                     .to(nWBird.nativeElement, 0.4, { x: "-=40", y: "-=20" })
@@ -505,10 +504,10 @@ export class AnimationComponent implements OnInit, OnChanges {
         })
         startPos.h4Birds.nEBirds.map(function (nEBird, i) {
             let tl = gsap.timeline();
-            tl.to(nEBird.nativeElement, 0.4, { x: "-=40", y: "+=20" })
+            tl.to(nEBird.nativeElement, { x: "-=40", y: "+=20", rotation: "+=35", transformOrigin: "50% 50%", duration: shortDur })
             if (nEBird.nativeElement.id[0] === 'R') {
-                tl.to(nEBird.nativeElement, 1.2, { rotation: "+=450", svgOrigin: 240 * i + xOffset + "px 100" })
-                    .to(nEBird.nativeElement, 0.4, { x: "-=40", y: "-=20" })
+                tl.to(nEBird.nativeElement, { rotation: "+=450", svgOrigin: 240 * i + xOffset + "px 100", duration: longDur })
+                    .to(nEBird.nativeElement, { x: "-=40", y: "-=20", rotation: "+=45", transformOrigin: "50% 50%", duration: shortDur })
             } else if (nEBird.nativeElement.id[0] === 'L') {
                 tl.to(nEBird.nativeElement, 1.2, { rotation: "+=630", svgOrigin: 240 * i + xOffset + "px 100" })
                     .to(nEBird.nativeElement, 0.4, { x: "+=40", y: "+=20" })
