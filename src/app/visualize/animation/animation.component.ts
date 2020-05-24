@@ -38,7 +38,7 @@ export class AnimationComponent implements OnInit, OnChanges {
     ngOnInit() {
         this.improperFormation()
         setTimeout(() => {
-            // this.swingOnSidesOfSet(this.improperProgressed(0))
+            // this.dancersOnRightRightShoulderRoundOnceAndAHalf(this.improperFormation())
         }, 1000)
     }
 
@@ -531,18 +531,21 @@ export class AnimationComponent implements OnInit, OnChanges {
             xOffset = 80;
         }
 
+        let shortDur = 1.4
+        let longDur = 2.2
+
         startPos.h4Birds.sEBirds.map(function (bird, i) {
             let tl = gsap.timeline();
-            tl.to(bird.nativeElement, 0.4, { x: "-=80", y: "-=40" })
-                .to(bird.nativeElement, 1.2, { rotation: "+=450", svgOrigin: 240 * i + xOffset + "px 160px" })
-                .to(bird.nativeElement, 0.4, { x: "-=40", y: "-=40" })
+            tl.to(bird.nativeElement, { x: "-=80", y: "-=40", rotation: "+=125", transformOrigin: "50% 50%", duration: shortDur })
+                .to(bird.nativeElement, { rotation: "+=450", svgOrigin: 240 * i + xOffset + "px 160px", duration: longDur })
+                .to(bird.nativeElement, { x: "-=40", y: "-=40", rotation: "-=45", transformOrigin: "50% 50%", duration: shortDur })
             sETl.add(tl, 0)
         })
         startPos.h4Birds.nWBirds.map(function (bird, i) {
             let tl = gsap.timeline();
-            tl.to(bird.nativeElement, 0.4, { x: "+=80", y: "+=40" })
-                .to(bird.nativeElement, 1.2, { rotation: "+=450", svgOrigin: 240 * i + xOffset + "px 160px" })
-                .to(bird.nativeElement, 0.4, { x: "+=40", y: "+=40" })
+            tl.to(bird.nativeElement, { x: "+=80", y: "+=40", rotation: "+=125", transformOrigin: "50% 50%", duration: shortDur })
+                .to(bird.nativeElement, { rotation: "+=450", svgOrigin: 240 * i + xOffset + "px 160px", duration: longDur })
+                .to(bird.nativeElement, { x: "+=40", y: "+=40", rotation: "-=45", transformOrigin: "50% 50%", duration: shortDur })
             nWTl.add(tl, 0)
         })
         return [sETl, nWTl]
